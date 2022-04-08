@@ -25,7 +25,7 @@ public class CursorMagic : MonoBehaviour
         {
             foreach (RaycastHit2D result in results)
             {
-                
+                debug.log("1");
             }
             
         }
