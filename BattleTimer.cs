@@ -6,58 +6,58 @@ using UnityEngine.UI;
 public class BattleTimer : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _greenMana;
-    [SerializeField]
-    private GameObject _blueMana;
+    private GameObject[] _manaBar = new GameObject[4];
+
     [SerializeField]
     private GameObject _missionObjectives;
     [SerializeField]
     private GameObject _goldCoins;
 
-    private Slider _greenSlider;
-    private Slider _blueSlider;
+    private Slider[] _Slider = new Slider[4];
 
-    private Text _greenSliderText;
-    private Text _blueSliderText;
+    private Text[] _SliderText = new Text[4];
 
-    
+    private Text _goldCoinsText;
+    private Text _missionObjectivesText;
 
     void Start()
     {
-        _greenSlider = _greenMana.GetComponent<Slider>();
-        _blueSlider = _blueMana.GetComponent<Slider>();
+        for (int i = 0; i < _manaBar.Length; i++)
+        {
+            if (_manaBar[i] != null) 
+            {
+                _Slider[i] = _manaBar[i].GetComponent<Slider>();
+                _Slider[i].maxValue = SceneStats.MaxMana[i];
+                _SliderText[i] = _manaBar[i].GetComponentInChildren<Text>();
+                _SliderText[i].text = "0/" + SceneStats.MaxMana[i];
+            }
+        }
 
-        _greenSlider.maxValue = SceneStats.MaxGreenMana;
-        _blueSlider.maxValue = SceneStats.MaxBlueMana;
+        _goldCoinsText = _goldCoins.GetComponentInChildren<Text>();
+        _missionObjectivesText = _missionObjectives.GetComponentInChildren<Text>();
 
-        _greenSliderText = _greenMana.GetComponentInChildren<Text>();
-        _blueSliderText = _blueMana.GetComponentInChildren<Text>();
-
-        _greenSliderText.text = "0/" + SceneStats.MaxGreenMana;
-        _blueSliderText.text = "0/" + SceneStats.MaxBlueMana;
+        _goldCoinsText.text = "" + SceneStats.CurrentGold;
+        _missionObjectivesText.text = "" + SceneStats.CurrentSityHealth + " / " + SceneStats.MaxSityHealth;
     }
 
     void FixedUpdate()
     {
-        SceneStats.CurrentGreenMana += SceneStats.RegenGreenMana;
-        SceneStats.CurrentBlueMana += SceneStats.RegenBlueMana;
-
-        _greenSlider.value = (int)SceneStats.CurrentGreenMana;
-        _blueSlider.value = (int)SceneStats.CurrentBlueMana;
-
-        if (SceneStats.CurrentGreenMana >= SceneStats.MaxGreenMana)
+        for (int i = 0; i < _Slider.Length; i++)
         {
-            _greenSlider.value = 0;
-            SceneStats.CurrentGreenMana = 0;
+            if (_Slider[i] != null)
+            {
+                SceneStats.CurrentMana[i] += SceneStats.RegenMana[i];
+                _Slider[i].value = (int)SceneStats.CurrentMana[i];
+                if (SceneStats.CurrentMana[i] >= SceneStats.MaxMana[i])
+                {
+                    _Slider[i].value = 0;
+                    SceneStats.CurrentMana[i] = 0;
+                }
+                _SliderText[i].text = "" + _Slider[i].value + "/" + SceneStats.MaxMana[i];
+            }
         }
 
-        if (SceneStats.CurrentBlueMana >= SceneStats.MaxBlueMana)
-        {
-            _blueSlider.value = 0;
-            SceneStats.CurrentBlueMana = 0;
-        }
-
-        _greenSliderText.text = "" + SceneStats.CurrentGreenMana + "/" + SceneStats.MaxGreenMana;
-        _blueSliderText.text = "" + SceneStats.CurrentBlueMana + "/" + SceneStats.MaxBlueMana;
+        _goldCoinsText.text = "" + SceneStats.CurrentGold + "g";
+        _missionObjectivesText.text = "" + SceneStats.CurrentSityHealth + " / " + SceneStats.MaxSityHealth;
     }
 }

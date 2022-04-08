@@ -43,9 +43,9 @@ public class Player : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, moveInput, Time.fixedDeltaTime * speed);
     }
 
-    void OnMouseOver()
-    {
-        _stats.Damage(SceneStats.HPHealPower, Stats.Points.HP);
-        _stats.Damage(SceneStats.CPHealPower, Stats.Points.CP);
-    }
+    //void OnMouseOver()
+    //{
+    //    _stats.Damage(SceneStats.HPHealPower, Stats.Points.HP);
+    //    _stats.Damage(SceneStats.CPHealPower, Stats.Points.CP);
+    //}
 }

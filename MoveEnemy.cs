@@ -27,8 +27,8 @@ public class MoveEnemy : MonoBehaviour
         enabled = false;
     }
 
-    void OnMouseOver()
-    {
-        _stats.Damage(SceneStats.HPDestroyPower, Stats.Points.HP);
-    }
+    //void OnMouseOver()
+    //{
+    //    _stats.Damage(SceneStats.DestroyPointPower[0], Stats.Points.HP);
+    //}
 }
