@@ -19,7 +19,8 @@ public class MoveEnemy : MonoBehaviour
     }
     void FixedUpdate()
     {
-        transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
+        if(target != null)
+            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
     }
 
     public void Deactivate()

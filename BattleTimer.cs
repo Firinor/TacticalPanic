@@ -29,7 +29,7 @@ public class BattleTimer : MonoBehaviour
                 _Slider[i] = _manaBar[i].GetComponent<Slider>();
                 _Slider[i].maxValue = SceneStats.MaxMana[i];
                 _SliderText[i] = _manaBar[i].GetComponentInChildren<Text>();
-                _SliderText[i].text = "0/" + SceneStats.MaxMana[i];
+                _SliderText[i].text = "0/" + SceneStats.MaxMana[i] + " +" + SceneStats.RegenMana[i]  + "/s";
             }
         }
 
@@ -46,14 +46,14 @@ public class BattleTimer : MonoBehaviour
         {
             if (_Slider[i] != null)
             {
-                SceneStats.CurrentMana[i] += SceneStats.RegenMana[i];
+                SceneStats.CurrentMana[i] += SceneStats.RegenMana[i] * Time.fixedDeltaTime;
                 _Slider[i].value = (int)SceneStats.CurrentMana[i];
                 if (SceneStats.CurrentMana[i] >= SceneStats.MaxMana[i])
                 {
                     _Slider[i].value = 0;
                     SceneStats.CurrentMana[i] = 0;
                 }
-                _SliderText[i].text = "" + _Slider[i].value + "/" + SceneStats.MaxMana[i];
+                _SliderText[i].text = "" + _Slider[i].value + "/" + SceneStats.MaxMana[i] + " +" + SceneStats.RegenMana[i] + "/s";
             }
         }
 

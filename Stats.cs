@@ -80,8 +80,10 @@ public class Stats : MonoBehaviour
 
     private void DisableAllScripts()
     {
-        gameObject.GetComponent<MoveEnemy>().Deactivate();
-        gameObject.GetComponent<Fight>().Deactivate();
+        gameObject.GetComponent<Player>()?.Deactivate();
+        gameObject.GetComponent<MoveEnemy>()?.Deactivate();
+        gameObject.GetComponent<Fight>()?.Deactivate();
+        
         foreach (Collider2D collider2D in gameObject.GetComponents<Collider2D>())
         {
             collider2D.enabled = false;
@@ -129,27 +131,27 @@ public class Stats : MonoBehaviour
         if (barsSlider == _sliderHP)
         {
             _currentHP -= damage;
-            _currentHP = math.min(_currentHP, HP);
-            _sliderHP.value = math.max(_currentHP, 0);
+            _currentHP = math.clamp(_currentHP, 0, HP);
+            _sliderHP.value = _currentHP;
         }
         else if (barsSlider == _sliderMP)
         {
             _currentMP -= damage;
-            _currentMP = math.min(_currentMP, MP);
-            _sliderMP.value = math.max(_currentMP, 0);
+            _currentMP = math.clamp(_currentMP, 0, MP);
+            _sliderMP.value = _currentMP;
         }
         else if (barsSlider == _sliderCP)
         {
             _currentCP -= damage;
-            _currentCP = math.min(_currentCP, CP);
-            _sliderCP.value = math.max(_currentCP, 0);
+            _currentCP = math.clamp(_currentCP, 0, CP);
+            _sliderCP.value = _currentCP;
             CurrentAttackSpeed = Agility * _currentCP / CP;
         }
         else if (barsSlider == _sliderSP)
         {
             _currentSP -= damage;
-            _currentSP = math.min(_currentSP, SP);
-            _sliderSP.value = math.max(_currentSP, 0);
+            _currentSP = math.clamp(_currentSP, 0, SP);
+            _sliderSP.value = _currentSP;
         }
         else
             return;

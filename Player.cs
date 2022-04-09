@@ -48,4 +48,9 @@ public class Player : MonoBehaviour
     //    _stats.Damage(SceneStats.HPHealPower, Stats.Points.HP);
     //    _stats.Damage(SceneStats.CPHealPower, Stats.Points.CP);
     //}
+
+    public void Deactivate()
+    {
+        enabled = false;
+    }
 }
