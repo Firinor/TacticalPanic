@@ -25,15 +25,12 @@ public class CursorMagic : MonoBehaviour
         {
             foreach (RaycastHit2D result in results)
             {
-                if(result != null)
+                if(result is RaycastHit2D raycastHit2D)
                 {
-                    //result.Damage(float damage, Points points);
+                    //raycastHit2D.Damage(float damage, Points points);
                 }
             }
-            
         }
-
-
     }
 
 }

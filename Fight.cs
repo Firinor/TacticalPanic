@@ -6,10 +6,11 @@ public class Fight : MonoBehaviour
 {
     public float Cooldown = 1f;
     public float TimeToSwing = 0.15f;
-    public float TimeToArcOff = 0.45f;
+    public float TimeToArcOff = 0.3f;
     public SpriteRenderer KickSide;
 
     private float currentCooldown = 0f;
+    private float currentArcCooldown = 0f;
     private bool readyToAttack = true;
     private bool attackAction = false;
 
@@ -66,6 +67,7 @@ public class Fight : MonoBehaviour
                 {
                     KickSide.enabled = true;
                     attackStage = AttackStages.arc;
+                    currentArcCooldown = 0;
 
                     if (attackArea.OverlapCollider(filter2D, arrayColliders) > 0)
                     {
@@ -82,7 +84,8 @@ public class Fight : MonoBehaviour
             }
             else if (attackStage == AttackStages.arc)
             {
-                if (currentCooldown > TimeToArcOff)
+                currentArcCooldown += Time.fixedDeltaTime;
+                if (currentArcCooldown > TimeToArcOff)
                 {
                     KickSide.enabled = false;
                     attackStage = AttackStages.rollback;
