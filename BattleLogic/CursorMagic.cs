@@ -12,16 +12,11 @@ public class CursorMagic : MonoBehaviour
     private ContactFilter2D _contactFilter2D = new ContactFilter2D();
     private RaycastHit2D[] results = new RaycastHit2D[8];
 
-    [SerializeField]
-    private float _scrollSensivity = 1;
-
-    void Start()
-    {
-        _camera = GetComponent<Camera>();
-    }
-
     void FixedUpdate()
     {
+        if (InputSettings.MouseLayer != 0)
+            return;
+
         Vector2 _cursorPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
 
         Ray2D ray = new Ray2D(_cursorPosition, new Vector3(0, 0, 1));
@@ -36,7 +31,5 @@ public class CursorMagic : MonoBehaviour
                 }
             }
         }
-
     }
-
 }

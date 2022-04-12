@@ -27,12 +27,20 @@ public class SliderLogScript : MonoBehaviour
         _Slider.value = 0;
 
     }
-    public void SlideTextContent()
+    public void ScrollTextContent(Vector2 vector2)
     {
         if (Input.mouseScrollDelta.y != 0)
         {
-            _Slider.value += Input.mouseScrollDelta.y * InputSettings.MouseSensitivity;
+            _Slider.value -= Input.mouseScrollDelta.y * InputSettings.TextScrollSensivity;
         }
+        else
+        {
+            _Slider.value = _textTransform.anchoredPosition.y;
+        }
+    }
+
+    public void SlideTextContent()
+    {
         _textTransform.anchoredPosition = new Vector2(0, _Slider.value);
     }
 }

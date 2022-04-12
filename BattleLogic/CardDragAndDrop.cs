@@ -100,11 +100,6 @@ public class CardDragAndDrop : MonoBehaviour,
         }
     }
 
-    void OnMouseEnter()
-    {
-        //Debug.Log("OnMouseEnter");
-    }
-
     void CheckPosition(float posX)
     {
         posX += _cardPositionOffset;

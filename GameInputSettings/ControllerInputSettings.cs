@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class ControllerInputSettings : MonoBehaviour
 {
-    public float MouseSensitivity;
+    public float TextScrollSensivity = 1;
+    public float ZoomScrollSensivity = 1;
 
     public void Awake()
     {
-        InputSettings.MouseSensitivity = MouseSensitivity;
+        InputSettings.TextScrollSensivity = TextScrollSensivity;
+        InputSettings.ZoomScrollSensivity = ZoomScrollSensivity;
     }
 }
