@@ -15,6 +15,11 @@ public class InputControlScript : MonoBehaviour
     private ContactFilter2D _contactFilter2D = new ContactFilter2D();
     private RaycastHit2D[] results = new RaycastHit2D[8];
 
+    void Start()
+    {
+        UnitController.SelectedUnits.CollectionChanged += UnitController.ShowUnitInfo;
+    }
+
     void Update()
     {
         //Debug.Log(InputSettings.MouseLayer);
@@ -32,22 +37,21 @@ public class InputControlScript : MonoBehaviour
                 _position = _camera.ScreenToWorldPoint(Input.mousePosition);
             }
 
-            if (Input.GetMouseButton(1))//LCM
+            if (Input.GetMouseButton(1))//RCM
             {
                 _camera.transform.position += _position - _camera.ScreenToWorldPoint(Input.mousePosition);
             }
 
-            if (Input.GetMouseButtonUp(1))//LCM
+            if (Input.GetMouseButtonUp(1))//RCM
             {
                 _druging = false;
             }
         }
 
-        if (Input.GetMouseButtonDown(0))//RCM
+        if (Input.GetMouseButtonDown(0))//LCM
         {
             Vector2 _cursorPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
 
-            Ray2D ray = new Ray2D(_cursorPosition, new Vector3(0, 0, 1));
             int rayCollision = Physics2D.Raycast(_cursorPosition, new Vector2(0, 0), _contactFilter2D, results, _camera.farClipPlane);
             if (rayCollision > 0)
             {
