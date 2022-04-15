@@ -102,6 +102,9 @@ public class Stats : MonoBehaviour
 
     public void Damage(float damage, Points points)
     {
+        if (damage == 0)
+            return;
+
         switch(points)
         {
             case Points.HP:
@@ -127,6 +130,8 @@ public class Stats : MonoBehaviour
 
     public void Damage(float damage, Slider barsSlider)
     {
+        if (damage == 0)
+            return;
 
         if (barsSlider == _sliderHP)
         {

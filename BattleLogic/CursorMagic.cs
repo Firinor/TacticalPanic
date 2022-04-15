@@ -19,17 +19,49 @@ public class CursorMagic : MonoBehaviour
 
         Vector2 _cursorPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
 
-        Ray2D ray = new Ray2D(_cursorPosition, new Vector3(0, 0, 1));
+        //Ray2D ray = new Ray2D(_cursorPosition, new Vector3(0, 0, 1));
         int rayCollision = Physics2D.Raycast(_cursorPosition, new Vector2(0, 0), _contactFilter2D, results, _camera.farClipPlane);
         if (rayCollision > 0)
         {
-            foreach (RaycastHit2D result in results)
+            for (int i = 0; i < rayCollision; i++)
             {
-                if (result is RaycastHit2D raycastHit2D)
+                if (results[i].transform != null)
                 {
-                    //raycastHit2D.Damage(float damage, Points points);
+                    switch (results[i].transform.tag)
+                    {
+                        case "Enemy":
+                            MouseDamage(results[i].transform.GetComponent<Stats>());
+                            break;
+                        case "Player":
+                            MouseHeal(results[i].transform.GetComponent<Stats>());
+                            break;
+                    }
                 }
             }
         }
+    }
+
+    private void MouseDamage(Stats stats, bool heal = false)
+    {
+        if (heal)
+        {
+            stats.Damage(SceneStats.HealPointPower[0], Stats.Points.HP);
+            stats.Damage(SceneStats.HealPointPower[1], Stats.Points.MP);
+            stats.Damage(SceneStats.HealPointPower[2], Stats.Points.CP);
+            stats.Damage(SceneStats.HealPointPower[3], Stats.Points.SP);
+        }
+        else
+        {
+            stats.Damage(SceneStats.DestroyPointPower[0], Stats.Points.HP);
+            stats.Damage(SceneStats.DestroyPointPower[1], Stats.Points.MP);
+            stats.Damage(SceneStats.DestroyPointPower[2], Stats.Points.CP);
+            stats.Damage(SceneStats.DestroyPointPower[3], Stats.Points.SP);
+        }
+
+    }
+
+    private void MouseHeal(Stats stats)
+    {
+        MouseDamage(stats, true);
     }
 }

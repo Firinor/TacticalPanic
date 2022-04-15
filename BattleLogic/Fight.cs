@@ -31,13 +31,16 @@ public class Fight : MonoBehaviour
         _stats = GetComponent<Stats>();
         attackArea = GetComponents<Collider2D>()[1];
 
-        if (gameObject.tag == "Player")
+        switch (gameObject.tag)
         {
-            _compareTag = "Enemy";
-        }
-        else
-        {
-            _compareTag = "Player";
+            case "Player":
+                _compareTag = "Enemy";
+                break;
+            case "Enemy":
+                _compareTag = "Player";
+                break ;
+            default:
+                return;
         }
 
         DisabledKick();
@@ -126,4 +129,3 @@ public class Fight : MonoBehaviour
         enabled = false;
     }
 }
-

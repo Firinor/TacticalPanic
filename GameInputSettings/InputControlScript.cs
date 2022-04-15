@@ -46,16 +46,17 @@ public class InputControlScript : MonoBehaviour
             {
                 _druging = false;
             }
-        }
 
-        if (Input.GetMouseButtonDown(0))//LCM
-        {
-            Vector2 _cursorPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
-
-            int rayCollision = Physics2D.Raycast(_cursorPosition, new Vector2(0, 0), _contactFilter2D, results, _camera.farClipPlane);
-            if (rayCollision > 0)
+            if (Input.GetMouseButtonDown(0))//LCM
             {
-                UnitController.SelectedUnits.Add(results[0].transform.gameObject);
+                Vector2 _cursorPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
+
+                int rayCollision = Physics2D.Raycast(_cursorPosition, new Vector2(0, 0),
+                    _contactFilter2D, results, _camera.farClipPlane);
+                if (rayCollision > 0)
+                {
+                    UnitController.SelectedUnits.Add(results[0].transform.gameObject);
+                }
             }
         }
     }
