@@ -44,20 +44,15 @@ public class CardDragAndDrop : MonoBehaviour,
     {
         _dragCard = true;
         _cardUnit.SetActive(true);
-        //_showCardInfo = false;
-        //_defaultParent = transform.parent;
-        //transform.SetParent(_defaultParent.parent);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        Vector3 pos = _camera.ScreenToWorldPoint(eventData.position);
+        //Vector3 pos = _camera.ScreenToWorldPoint(eventData.position);
+        Vector3 pos = _camera.ScreenToWorldPoint(Input.mousePosition);
         pos.z = 0;
-        //Debug.Log("x = " + pos.x + "; y = " + pos.y + ";");
-        //transform.position = pos;
         _cardUnit.transform.localPosition = pos;
         CheckPosition(eventData.position.x);
-
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -66,6 +61,7 @@ public class CardDragAndDrop : MonoBehaviour,
 
         if (_cardUnit.GetComponent<Stats>().CheckTermsToDeploy())
         {
+            
             _cardUnit.GetComponent<Stats>().Deploy();
             Destroy(gameObject);
         }

@@ -11,21 +11,21 @@ public class Stats : MonoBehaviour
     public int MP;
     public int CP;
     public int SP;
-
+    [Space]
     public int Strenght;
     public int Agility;
     public int Intelect;
     public int Wisdom;
-
+    
     public enum Points { HP, MP, CP, SP };
 
     private float _currentHP;
     private float _currentMP;
     private float _currentCP;
     private float _currentSP;
-
+    [Space]
     public float CurrentAttackSpeed;
-
+    [Space]
     [SerializeField]
     private GameObject _gameObjectHP;
     [SerializeField]
@@ -173,7 +173,7 @@ public class Stats : MonoBehaviour
             _sliderHP.value = _currentHP;
 
         if(_sliderMP != null)
-            _sliderHP.value = _currentMP;
+            _sliderMP.value = _currentMP;
 
         if(_sliderCP != null)
             _sliderCP.value = _currentCP;
