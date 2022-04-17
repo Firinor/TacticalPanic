@@ -1,12 +1,28 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+public enum Points { HP, MP, CP, SP };
 
 public class S : MonoBehaviour
 {
     [SerializeField]
     public int[] maxMana = new int[4];
-    public float[] currentMana = new float[4];
+    
+    private static float[] currentMana = new float[4];
+    public static float[] CurrentMana
+    {
+        get => currentMana; 
+        set 
+        {
+            for (int i = 0; i < value.Length; i++)
+                currentMana[i] = Math.Min(value[i], MaxMana[i]);
+            currentMana = value; 
+        }
+    }
+
+
     public float[] regenMana = new float[4];
     [Space]
     public float[] healPointPower = new float[4];
@@ -19,7 +35,7 @@ public class S : MonoBehaviour
     public int currentGold = 0;
 
     public static int[] MaxMana = new int[4];
-    public static float[] CurrentMana = new float[4];
+    //public static float[] CurrentMana = new float[4];
     public static float[] RegenMana = new float[4];
     [Space]
     public static float[] HealPointPower = new float[4];
@@ -30,15 +46,19 @@ public class S : MonoBehaviour
     public static int CurrentSityHealth = 6;
     [Space]
     public static int CurrentGold = 0;
+    
+    public static readonly string[] ColorString = new string[4] { "red", "#0088ff", "yellow", "lime" };
 
-    public static readonly string[] ColorString = new string[4]{"red", "blue", "yellow", "lime"};
-
+    //public S()
+    //{
+    //    currentMana = new float[4];
+    //}
     public void Start()
     {
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             MaxMana[i] = maxMana[i];
-            CurrentMana[i] = currentMana[i];
+            //CurrentMana[i] = _currentMana[i];
             RegenMana[i] = regenMana[i];
             DestroyPointPower[i] = destroyPointPower[i];
             HealPointPower[i] = healPointPower[i];

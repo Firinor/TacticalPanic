@@ -16,8 +16,6 @@ public class Stats : MonoBehaviour
     public int Agility;
     public int Intelect;
     public int Wisdom;
-    
-    public enum Points { HP, MP, CP, SP };
 
     private float _currentHP;
     private float _currentMP;
@@ -39,6 +37,8 @@ public class Stats : MonoBehaviour
     private Slider _sliderMP;
     private Slider _sliderCP;
     private Slider _sliderSP;
+
+    public int[] ManaPrice { get; set; } = new int[4];
 
     void Start()
     {
@@ -189,6 +189,7 @@ public class Stats : MonoBehaviour
 
     public bool CheckTermsToDeploy()
     {
+
         return false;
     }
 }

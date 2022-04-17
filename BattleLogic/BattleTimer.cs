@@ -46,14 +46,12 @@ public class BattleTimer : MonoBehaviour
         {
             if (_Slider[i] != null)
             {
-                S.CurrentMana[i] += S.RegenMana[i] * Time.fixedDeltaTime;
-                _Slider[i].value = (int)S.CurrentMana[i];
-                if (S.CurrentMana[i] >= S.MaxMana[i])
+                if (S.CurrentMana[i] < S.MaxMana[i]) 
                 {
-                    _Slider[i].value = 0;
-                    S.CurrentMana[i] = 0;
+                    S.CurrentMana[i] += S.RegenMana[i] * Time.fixedDeltaTime;
+                    _Slider[i].value = (int)S.CurrentMana[i];
+                    _SliderText[i].text = "" + _Slider[i].value + "/" + S.MaxMana[i] + " +" + S.RegenMana[i] + "/s";
                 }
-                _SliderText[i].text = "" + _Slider[i].value + "/" + S.MaxMana[i] + " +" + S.RegenMana[i] + "/s";
             }
         }
 

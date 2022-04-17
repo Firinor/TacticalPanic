@@ -31,7 +31,7 @@ public class InputControlScript : MonoBehaviour
                     -Input.mouseScrollDelta.y * InputSettings.ZoomScrollSensivity, 0.1f);
             }
 
-            if (Input.GetMouseButtonDown(1))//LCM
+            if (Input.GetMouseButtonDown(1))//RCM
             {
                 _druging = true;
                 _position = _camera.ScreenToWorldPoint(Input.mousePosition);
@@ -40,6 +40,7 @@ public class InputControlScript : MonoBehaviour
             if (Input.GetMouseButton(1))//RCM
             {
                 _camera.transform.position += _position - _camera.ScreenToWorldPoint(Input.mousePosition);
+                _camera.transform.position = new Vector3(_camera.transform.position.x, _camera.transform.position.y, -500);
             }
 
             if (Input.GetMouseButtonUp(1))//RCM

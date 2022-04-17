@@ -78,8 +78,8 @@ public class Fight : MonoBehaviour
                         {
                             if (enemy != null && enemy.gameObject.CompareTag(_compareTag))
                             {
-                                enemy.GetComponent<Stats>().Damage(_stats.Strenght, Stats.Points.HP);
-                                _stats.Damage(7, Stats.Points.CP);
+                                enemy.GetComponent<Stats>().Damage(_stats.Strenght, Points.HP);
+                                _stats.Damage(7, Points.CP);
                             }
                         }
                     }

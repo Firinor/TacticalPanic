@@ -21,6 +21,9 @@ public class CardDragAndDrop : MonoBehaviour,
     [SerializeField]
     private float _smoothness = 0.25f;
 
+    [SerializeField]
+    public GameObject _cardUnit;
+
     //В FixedUpdate используется процедура Vector3.Lerp( , которая при старте сцены сразу уводит карту в нулевую точку.
     //После присвоения _offset ошибка пропадает.
     private bool _showCardInfoDebug = false;
@@ -28,13 +31,20 @@ public class CardDragAndDrop : MonoBehaviour,
     private bool _dragCard = false;
     private bool _cursorOnCard = false;
 
-    [SerializeField]
-    private GameObject _cardUnit;
-
     public void Start()
     {
-        _cardUnit = Instantiate(_cardUnit);
+        _cardUnit = GetComponent<CardStats>()._cardUnit;
+        _camera = Camera.main;
     }
+    public void Update()
+    {
+        if (Input.GetMouseButtonDown(1) && _dragCard)
+        {
+            _dragCard = false;
+            WontToDeploy(false);
+        }
+    }
+
     public void FixedUpdate()
     {
         if (_showCardInfoDebug && !_dragCard && transform.position != _offset)
@@ -42,24 +52,35 @@ public class CardDragAndDrop : MonoBehaviour,
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
-        _dragCard = true;
-        _cardUnit.SetActive(true);
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            _dragCard = true;
+            _cardUnit.SetActive(true);
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        //Vector3 pos = _camera.ScreenToWorldPoint(eventData.position);
-        Vector3 pos = _camera.ScreenToWorldPoint(Input.mousePosition);
-        pos.z = 0;
-        _cardUnit.transform.localPosition = pos;
-        CheckPosition(eventData.position.x);
+        if (_dragCard && eventData.button == PointerEventData.InputButton.Left)
+        {
+            //Vector3 pos = _camera.ScreenToWorldPoint(eventData.position);
+            Vector3 pos = _camera.ScreenToWorldPoint(Input.mousePosition);
+            pos.z = 0;
+            _cardUnit.transform.localPosition = pos;
+            CheckPosition(eventData.position.x);
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        WontToDeploy(InputSettings.MouseLayer == 0);
+    }
+    
+    public void WontToDeploy(bool wontToDeploy = false)
+    {
         _dragCard = false;
 
-        if (_cardUnit.GetComponent<Stats>().CheckTermsToDeploy())
+        if (wontToDeploy && _cardUnit.GetComponent<Stats>().CheckTermsToDeploy())
         {
             
             _cardUnit.GetComponent<Stats>().Deploy();
