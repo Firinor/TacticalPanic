@@ -11,7 +11,7 @@ public class Stats : MonoBehaviour
     public int MP;
     public int CP;
     public int SP;
-    [Space]
+    
     public int Strenght;
     public int Agility;
     public int Intelect;
@@ -21,9 +21,9 @@ public class Stats : MonoBehaviour
     private float _currentMP;
     private float _currentCP;
     private float _currentSP;
-    [Space]
+    
     public float CurrentAttackSpeed;
-    [Space]
+    
     [SerializeField]
     private GameObject _gameObjectHP;
     [SerializeField]
@@ -38,7 +38,7 @@ public class Stats : MonoBehaviour
     private Slider _sliderCP;
     private Slider _sliderSP;
 
-    public int[] ManaPrice { get; set; } = new int[4];
+    public int[] ManaPrice = new int[4];
 
     void Start()
     {

@@ -21,7 +21,6 @@ public class CardDragAndDrop : MonoBehaviour,
     [SerializeField]
     private float _smoothness = 0.25f;
 
-    [SerializeField]
     public GameObject _cardUnit;
 
     //В FixedUpdate используется процедура Vector3.Lerp( , которая при старте сцены сразу уводит карту в нулевую точку.

@@ -45,18 +45,19 @@ public class CursorMagic : MonoBehaviour
     {
         if (heal)
         {
-            stats.Damage(S.Mana[0].HealPointPower, Points.HP);
-            stats.Damage(S.Mana[1].HealPointPower, Points.MP);
-            stats.Damage(S.Mana[2].HealPointPower, Points.CP);
-            stats.Damage(S.Mana[3].HealPointPower, Points.SP);
+            stats.Damage(S.HP.HealPointPower, Points.HP);
+            stats.Damage(S.MP.HealPointPower, Points.MP);
+            stats.Damage(S.CP.HealPointPower, Points.CP);
+            stats.Damage(S.SP.HealPointPower, Points.SP);
         }
         else
         {
-            stats.Damage(S.Mana[0].DestroyPointPower, Points.HP);
-            stats.Damage(S.Mana[1].DestroyPointPower, Points.MP);
-            stats.Damage(S.Mana[2].DestroyPointPower, Points.CP);
-            stats.Damage(S.Mana[3].DestroyPointPower, Points.SP);
+            stats.Damage(S.HP.DestroyPointPower, Points.HP);
+            stats.Damage(S.MP.DestroyPointPower, Points.MP);
+            stats.Damage(S.CP.DestroyPointPower, Points.CP);
+            stats.Damage(S.SP.DestroyPointPower, Points.SP);
         }
+        
 
     }
 

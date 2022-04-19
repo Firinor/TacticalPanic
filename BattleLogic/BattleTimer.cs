@@ -27,9 +27,9 @@ public class BattleTimer : MonoBehaviour
             if (_manaBar[i] != null) 
             {
                 _Slider[i] = _manaBar[i].GetComponent<Slider>();
-                _Slider[i].maxValue = S.Mana[i].MaxMana;
+                _Slider[i].maxValue = S.Ìàíà[i].MaxMana;
                 _SliderText[i] = _manaBar[i].GetComponentInChildren<Text>();
-                _SliderText[i].text = "0/" + S.Mana[i].MaxMana + " +" + S.Mana[i].RegenMana  + "/s";
+                _SliderText[i].text = "0/" + S.Ìàíà[i].MaxMana + " +" + S.Ìàíà[i].RegenMana  + "/s";
             }
         }
 
@@ -46,11 +46,11 @@ public class BattleTimer : MonoBehaviour
         {
             if (_Slider[i] != null)
             {
-                if (S.Mana[i].CurrentMana < S.Mana[i].MaxMana) 
+                if (S.Ìàíà[i].CurrentMana < S.Ìàíà[i].MaxMana) 
                 {
-                    S.Mana[i].CurrentMana += S.Mana[i].RegenMana * Time.fixedDeltaTime;
-                    _Slider[i].value = (int)S.Mana[i].CurrentMana;
-                    _SliderText[i].text = "" + _Slider[i].value + "/" + S.Mana[i].MaxMana + " +" + S.Mana[i].RegenMana + "/s";
+                    S.Ìàíà[i].CurrentMana += S.Ìàíà[i].RegenMana * Time.fixedDeltaTime;
+                    _Slider[i].value = (int)S.Ìàíà[i].CurrentMana;
+                    _SliderText[i].text = "" + _Slider[i].value + "/" + S.Ìàíà[i].MaxMana + " +" + S.Ìàíà[i].RegenMana + "/s";
                 }
             }
         }
