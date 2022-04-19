@@ -23,7 +23,7 @@ public class CardStats : MonoBehaviour
         {
             if (ManaText[i] != null && _stats.ManaPrice[i] != 0)
             {
-                ManaText[i].text = $"<color={S.ColorString[i]}>{_stats.ManaPrice[i]}</color>";
+                ManaText[i].text = $"<color={S.Mana[i].ColorString}>{_stats.ManaPrice[i]}</color>";
             }
             else
             {
