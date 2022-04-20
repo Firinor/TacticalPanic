@@ -6,56 +6,55 @@ using UnityEngine.UI;
 public class BattleTimer : MonoBehaviour
 {
     [SerializeField]
-    private GameObject[] _manaBar = new GameObject[4];
+    private GameObject[] manaBar = new GameObject[S.GistsCount];
 
     [SerializeField]
-    private GameObject _missionObjectives;
+    private GameObject missionObjectives;
     [SerializeField]
-    private GameObject _goldCoins;
+    private GameObject goldCoins;
 
-    private Slider[] _Slider = new Slider[4];
+    private Slider[] slider = new Slider[S.GistsCount];
 
-    private Text[] _SliderText = new Text[4];
+    private Text[] sliderText = new Text[S.GistsCount];
 
-    private Text _goldCoinsText;
-    private Text _missionObjectivesText;
+    private Text goldCoinsText;
+    private Text missionObjectivesText;
+
+    private float gameSpeed = 1;
 
     void Start()
     {
-        for (int i = 0; i < _manaBar.Length; i++)
+        for (int i = 0; i < S.GistsCount; i++)
         {
-            if (_manaBar[i] != null) 
+            if (manaBar[i] != null) 
             {
-                _Slider[i] = _manaBar[i].GetComponent<Slider>();
-                _Slider[i].maxValue = S.Ìàíà[i].MaxMana;
-                _SliderText[i] = _manaBar[i].GetComponentInChildren<Text>();
-                _SliderText[i].text = "0/" + S.Ìàíà[i].MaxMana + " +" + S.Ìàíà[i].RegenMana  + "/s";
+                slider[i] = manaBar[i].GetComponent<Slider>();
+                slider[i].maxValue = S.GetMaxMana(i);
+                sliderText[i] = manaBar[i].GetComponentInChildren<Text>();
+                sliderText[i].text = "0/" + slider[i].maxValue + " +" + S.GetRegen(i) + "/s";
             }
         }
 
-        _goldCoinsText = _goldCoins.GetComponentInChildren<Text>();
-        _missionObjectivesText = _missionObjectives.GetComponentInChildren<Text>();
+        goldCoinsText = goldCoins.GetComponentInChildren<Text>();
+        missionObjectivesText = missionObjectives.GetComponentInChildren<Text>();
 
-        _goldCoinsText.text = "" + S.CurrentGold;
-        _missionObjectivesText.text = "" + S.CurrentSityHealth + " / " + S.MaxSityHealth;
+        goldCoinsText.text = "" + S.CurrentGold;
+        missionObjectivesText.text = "" + S.CurrentSityHealth + " / " + S.MaxSityHealth;
     }
 
     void FixedUpdate()
     {
-        for (int i = 0; i < _manaBar.Length; i++)
+        for (int i = 0; i < S.GistsCount; i++)
         {
-            if (_Slider[i] != null)
+            if (slider[i] != null)
             {
-                if (S.Ìàíà[i].CurrentMana < S.Ìàíà[i].MaxMana) 
+                float NewValue = S.ManaRegeneration(i);
+                if ((int)NewValue == slider[i].value)
                 {
-                    S.Ìàíà[i].CurrentMana += S.Ìàíà[i].RegenMana * Time.fixedDeltaTime;
-                    _Slider[i].value = (int)S.Ìàíà[i].CurrentMana;
-                    _SliderText[i].text = "" + _Slider[i].value + "/" + S.Ìàíà[i].MaxMana + " +" + S.Ìàíà[i].RegenMana + "/s";
+                    slider[i].value = NewValue;
+                    sliderText[i].text = "" + slider[i].value + "/" + S.GetMaxMana(i) + " +" + S.GetRegen(i) + "/s";
                 }
             }
         }
-
-        _goldCoinsText.text = "" + S.CurrentGold + "g";
-        _missionObjectivesText.text = "" + S.CurrentSityHealth + " / " + S.MaxSityHealth;
     }
 }

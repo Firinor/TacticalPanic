@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class CursorMagic : MonoBehaviour
 {
@@ -11,6 +7,14 @@ public class CursorMagic : MonoBehaviour
     [SerializeField]
     private ContactFilter2D _contactFilter2D = new ContactFilter2D();
     private RaycastHit2D[] results = new RaycastHit2D[8];
+
+    private float[] _passiveDamage;
+    private float[] _passiveHeal;
+
+    public void Start()
+    {
+        S.GetCursorMagic(out _passiveDamage, out _passiveHeal);
+    }
 
     void FixedUpdate()
     {
@@ -45,17 +49,11 @@ public class CursorMagic : MonoBehaviour
     {
         if (heal)
         {
-            stats.Damage(S.HP.HealPointPower, Points.HP);
-            stats.Damage(S.MP.HealPointPower, Points.MP);
-            stats.Damage(S.CP.HealPointPower, Points.CP);
-            stats.Damage(S.SP.HealPointPower, Points.SP);
+            stats.Heal(_passiveHeal);
         }
         else
         {
-            stats.Damage(S.HP.DestroyPointPower, Points.HP);
-            stats.Damage(S.MP.DestroyPointPower, Points.MP);
-            stats.Damage(S.CP.DestroyPointPower, Points.CP);
-            stats.Damage(S.SP.DestroyPointPower, Points.SP);
+            stats.Damage(_passiveDamage);
         }
         
 
@@ -63,6 +61,6 @@ public class CursorMagic : MonoBehaviour
 
     private void MouseHeal(Stats stats)
     {
-        MouseDamage(stats, true);
+        stats.Heal(_passiveHeal);
     }
 }

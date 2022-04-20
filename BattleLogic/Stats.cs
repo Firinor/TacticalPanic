@@ -5,74 +5,69 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Stats : MonoBehaviour
+public partial class Stats : MonoBehaviour
 {
-    public int HP;
-    public int MP;
-    public int CP;
-    public int SP;
-    
-    public int Strenght;
-    public int Agility;
-    public int Intelect;
-    public int Wisdom;
+    private class BodyElement
+    {
+        public string name;
+        public Gist point;
+        public string colorString;
 
-    private float _currentHP;
-    private float _currentMP;
-    private float _currentCP;
-    private float _currentSP;
-    
-    public float CurrentAttackSpeed;
-    
-    [SerializeField]
-    private GameObject _gameObjectHP;
-    [SerializeField]
-    private GameObject _gameObjectMP;
-    [SerializeField]
-    private GameObject _gameObjectCP;
-    [SerializeField]
-    private GameObject _gameObjectSP;
+        public int maxValue;
+        public float currentValue;
+        public float regen;
+        public Slider slider;
+        public float currentAttackSpeed;
+        //private float currentSkillSpeed;
+        //private float currentActiveDefense;
+        //private float currentPasiveDefense;
+        //private float currentDodge;
+        //private float currentParry;
 
-    private Slider _sliderHP;
-    private Slider _sliderMP;
-    private Slider _sliderCP;
-    private Slider _sliderSP;
+        public int manaPrice;
 
-    public int[] ManaPrice = new int[4];
+        public BodyElement(string name = "", string colorString = "", Gist point = Gist.Life,
+            int maxValue = 1, float currentValue = 0, float regen = 0, Slider slider = null,
+            float currentAttackSpeed = 0,
+            int manaPrice = 0)
+            {
+                this.name = name;
+                this.colorString = colorString;
+                this.point = point;
+                this.maxValue = maxValue;
+                this.currentValue = currentValue;
+                this.regen = regen;
+                this.slider = slider;
+                this.currentAttackSpeed = currentAttackSpeed;
+                this.manaPrice = manaPrice;
+            }
+    }
+
+    [SerializeField]
+    private Slider[] sliders = new Slider[4];
+
+    private BodyElement HP;
+    private BodyElement MP;
+    private BodyElement EP;
+    private BodyElement SP;
+    private BodyElement[] Element;
+
+    private BodyElement DeathElement;
 
     void Start()
     {
-        if (_gameObjectHP != null)
-        { 
-            _gameObjectHP.transform.GetChild(0).TryGetComponent<Slider>(out _sliderHP);
-            _sliderHP.maxValue = HP; 
-        }
-        if (_gameObjectMP != null)
-        {
-            _gameObjectMP.transform.GetChild(0).TryGetComponent<Slider>(out _sliderMP);
-            _sliderMP.maxValue = MP;
-        }
-        if (_gameObjectCP != null)
-        {
-            _gameObjectCP.transform.GetChild(0).TryGetComponent<Slider>(out _sliderCP);
-            _sliderCP.maxValue = CP;
-        }
-        if (_gameObjectSP != null)
-        {
-            _gameObjectSP.transform.GetChild(0).TryGetComponent<Slider>(out _sliderSP);
-            _sliderSP.maxValue = SP;
-        }
+        HP = new BodyElement("Health points", "red", Gist.Life, 100, 100, 1, sliders[0], 1, 10);
+        MP = new BodyElement("Magic points", "#0088ff", Gist.Magic, 50, 50, 1, sliders[1], 1, 10);
+        EP = new BodyElement("Energy points", "yellow", Gist.Energy, 50, 50, 1, sliders[2], 1, 10);
+        SP = new BodyElement("Special points", "lime", Gist.Spectrum, 25, 25, 0, sliders[3], 1, 10);
+        Element = new BodyElement[]{ HP, MP, EP, SP };
 
-        _currentHP = (float) HP;
-        _currentMP = (float) MP;
-        _currentCP = (float) CP;
-        _currentSP = (float) SP;
+        DeathElement = HP;
 
         RefreshBar();
-
-        CurrentAttackSpeed = (float) Agility;
     }
-    public void Death()
+
+    private void Death()
     {
         DisableAllScripts();
         AnimDeath();
@@ -95,91 +90,9 @@ public class Stats : MonoBehaviour
         gameObject.GetComponentInChildren<Animator>().Play("Death");
     }
 
-    public void DestroyGameObject()
+    public void DeathAnimationEnds()
     {
         Destroy(gameObject);
-    }
-
-    public void Damage(float damage, Points points)
-    {
-        if (damage == 0)
-            return;
-
-        switch(points)
-        {
-            case Points.HP:
-                if(_sliderHP != null)
-                    Damage(damage, _sliderHP);
-                break;
-            case Points.MP:
-                if (_sliderMP != null)
-                    Damage(damage, _sliderMP);
-                break;
-            case Points.CP:
-                if (_sliderCP != null)
-                    Damage(damage, _sliderCP);
-                break;
-            case Points.SP:
-                if (_sliderSP != null)
-                    Damage(damage, _sliderSP);
-                break;
-            default:
-                return;
-        }
-    }
-
-    public void Damage(float damage, Slider barsSlider)
-    {
-        if (damage == 0)
-            return;
-
-        if (barsSlider == _sliderHP)
-        {
-            _currentHP -= damage;
-            _currentHP = math.clamp(_currentHP, 0, HP);
-            _sliderHP.value = _currentHP;
-        }
-        else if (barsSlider == _sliderMP)
-        {
-            _currentMP -= damage;
-            _currentMP = math.clamp(_currentMP, 0, MP);
-            _sliderMP.value = _currentMP;
-        }
-        else if (barsSlider == _sliderCP)
-        {
-            _currentCP -= damage;
-            _currentCP = math.clamp(_currentCP, 0, CP);
-            _sliderCP.value = _currentCP;
-            CurrentAttackSpeed = Agility * _currentCP / CP;
-        }
-        else if (barsSlider == _sliderSP)
-        {
-            _currentSP -= damage;
-            _currentSP = math.clamp(_currentSP, 0, SP);
-            _sliderSP.value = _currentSP;
-        }
-        else
-            return;
-
-        if (_currentHP <= 0)
-        {
-            Death();
-        }
-    }
-
-    private void RefreshBar()
-    {
-        if(_sliderHP != null)
-            _sliderHP.value = _currentHP;
-
-        if(_sliderMP != null)
-            _sliderMP.value = _currentMP;
-
-        if(_sliderCP != null)
-            _sliderCP.value = _currentCP;
-
-        if(_sliderSP != null)
-            _sliderSP.value = _currentSP;
     }
 
     public void Deploy()
@@ -191,5 +104,25 @@ public class Stats : MonoBehaviour
     {
 
         return false;
+    }
+
+    public string GetElementColorString(int index)
+    {
+        return Element[index].colorString;
+    }
+
+    public string GetElementColorString(Gist gist)
+    {
+        return GetElementColorString(S.GetIndexByGist(gist));
+    }
+
+    public int GetElementManaPrice(int index)
+    {
+        return Element[index].manaPrice;
+    }
+
+    public int GetElementManaPrice(Gist gist)
+    {
+        return GetElementManaPrice(S.GetIndexByGist(gist));
     }
 }

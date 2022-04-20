@@ -62,7 +62,7 @@ public class Fight : MonoBehaviour
                 attackStage = AttackStages.swing;
             }
 
-            currentCooldown += Time.fixedDeltaTime * _stats.CurrentAttackSpeed/100;
+            currentCooldown += Time.fixedDeltaTime * 3/100;//Attack speed
 
             if (attackStage == AttackStages.swing)
             {
@@ -78,8 +78,8 @@ public class Fight : MonoBehaviour
                         {
                             if (enemy != null && enemy.gameObject.CompareTag(_compareTag))
                             {
-                                enemy.GetComponent<Stats>().Damage(_stats.Strenght, Points.HP);
-                                _stats.Damage(7, Points.CP);
+                                enemy.GetComponent<Stats>().Damage(1, Gist.Life);//Strenght to damage
+                                _stats.Damage(7, Gist.Energy);
                             }
                         }
                     }

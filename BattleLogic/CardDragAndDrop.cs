@@ -32,7 +32,7 @@ public class CardDragAndDrop : MonoBehaviour,
 
     public void Start()
     {
-        _cardUnit = GetComponent<CardStats>()._cardUnit;
+        _cardUnit = GetComponent<CardStats>().cardUnit;
         _camera = Camera.main;
     }
     public void Update()

@@ -5,25 +5,25 @@ using UnityEngine.UI;
 
 public class CardStats : MonoBehaviour
 {
-    private Stats _stats;
-    public GameObject _cardUnit;
+    private Stats stats;
+    public GameObject cardUnit;
     [SerializeField]
-    private Text[] ManaText = new Text[4];
+    private Text[] ManaText = new Text[S.GistsCount];
 
     //Возможно когда-то у карт будут разные уровни спавна на уровень
     private int DeployLevel = 1;
 
     public void Start()
     {
-        _cardUnit = Instantiate(_cardUnit);
-        _cardUnit.SetActive(false);
-        _stats = _cardUnit.GetComponent<Stats>();
+        cardUnit = Instantiate(cardUnit);
+        cardUnit.SetActive(false);
+        stats = cardUnit.GetComponent<Stats>();
 
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < S.GistsCount; i++)
         {
-            if (ManaText[i] != null && _stats.ManaPrice[i] != 0)
+            if (ManaText[i] != null && stats.GetElementManaPrice(i) != 0)
             {
-                ManaText[i].text = $"<color={S.Мана[i].ColorString}>{_stats.ManaPrice[i]}</color>";
+                ManaText[i].text = $"<color={stats.GetElementColorString(i)}>{stats.GetElementManaPrice(i)}</color>";
             }
             else
             {
