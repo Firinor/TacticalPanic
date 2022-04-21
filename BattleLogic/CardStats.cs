@@ -10,8 +10,8 @@ public class CardStats : MonoBehaviour
     [SerializeField]
     private Text[] ManaText = new Text[S.GistsCount];
 
-    //Возможно когда-то у карт будут разные уровни спавна на уровень
-    private int DeployLevel = 1;
+    //Возможно когда-то у карт будут разные уровни спавна на поле
+    //private int DeployLevel = 1;
 
     public void Start()
     {

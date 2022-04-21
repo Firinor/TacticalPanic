@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public partial class Stats : MonoBehaviour
 {
+    [Serializable]
     private class BodyElement
     {
         public string name;
@@ -27,7 +28,7 @@ public partial class Stats : MonoBehaviour
         public int manaPrice;
 
         public BodyElement(string name = "", string colorString = "", Gist point = Gist.Life,
-            int maxValue = 1, float currentValue = 0, float regen = 0, Slider slider = null,
+            int maxValue = 0, float currentValue = 0, float regen = 0, Slider slider = null,
             float currentAttackSpeed = 0,
             int manaPrice = 0)
             {
