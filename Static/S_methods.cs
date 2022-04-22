@@ -62,22 +62,22 @@ public static partial class S
         return Mana[index].CurrentMana;
     }
 
-    public static float ManaRegeneration(int index)
+    public static float ManaRegeneration(int index, float deltaTime)
     {
-        Mana[index].CurrentMana += Mana[index].Regen;
+        Mana[index].CurrentMana += Mana[index].Regen * deltaTime;
         return Math.Min(Mana[index].CurrentMana, Mana[index].MaxMana);
     }
 
-    public static float ManaRegeneration(Gist gist)
+    public static float ManaRegeneration(Gist gist, float deltaTime)
     {
-        return ManaRegeneration(GetIndexByGist(gist));
+        return ManaRegeneration(GetIndexByGist(gist), deltaTime);
     }
 
-    public static void ManaRegeneration()
+    public static void ManaRegeneration(float deltaTime)
     {
         for (int i = 0; i < GistsCount; i++)
         {
-            ManaRegeneration(i);
+            ManaRegeneration(i, deltaTime);
         }
     }
 }

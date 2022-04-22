@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,10 +21,19 @@ public class BattleTimer : MonoBehaviour
     private Text goldCoinsText;
     private Text missionObjectivesText;
 
-    private float gameSpeed = 1;
+    private static float GameSpeed;
+
+    public static float gameSpeed
+    {
+        get { return GameSpeed; }
+        set { GameSpeed = Math.Max(value, 0f); }
+    }
+
 
     void Start()
     {
+        GameSpeed = 1;
+
         for (int i = 0; i < S.GistsCount; i++)
         {
             if (manaBar[i] != null) 
@@ -31,7 +41,7 @@ public class BattleTimer : MonoBehaviour
                 slider[i] = manaBar[i].GetComponent<Slider>();
                 slider[i].maxValue = S.GetMaxMana(i);
                 sliderText[i] = manaBar[i].GetComponentInChildren<Text>();
-                sliderText[i].text = "0/" + slider[i].maxValue + " +" + S.GetRegen(i) + "/s";
+                sliderText[i].text = "" + slider[i].value + "/" + slider[i].maxValue + " +" + S.GetRegen(i);
             }
         }
 
@@ -44,17 +54,24 @@ public class BattleTimer : MonoBehaviour
 
     void FixedUpdate()
     {
+        float delta = gameSpeed * Time.deltaTime;
+
         for (int i = 0; i < S.GistsCount; i++)
         {
             if (slider[i] != null)
             {
-                float NewValue = S.ManaRegeneration(i);
+                float NewValue = S.ManaRegeneration(i, delta);
                 if ((int)NewValue == slider[i].value)
                 {
                     slider[i].value = NewValue;
-                    sliderText[i].text = "" + slider[i].value + "/" + S.GetMaxMana(i) + " +" + S.GetRegen(i) + "/s";
+                    sliderText[i].text = "" + slider[i].value + "/" + S.GetMaxMana(i) + " +" + S.GetRegen(i);
                 }
             }
         }
+    }
+
+    public static void SetGameSpeed(float newSpeed)
+    {
+        gameSpeed = newSpeed;
     }
 }

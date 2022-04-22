@@ -55,7 +55,7 @@ public class Fight : MonoBehaviour
                 attackStage = AttackStages.swing;
             }
 
-            currentCooldown += Time.fixedDeltaTime * 3/100;//Attack speed
+            currentCooldown += Time.fixedDeltaTime * BattleTimer.gameSpeed * 3/100;//Attack speed
 
             if (attackStage == AttackStages.swing)
             {

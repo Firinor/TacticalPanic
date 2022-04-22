@@ -11,6 +11,9 @@ public class CursorMagic : MonoBehaviour
     private float[] _passiveDamage;
     private float[] _passiveHeal;
 
+    private float currentCooldown = 0f;
+    private float currentArcCooldown = 0f;
+
     public void Start()
     {
         S.GetCursorMagic(out _passiveDamage, out _passiveHeal);
