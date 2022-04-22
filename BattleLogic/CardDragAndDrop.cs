@@ -22,6 +22,7 @@ public class CardDragAndDrop : MonoBehaviour,
     private float _smoothness = 0.25f;
 
     public GameObject _cardUnit;
+    private Stats statsUnit;
 
     //В FixedUpdate используется процедура Vector3.Lerp( , которая при старте сцены сразу уводит карту в нулевую точку.
     //После присвоения _offset ошибка пропадает.
@@ -33,6 +34,7 @@ public class CardDragAndDrop : MonoBehaviour,
     public void Start()
     {
         _cardUnit = GetComponent<CardStats>().cardUnit;
+        statsUnit = _cardUnit.GetComponent<Stats>();
         _camera = Camera.main;
     }
     public void Update()
@@ -54,7 +56,8 @@ public class CardDragAndDrop : MonoBehaviour,
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             _dragCard = true;
-            _cardUnit.SetActive(true);
+            statsUnit.SetVisualState(Stats.Visual.Haziness);
+            //statsUnit.SetVisualState(Stats.Visual.Grayness);
         }
     }
 
@@ -79,15 +82,14 @@ public class CardDragAndDrop : MonoBehaviour,
     {
         _dragCard = false;
 
-        if (wontToDeploy && _cardUnit.GetComponent<Stats>().CheckTermsToDeploy())
+        if (wontToDeploy && statsUnit.CheckTermsToDeploy())
         {
-            
-            _cardUnit.GetComponent<Stats>().Deploy();
+            statsUnit.Deploy();
             Destroy(gameObject);
         }
         else
         {
-            _cardUnit.SetActive(false);
+            statsUnit.SetVisualState(Stats.Visual.Off);
             if (!_cursorOnCard)
             {
                 _positionStandart.x = _offset.x;

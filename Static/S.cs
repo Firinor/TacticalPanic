@@ -1,8 +1,17 @@
 using System;
+using UnityEngine;
 
 public enum Gist { Life, Magic, Energy, Spectrum };
+public enum ConflictSide { Player, Neutral, Peaceful, Enemy };
+public static partial class SideColor 
+{
+    public static readonly Color player = new Color(0f, 0f, 1f, 1f);
+    public static readonly Color neutral = new Color(.5f, .5f, .5f, 1f);
+    public static readonly Color enemy = new Color(1f, 0f, 0f, 1f);
+    public static readonly Color peaceful = new Color(0f, 1f, 0f, 1f);
+}
 
-static partial class S
+public static partial class S
 {
     public static int GistsCount { get; } = Enum.GetValues(typeof(Gist)).Length;
 

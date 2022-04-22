@@ -1,6 +1,7 @@
 using System;
+using UnityEngine;
 
-static partial class S
+public static partial class S
 {
     public static int GetIndexByGist(Gist gist)
     {
@@ -78,5 +79,20 @@ static partial class S
         {
             ManaRegeneration(i);
         }
+    }
+}
+
+public static partial class SideColor
+{
+    public static Color ColorOfSide(ConflictSide side)
+    {
+        return side switch
+        {
+            ConflictSide.Player => player,
+            ConflictSide.Neutral => neutral,
+            ConflictSide.Peaceful => peaceful,
+            /*ConflictSide.Enemy:*/
+            _ => enemy
+        };
     }
 }

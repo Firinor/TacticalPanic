@@ -14,7 +14,7 @@ public class Fight : MonoBehaviour
     private bool readyToAttack = true;
     private bool attackAction = false;
 
-    private Stats _stats;
+    private Stats stats;
 
     private Collider2D attackArea;
     private Collider2D[] arrayColliders = new Collider2D[16];
@@ -24,31 +24,24 @@ public class Fight : MonoBehaviour
     [SerializeField]
     private ContactFilter2D filter2D;
 
-    private string _compareTag = "";
+    private string compareTag = "";
 
     void Start()
     {
-        _stats = GetComponent<Stats>();
+        stats = GetComponent<Stats>();
         attackArea = GetComponents<Collider2D>()[1];
 
         switch (gameObject.tag)
         {
             case "Player":
-                _compareTag = "Enemy";
+                compareTag = "Enemy";
                 break;
             case "Enemy":
-                _compareTag = "Player";
+                compareTag = "Player";
                 break ;
             default:
                 return;
         }
-
-        DisabledKick();
-    }
-
-    public void DisabledKick()
-    {
-        KickSide.enabled = false;
     }
 
     void FixedUpdate()
@@ -68,7 +61,6 @@ public class Fight : MonoBehaviour
             {
                 if (currentCooldown > TimeToSwing)
                 {
-                    KickSide.enabled = true;
                     attackStage = AttackStages.arc;
                     currentArcCooldown = 0;
 
@@ -76,10 +68,10 @@ public class Fight : MonoBehaviour
                     {
                         foreach (Collider2D enemy in arrayColliders)
                         {
-                            if (enemy != null && enemy.gameObject.CompareTag(_compareTag))
+                            if (enemy != null && enemy.gameObject.CompareTag(compareTag))
                             {
                                 enemy.GetComponent<Stats>().Damage(1, Gist.Life);//Strenght to damage
-                                _stats.Damage(7, Gist.Energy);
+                                stats.Damage(7, Gist.Energy);
                             }
                         }
                     }
@@ -90,7 +82,6 @@ public class Fight : MonoBehaviour
                 currentArcCooldown += Time.fixedDeltaTime;
                 if (currentArcCooldown > TimeToArcOff)
                 {
-                    KickSide.enabled = false;
                     attackStage = AttackStages.rollback;
                 }
             }
@@ -110,13 +101,9 @@ public class Fight : MonoBehaviour
         if (!readyToAttack)
             return;
 
-        if (collision.gameObject.CompareTag(_compareTag))
+        if (collision.gameObject.CompareTag(compareTag))
         {
-            if (collision.isTrigger)
-            {
-
-            }
-            else
+            if (!collision.isTrigger)
             {
                 attackAction = true;
             }
@@ -125,7 +112,6 @@ public class Fight : MonoBehaviour
 
     public void Deactivate()
     {
-        DisabledKick();
         enabled = false;
     }
 }

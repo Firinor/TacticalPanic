@@ -16,10 +16,13 @@ public class CardStats : MonoBehaviour
     public void Start()
     {
         cardUnit = Instantiate(cardUnit);
-        cardUnit.SetActive(false);
         stats = cardUnit.GetComponent<Stats>();
+        //stats.Start();
+        stats.SetUnitActivity(false);
+        stats.SetConflictSide(ConflictSide.Player);
+        stats.SetVisualState(Stats.Visual.Off);
 
-        for(int i = 0; i < S.GistsCount; i++)
+        for (int i = 0; i < S.GistsCount; i++)
         {
             if (ManaText[i] != null && stats.GetElementManaPrice(i) != 0)
             {
