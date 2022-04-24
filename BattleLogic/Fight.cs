@@ -26,7 +26,7 @@ public class Fight : MonoBehaviour
 
     private string compareTag = "";
 
-    void Start()
+    public void Start()
     {
         stats = GetComponent<Stats>();
         attackArea = GetComponents<Collider2D>()[1];
@@ -44,9 +44,9 @@ public class Fight : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    public void FixedUpdate()
     {
-        float deltaTime = Time.fixedDeltaTime * BattleTimer.gameSpeed;
+        float deltaTime = Time.fixedDeltaTime;
         if (attackAction)
         {
             if (readyToAttack)
@@ -97,7 +97,7 @@ public class Fight : MonoBehaviour
         }
     }
 
-    void OnTriggerStay2D(Collider2D collision)
+    public void OnTriggerStay2D(Collider2D collision)
     {
         if (!readyToAttack)
             return;

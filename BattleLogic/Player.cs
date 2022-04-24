@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -11,16 +9,15 @@ public class Player : MonoBehaviour
     private Vector3 moveInput;
 
     [SerializeField]
-    private Stats _stats;
+    private Stats stats;
 
-    void Start()
+    public void Start()
     {
         
     }
 
-    void FixedUpdate()
+    public void FixedUpdate()
     {
-        float deltaTime = Time.fixedDeltaTime * BattleTimer.gameSpeed;
         float ver = Input.GetAxis("Vertical");
         float hor = Input.GetAxis("Horizontal");
         if (ver == 0 && hor == 0)
@@ -36,14 +33,8 @@ public class Player : MonoBehaviour
             skinRootTransform.localScale = new Vector3(-1, 1, 1);
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, moveInput, speed * deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, moveInput, speed * Time.fixedDeltaTime);
     }
-
-    //void OnMouseOver()
-    //{
-    //    _stats.Damage(SceneStats.HPHealPower, Stats.Points.HP);
-    //    _stats.Damage(SceneStats.CPHealPower, Stats.Points.CP);
-    //}
 
     public void Deactivate()
     {

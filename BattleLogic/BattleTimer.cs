@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,24 +12,16 @@ public class BattleTimer : MonoBehaviour
     private GameObject goldCoins;
 
     private Slider[] slider = new Slider[S.GistsCount];
+    [SerializeField]
+    private static Slider gameSpeedSlider;
 
     private Text[] sliderText = new Text[S.GistsCount];
 
     private Text goldCoinsText;
     private Text missionObjectivesText;
 
-    private static float GameSpeed;
-    public static float gameSpeed
+    public void Start()
     {
-        get { return GameSpeed; }
-        set { GameSpeed = Math.Max(value, 0f); }
-    }
-
-
-    void Start()
-    {
-        GameSpeed = 1;
-
         for (int i = 0; i < S.GistsCount; i++)
         {
             if (manaBar[i] != null) 
@@ -49,14 +38,14 @@ public class BattleTimer : MonoBehaviour
 
         goldCoinsText.text = "" + S.CurrentGold;
         missionObjectivesText.text = "" + S.CurrentSityHealth + " / " + S.MaxSityHealth;
+
+        gameSpeedSlider = GameObject.Find("GameSpeedSlider").GetComponent<Slider>();
     }
 
-    void FixedUpdate()
+    public void FixedUpdate()
     {
-        if (GameSpeed == 0)
-            return;
 
-        float delta = gameSpeed * Time.deltaTime;
+        float delta = Time.deltaTime;
 
         for (int i = 0; i < S.GistsCount; i++)
         {
@@ -88,6 +77,8 @@ public class BattleTimer : MonoBehaviour
 
     public static void SetGameSpeed(float newSpeed)
     {
-        gameSpeed = newSpeed;
+        Time.timeScale = newSpeed;
+
+        gameSpeedSlider.value = newSpeed;
     }
 }

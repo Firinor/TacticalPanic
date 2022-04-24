@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MoveEnemy : MonoBehaviour
@@ -11,15 +9,15 @@ public class MoveEnemy : MonoBehaviour
     private GameObject target;
 
     [SerializeField]
-    private Stats _stats;
+    private Stats stats;
 
-    void Start()
+    public void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player");
     }
-    void FixedUpdate()
+    public void FixedUpdate()
     {
-        float deltaTime = Time.fixedDeltaTime * BattleTimer.gameSpeed;
+        float deltaTime = Time.fixedDeltaTime;
         if (target != null)
             transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * deltaTime);
     }
@@ -28,9 +26,4 @@ public class MoveEnemy : MonoBehaviour
     {
         enabled = false;
     }
-
-    //void OnMouseOver()
-    //{
-    //    _stats.Damage(SceneStats.DestroyPointPower[0], Stats.Points.HP);
-    //}
 }
