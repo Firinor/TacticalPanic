@@ -7,8 +7,6 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float speed;
     [SerializeField]
-    private GameObject skinRoot;
-
     private Transform skinRootTransform;
     private Vector3 moveInput;
 
@@ -17,30 +15,28 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        skinRootTransform = skinRoot.transform;
+        
     }
 
     void FixedUpdate()
     {
+        float deltaTime = Time.fixedDeltaTime * BattleTimer.gameSpeed;
         float ver = Input.GetAxis("Vertical");
         float hor = Input.GetAxis("Horizontal");
+        if (ver == 0 && hor == 0)
+            return;
+
         moveInput = new Vector3(transform.position.x + hor, transform.position.y + ver, transform.position.y + ver);
         if (hor > 0 && skinRootTransform.localScale.x<0)
         {
             skinRootTransform.localScale = new Vector3(1,1,1);
-            //SkinRootTransform.position = new Vector3(-SkinRootTransform.position.x,
-            //    SkinRootTransform.position.y,
-            //    SkinRootTransform.position.z);
         }
         else if (hor < 0 && skinRootTransform.localScale.x > 0)
         {
             skinRootTransform.localScale = new Vector3(-1, 1, 1);
-            //SkinRootTransform.position = new Vector3(-SkinRootTransform.position.x,
-            //    SkinRootTransform.position.y,
-            //    SkinRootTransform.position.z);
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, moveInput, Time.fixedDeltaTime * speed);
+        transform.position = Vector3.MoveTowards(transform.position, moveInput, speed * deltaTime);
     }
 
     //void OnMouseOver()

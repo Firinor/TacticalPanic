@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public static partial class S
 {
@@ -57,9 +58,14 @@ public static partial class S
         return GetRegen(GetIndexByGist(gist));
     }
 
-    public static float SetCurrentMana(int index)
+    public static void DrawMana(int[] manaPrice)
     {
-        return Mana[index].CurrentMana;
+        for(int i = 0; i < manaPrice.Length && i < GistsCount; i++)
+        {
+            if(manaPrice[i] != 0)
+                Mana[i].CurrentMana -= manaPrice[i];
+        }
+        BattleTimer.RefreshBottleBar();
     }
 
     public static float ManaRegeneration(int index, float deltaTime)
@@ -79,6 +85,16 @@ public static partial class S
         {
             ManaRegeneration(i, deltaTime);
         }
+    }
+
+    public static BattleTimer GetBattleTimer()
+    {
+        if (battleTimer == null)
+        {
+            battleTimer = GameObject.Find("GameController").GetComponent<BattleTimer>();
+        }
+
+        return battleTimer;
     }
 }
 

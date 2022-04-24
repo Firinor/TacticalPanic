@@ -5,15 +5,16 @@ public enum Gist { Life, Magic, Energy, Spectrum };
 public enum ConflictSide { Player, Neutral, Peaceful, Enemy };
 public static partial class SideColor 
 {
-    public static readonly Color player = new Color(0f, 0f, 1f, 1f);
+    public static readonly Color player = new Color(.38f, .45f, .92f, 1f);
     public static readonly Color neutral = new Color(.5f, .5f, .5f, 1f);
-    public static readonly Color enemy = new Color(1f, 0f, 0f, 1f);
+    public static readonly Color enemy = new Color(.92f, .29f, .15f, 1f);
     public static readonly Color peaceful = new Color(0f, 1f, 0f, 1f);
 }
 
 public static partial class S
 {
     public static int GistsCount { get; } = Enum.GetValues(typeof(Gist)).Length;
+    private static BattleTimer battleTimer;
 
     private static ManaBar HP = new ManaBar("Health points", "red", Gist.Life, 50, 0, 1);
     private static ManaBar MP = new ManaBar("Mana points", "#0088ff", Gist.Magic, 50, 0, 1);

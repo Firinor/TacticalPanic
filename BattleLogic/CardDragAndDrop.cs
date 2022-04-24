@@ -3,72 +3,77 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class CardDragAndDrop : MonoBehaviour, 
     IBeginDragHandler, IDragHandler, IEndDragHandler, 
     IPointerEnterHandler, IPointerExitHandler
 {
+    private new Camera camera;
     [SerializeField]
-    private Camera _camera;
+    private Vector3 offset;
     [SerializeField]
-    private Transform _defaultParent;
-    private Vector3 _offset;
+    private float cardPositionOffset;
     [SerializeField]
-    private float _cardPositionOffset;
+    private Vector3 positionUp;
+    private Vector3 positionStandart;
     [SerializeField]
-    private Vector3 _positionUp;
-    private Vector3 _positionStandart;
-    [SerializeField]
-    private float _smoothness = 0.25f;
+    private float smoothness = 0.25f;
 
-    public GameObject _cardUnit;
+    private GameObject cardUnit;
     private Stats statsUnit;
 
     //В FixedUpdate используется процедура Vector3.Lerp( , которая при старте сцены сразу уводит карту в нулевую точку.
-    //После присвоения _offset ошибка пропадает.
-    private bool _showCardInfoDebug = false;
+    //После присвоения offset ошибка пропадает.
+    private bool showCardInfoDebug = false;
 
-    private bool _dragCard = false;
-    private bool _cursorOnCard = false;
+    private bool dragCard = false;
+    private bool cursorOnCard = false;
 
     public void Start()
     {
-        _cardUnit = GetComponent<CardStats>().cardUnit;
-        statsUnit = _cardUnit.GetComponent<Stats>();
-        _camera = Camera.main;
+        cardUnit = GetComponent<CardStats>().cardUnit;
+        statsUnit = cardUnit.GetComponent<Stats>();
+        camera = Camera.main;
+        gameObject.transform.Find("Name").GetComponent<Text>().text = statsUnit.GetName();
     }
     public void Update()
     {
-        if (Input.GetMouseButtonDown(1) && _dragCard)
+        if (Input.GetMouseButtonDown(1) && dragCard)
         {
-            _dragCard = false;
+            dragCard = false;
             WontToDeploy(false);
         }
     }
 
     public void FixedUpdate()
     {
-        if (_showCardInfoDebug && !_dragCard && transform.position != _offset)
-            transform.position = Vector3.Lerp(transform.position, _offset, _smoothness);
+        if (showCardInfoDebug && !dragCard && transform.position != offset)
+            transform.position = Vector3.Lerp(transform.position, offset, smoothness);
     }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            _dragCard = true;
-            statsUnit.SetVisualState(Stats.Visual.Haziness);
-            //statsUnit.SetVisualState(Stats.Visual.Grayness);
+            dragCard = true;
+            //statsUnit.SetVisualState(Stats.Visual.Haziness);
+            statsUnit.SetVisualState(Stats.Visual.Grayness);
+        }
+        else
+        {
+            eventData.pointerDrag = null;
         }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (_dragCard && eventData.button == PointerEventData.InputButton.Left)
+        if (dragCard && eventData.button == PointerEventData.InputButton.Left)
         {
             //Vector3 pos = _camera.ScreenToWorldPoint(eventData.position);
-            Vector3 pos = _camera.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 pos = camera.ScreenToWorldPoint(Input.mousePosition);
             pos.z = 0;
-            _cardUnit.transform.localPosition = pos;
+            cardUnit.transform.localPosition = pos;
             CheckPosition(eventData.position.x);
         }
     }
@@ -80,61 +85,73 @@ public class CardDragAndDrop : MonoBehaviour,
     
     public void WontToDeploy(bool wontToDeploy = false)
     {
-        _dragCard = false;
+        dragCard = false;
 
-        if (wontToDeploy && statsUnit.CheckTermsToDeploy())
+        if (wontToDeploy)
         {
-            statsUnit.Deploy();
-            Destroy(gameObject);
+            if (statsUnit.CheckTermsAndDeploy())
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                UnitOff();
+            }
         }
         else
         {
-            statsUnit.SetVisualState(Stats.Visual.Off);
-            if (!_cursorOnCard)
-            {
-                _positionStandart.x = _offset.x;
-                _positionStandart.y = 0;
-                _offset = _positionStandart;
-            }
+            UnitOff();
+        }
+    }
+
+    private void UnitOff()
+    {
+        statsUnit.SetVisualState(Stats.Visual.Off);
+        if (!cursorOnCard)
+        {
+            positionStandart.x = offset.x;
+            positionStandart.y = 0;
+            offset = positionStandart;
         }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        _cursorOnCard = true;
-        _showCardInfoDebug = true;
-        _positionStandart = transform.position;
-        _positionUp.x = transform.position.x;
-        _offset = _positionUp;
+        cursorOnCard = true;
+        showCardInfoDebug = true;
+        positionStandart = transform.position;
+        positionUp.x = transform.position.x;
+        offset = positionUp;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        _cursorOnCard = false;
-        if (!_dragCard)
+        cursorOnCard = false;
+        if (!dragCard)
         {
-            _positionStandart.y = 0;
-            _offset = _positionStandart;
+            positionStandart.y = 0;
+            offset = positionStandart;
         }
     }
 
     void CheckPosition(float posX)
     {
-        posX += _cardPositionOffset;
-        int ChildCount = _defaultParent.childCount;
+        Transform defaultParent = gameObject.transform.parent;
+        posX += cardPositionOffset;
+        int ChildCount = defaultParent.childCount;
         int NewIndex = ChildCount;
 
         for (int i = 0; i < ChildCount; i++)
         {
-            if (posX <= _defaultParent.GetChild(i).position.x)
+            if (posX <= defaultParent.GetChild(i).position.x)
             {
-                _offset.x = _defaultParent.GetChild(i).position.x;
+                offset.x = defaultParent.GetChild(i).position.x;
                 NewIndex = i;
                 break;
             }
         }
 
         transform.SetSiblingIndex(NewIndex);
-        transform.position = _offset;
+        transform.position = offset;
     }
 }

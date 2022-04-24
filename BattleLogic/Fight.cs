@@ -46,6 +46,7 @@ public class Fight : MonoBehaviour
 
     void FixedUpdate()
     {
+        float deltaTime = Time.fixedDeltaTime * BattleTimer.gameSpeed;
         if (attackAction)
         {
             if (readyToAttack)
@@ -55,7 +56,7 @@ public class Fight : MonoBehaviour
                 attackStage = AttackStages.swing;
             }
 
-            currentCooldown += Time.fixedDeltaTime * BattleTimer.gameSpeed * 3/100;//Attack speed
+            currentCooldown += deltaTime * 3/100;//Attack speed
 
             if (attackStage == AttackStages.swing)
             {
@@ -79,7 +80,7 @@ public class Fight : MonoBehaviour
             }
             else if (attackStage == AttackStages.arc)
             {
-                currentArcCooldown += Time.fixedDeltaTime;
+                currentArcCooldown += deltaTime;
                 if (currentArcCooldown > TimeToArcOff)
                 {
                     attackStage = AttackStages.rollback;

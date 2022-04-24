@@ -1,4 +1,4 @@
-using System.Collections;
+using Unity.Mathematics;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,5 +9,11 @@ public static class InputSettings
     public static float TextScrollSensivity;
     public static float ZoomScrollSensivity;
 
-    public static int MouseLayer = 0;
+    private static int mouseLayer = 0;
+
+    public static int MouseLayer
+    {
+        get { return mouseLayer; }
+        set { mouseLayer = math.clamp(value, 0, 1); }
+    }
 }

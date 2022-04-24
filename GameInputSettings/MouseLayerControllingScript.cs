@@ -13,5 +13,6 @@ public class MouseLayerControllingScript : MonoBehaviour, IPointerEnterHandler, 
     public void OnPointerExit(PointerEventData eventData)
     {
         InputSettings.MouseLayer--;
+        InputControlScript.ResetMouseDrugPosition();
     }
 }

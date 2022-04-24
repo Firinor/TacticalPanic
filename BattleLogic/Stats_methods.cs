@@ -3,6 +3,78 @@ using Unity.Mathematics;
 
 public partial class Stats : MonoBehaviour
 {
+    private void Death()
+    {
+        SetUnitActivity(false);
+        AnimDeath();
+    }
+
+    private void AnimDeath()
+    {
+        gameObject.GetComponentInChildren<Animator>().Play("Death");
+    }
+
+    public void DeathAnimationEnds()
+    {
+        Destroy(gameObject);
+    }
+
+    public void Deploy()
+    {
+        SetUnitActivity(true);
+        SetVisualState(Visual.Normal);
+    }
+
+    public bool CheckTermsAndDeploy()
+    {
+        bool Landing = true;
+
+        for (int i = 0; i < S.GistsCount; i++)
+        {
+            if (Element[i].manaPrice > 0 && S.GetCurrentMana(i) < Element[i].manaPrice)
+            {
+                Landing = false;
+                break;
+            }
+        }
+
+        if (Landing)
+        {
+            S.DrawMana(GetManaPrice());
+            Deploy();
+        }
+
+        return Landing;
+    }
+
+    public string GetElementColorString(int index)
+    {
+        return Element[index].colorString;
+    }
+
+    public string GetElementColorString(Gist gist)
+    {
+        return GetElementColorString(S.GetIndexByGist(gist));
+    }
+
+    public int GetElementManaPrice(int index)
+    {
+        return Element[index].manaPrice;
+    }
+
+    public int GetElementManaPrice(Gist gist)
+    {
+        return GetElementManaPrice(S.GetIndexByGist(gist));
+    }
+
+    public int[] GetManaPrice()
+    {
+        int[] price = new int[Element.Length];
+        for (int i = 0; i < Element.Length; i++)
+            price[i] = Element[i].manaPrice;
+        return price;
+    }
+
     public void Damage(float[] damage)
     {
         for (int i = 0; i < damage.Length && i < S.GistsCount; i++)
@@ -106,7 +178,7 @@ public partial class Stats : MonoBehaviour
         {
             case Visual.Haziness:
                 gameObject.SetActive(true);
-                UnitSprite.color = new Color(1, 1, 1, 0.4f);
+                UnitSprite.color = new Color(1f, 1f, 1f, 0.1f);
                 break;
             case Visual.Grayness:
                 gameObject.SetActive(true);
@@ -120,5 +192,10 @@ public partial class Stats : MonoBehaviour
                 UnitSprite.color = new Color(1f, 1f, 1f, 1f);
                 break;
         }
+    }
+
+    public string GetName()
+    {
+        return name;
     }
 }

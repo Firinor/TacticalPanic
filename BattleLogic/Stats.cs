@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public partial class Stats : MonoBehaviour
 {
     public enum Visual { Normal, Haziness, Grayness, Off };
+    [SerializeField]
+    private string name = "!NO NAME!";
 
     [Serializable]
     private class BodyElement
@@ -47,7 +49,7 @@ public partial class Stats : MonoBehaviour
     }
 
     [SerializeField]
-    private Slider[] sliders = new Slider[4];
+    private Slider[] sliders = new Slider[S.GistsCount];
 
     private BodyElement HP;
     private BodyElement MP;
@@ -71,52 +73,5 @@ public partial class Stats : MonoBehaviour
         DeathElement = HP;
 
         RefreshBar();
-    }
-
-    private void Death()
-    {
-        SetUnitActivity(false);
-        AnimDeath();
-    }
-
-    private void AnimDeath()
-    {
-        gameObject.GetComponentInChildren<Animator>().Play("Death");
-    }
-
-    public void DeathAnimationEnds()
-    {
-        Destroy(gameObject);
-    }
-
-    public void Deploy()
-    {
-        
-    }
-
-    public bool CheckTermsToDeploy()
-    {
-
-        return false;
-    }
-
-    public string GetElementColorString(int index)
-    {
-        return Element[index].colorString;
-    }
-
-    public string GetElementColorString(Gist gist)
-    {
-        return GetElementColorString(S.GetIndexByGist(gist));
-    }
-
-    public int GetElementManaPrice(int index)
-    {
-        return Element[index].manaPrice;
-    }
-
-    public int GetElementManaPrice(Gist gist)
-    {
-        return GetElementManaPrice(S.GetIndexByGist(gist));
     }
 }

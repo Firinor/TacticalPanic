@@ -22,7 +22,6 @@ public class BattleTimer : MonoBehaviour
     private Text missionObjectivesText;
 
     private static float GameSpeed;
-
     public static float gameSpeed
     {
         get { return GameSpeed; }
@@ -54,6 +53,9 @@ public class BattleTimer : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (GameSpeed == 0)
+            return;
+
         float delta = gameSpeed * Time.deltaTime;
 
         for (int i = 0; i < S.GistsCount; i++)
@@ -61,13 +63,27 @@ public class BattleTimer : MonoBehaviour
             if (slider[i] != null)
             {
                 float NewValue = S.ManaRegeneration(i, delta);
-                if ((int)NewValue == slider[i].value)
+                if ((int)NewValue != slider[i].value)
                 {
-                    slider[i].value = NewValue;
-                    sliderText[i].text = "" + slider[i].value + "/" + S.GetMaxMana(i) + " +" + S.GetRegen(i);
+                    RefreshBottleBar(i);
                 }
             }
         }
+    }
+
+    public static void RefreshBottleBar()
+    {
+        for (int i = 0; i < S.GistsCount; i++)
+        {
+            RefreshBottleBar(i);
+        }
+    }
+
+    public static void RefreshBottleBar(int i)
+    {
+        BattleTimer B = S.GetBattleTimer();
+        B.slider[i].value = S.GetCurrentMana(i);
+        B.sliderText[i].text = "" + B.slider[i].value + "/" + S.GetMaxMana(i) + " +" + S.GetRegen(i);
     }
 
     public static void SetGameSpeed(float newSpeed)
