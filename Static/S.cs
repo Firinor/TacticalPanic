@@ -58,7 +58,7 @@ public static partial class S
         public float HealPower;
         public float DestroyPower;
 
-        public MagicPower(float healPower = 0, float destroyPower = 0)
+        public MagicPower(float destroyPower = 0, float healPower = 0)
         {
             HealPower = healPower;
             DestroyPower = destroyPower;

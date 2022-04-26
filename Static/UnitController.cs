@@ -4,34 +4,27 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using UnityEngine;
 
-public delegate void UnitPicDelegate();
+//public delegate void UnitPicDelegate();
 
 public static class UnitController
 {
-    public static event UnitPicDelegate UnitPic;
+    //public static event UnitPicDelegate UnitPic;
+    private static bool Loadcompleted = false;
 
     public static ObservableCollection<GameObject> SelectedUnits { get; set; } = new ObservableCollection<GameObject>();
 
-    //public static ObservableCollection<GameObject> SelectedUnits
-    //{
-    //    get { return selectedUnits; }
-    //    set
-    //    {
-    //        selectedUnits = value;
-    //        UnitPic?.Invoke();
-    //    }
-    //}
-
-    public static void ShowUnitInfo(object sendler, NotifyCollectionChangedEventArgs e)
+    public static void Start()
     {
-        if (SelectedUnits != null)
+        if (!Loadcompleted) 
         {
-            Debug.Log(SelectedUnits[0].name);
-        }
-        else
-        {
-            Debug.Log("Show log info!");
+            SelectedUnits.CollectionChanged += ShowUnitInfo;
+            Loadcompleted = true;
+            SelectedUnits.Clear();
         }
     }
 
+    public static void ShowUnitInfo(object sendler, NotifyCollectionChangedEventArgs e)
+    {
+        LogInfoManager.RefreshInfoPanel();
+    }
 }

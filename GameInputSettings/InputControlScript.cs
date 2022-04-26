@@ -13,12 +13,12 @@ public class InputControlScript : MonoBehaviour
     private static Vector3 mouseDrugPosition;
     private bool druging;
 
-    private ContactFilter2D _contactFilter2D = new ContactFilter2D();
+    private ContactFilter2D contactFilter2D = new ContactFilter2D();
     private RaycastHit2D[] results = new RaycastHit2D[8];
 
     void Start()
     {
-        UnitController.SelectedUnits.CollectionChanged += UnitController.ShowUnitInfo;
+        
     }
 
     void Update()
@@ -54,12 +54,13 @@ public class InputControlScript : MonoBehaviour
                 druging = false;
             }
 
+            //Unit pic
             if (Input.GetMouseButtonDown(0))//LCM
             {
                 Vector2 _cursorPosition = camera.ScreenToWorldPoint(Input.mousePosition);
 
                 int rayCollision = Physics2D.Raycast(_cursorPosition, new Vector2(0, 0),
-                    _contactFilter2D, results, camera.farClipPlane);
+                    contactFilter2D, results, camera.farClipPlane);
                 if (rayCollision > 0)
                 {
                     UnitController.SelectedUnits.Add(results[0].transform.gameObject);
