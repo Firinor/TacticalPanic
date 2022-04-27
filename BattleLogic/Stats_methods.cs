@@ -178,18 +178,18 @@ public partial class Stats : MonoBehaviour
         {
             case Visual.Haziness:
                 gameObject.SetActive(true);
-                UnitSprite.color = new Color(1f, 1f, 1f, 0.1f);
+                unitSpriteRenderer.color = new Color(1f, 1f, 1f, 0.1f);
                 break;
             case Visual.Grayness:
                 gameObject.SetActive(true);
-                UnitSprite.color = new Color(.4f, .4f, .4f, .4f);
+                unitSpriteRenderer.color = new Color(.4f, .4f, .4f, .4f);
                 break;
             case Visual.Off:
                 gameObject.SetActive(false);
                 break;
             default: //Visual.Normal
                 gameObject.SetActive(true);
-                UnitSprite.color = new Color(1f, 1f, 1f, 1f);
+                unitSpriteRenderer.color = new Color(1f, 1f, 1f, 1f);
                 break;
         }
     }
@@ -197,5 +197,10 @@ public partial class Stats : MonoBehaviour
     public string GetName()
     {
         return name;
+    }
+
+    public Sprite GetCardImage()
+    {
+        return unitImage;
     }
 }

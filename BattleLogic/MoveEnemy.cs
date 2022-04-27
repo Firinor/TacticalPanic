@@ -15,9 +15,9 @@ public class MoveEnemy : MonoBehaviour
     {
         target = GameObject.FindGameObjectWithTag("Player");
     }
-    public void FixedUpdate()
+    public void Update()
     {
-        float deltaTime = Time.fixedDeltaTime;
+        float deltaTime = Time.deltaTime;
         if (target != null)
             transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * deltaTime);
     }

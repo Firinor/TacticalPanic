@@ -64,18 +64,7 @@ public class Fight : MonoBehaviour
                 {
                     attackStage = AttackStages.arc;
                     currentArcCooldown = 0;
-
-                    if (attackArea.OverlapCollider(filter2D, arrayColliders) > 0)
-                    {
-                        foreach (Collider2D enemy in arrayColliders)
-                        {
-                            if (enemy != null && enemy.gameObject.CompareTag(compareTag))
-                            {
-                                enemy.GetComponent<Stats>().Damage(1, Gist.Life);//Strenght to damage
-                                stats.Damage(7, Gist.Energy);
-                            }
-                        }
-                    }
+                    //Invoke("AreaDamage", .45f);
                 }
             }
             else if (attackStage == AttackStages.arc)
@@ -92,6 +81,21 @@ public class Fight : MonoBehaviour
                 {
                     readyToAttack = true;
                     attackAction = false;
+                }
+            }
+        }
+    }
+
+    private void AreaDamage(int i)
+    {
+        if (attackArea.OverlapCollider(filter2D, arrayColliders) > 0)
+        {
+            foreach (Collider2D enemy in arrayColliders)
+            {
+                if (enemy != null && enemy.gameObject.CompareTag(compareTag))
+                {
+                    enemy.GetComponent<Stats>().Damage(1, Gist.Life);//Strenght to damage
+                    stats.Damage(7, Gist.Energy);
                 }
             }
         }

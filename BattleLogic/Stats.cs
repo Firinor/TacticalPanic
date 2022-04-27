@@ -60,7 +60,9 @@ public partial class Stats : MonoBehaviour
     private BodyElement DeathElement;
 
     [SerializeField]
-    private SpriteRenderer UnitSprite;
+    private SpriteRenderer unitSpriteRenderer;
+    [SerializeField]
+    private Sprite unitImage;
 
     private void Awake()
     {

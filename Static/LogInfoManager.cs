@@ -8,8 +8,13 @@ public static class LogInfoManager
     public static void RefreshInfoPanel()
     {
         bool Pic = UnitController.SelectedUnits.Count > 0;
-
         logPanel.SetActive(!Pic);
         infoPanel.SetActive(Pic);
+        if(Pic)
+        {
+            //GameObject.
+            //UnitController.SelectedUnits[0].GetComponent<Stats>().GetCardImage();
+        }
+        
     }
 }

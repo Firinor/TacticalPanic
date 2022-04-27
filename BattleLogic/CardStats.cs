@@ -8,6 +8,9 @@ public class CardStats : MonoBehaviour
     private Stats stats;
     public GameObject cardUnit;
     [SerializeField]
+    private Image cardImage;
+
+    [SerializeField]
     private Text[] ManaText = new Text[S.GistsCount];
 
     //Возможно когда-то у карт будут разные уровни спавна на поле
@@ -17,10 +20,12 @@ public class CardStats : MonoBehaviour
     {
         cardUnit = Instantiate(cardUnit);
         stats = cardUnit.GetComponent<Stats>();
-        //stats.Start();
+        
         stats.SetUnitActivity(false);
         stats.SetConflictSide(ConflictSide.Player);
         stats.SetVisualState(Stats.Visual.Off);
+        
+        cardImage.sprite = stats.GetCardImage();
 
         for (int i = 0; i < S.GistsCount; i++)
         {
