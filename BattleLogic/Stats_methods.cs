@@ -199,8 +199,8 @@ public partial class Stats : MonoBehaviour
         return name;
     }
 
-    public Sprite GetCardImage()
+    public Sprite GetCardSprite()
     {
-        return unitImage;
+        return unitSprite;
     }
 }

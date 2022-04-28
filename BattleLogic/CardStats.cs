@@ -24,8 +24,8 @@ public class CardStats : MonoBehaviour
         stats.SetUnitActivity(false);
         stats.SetConflictSide(ConflictSide.Player);
         stats.SetVisualState(Stats.Visual.Off);
-        
-        cardImage.sprite = stats.GetCardImage();
+
+        cardImage.sprite = stats.GetCardSprite();
 
         for (int i = 0; i < S.GistsCount; i++)
         {
@@ -38,5 +38,10 @@ public class CardStats : MonoBehaviour
                 ManaText[i].gameObject.SetActive(false);
             }
         }
+    }
+
+    public void SetCardUnit(GameObject unit)
+    {
+        cardUnit = unit;
     }
 }

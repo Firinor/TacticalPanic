@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public partial class Stats : MonoBehaviour
 {
     public enum Visual { Normal, Haziness, Grayness, Off };
+
     [SerializeField]
     private string name = "!NO NAME!";
 
@@ -62,10 +63,12 @@ public partial class Stats : MonoBehaviour
     [SerializeField]
     private SpriteRenderer unitSpriteRenderer;
     [SerializeField]
-    private Sprite unitImage;
+    private Sprite unitSprite;
 
     private void Awake()
     {
+        unitSpriteRenderer.sprite = unitSprite;
+
         HP = new BodyElement("Health points", "red", Gist.Life, 100, 100, 1, sliders[0], 1, 10);
         MP = new BodyElement("Magic points", "#0088ff", Gist.Magic, 50, 50, 1, sliders[1], 1, 10);
         EP = new BodyElement("Energy points", "yellow", Gist.Energy, 50, 50, 1, sliders[2], 1, 10);
