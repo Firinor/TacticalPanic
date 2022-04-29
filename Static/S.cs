@@ -22,9 +22,9 @@ public static partial class S
     private static ManaBar SP = new ManaBar("Special points", "lime", Gist.Spectrum, 50, 0, 1);
     private static ManaBar[] Mana = { HP, MP, EP, SP };
 
-    private static MagicPower HM = new MagicPower(1, 1);
-    private static MagicPower MM = new MagicPower(1, 1);
-    private static MagicPower EM = new MagicPower(1, 1);
+    private static MagicPower HM = new MagicPower(15, 1);
+    private static MagicPower MM = new MagicPower(100, 1);
+    private static MagicPower EM = new MagicPower(0, 1);
     private static MagicPower SM = new MagicPower(1, 1);
     private static MagicPower[] Magic = { HM, MM, EM, SM };
 

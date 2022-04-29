@@ -65,6 +65,10 @@ public class InputControlScript : MonoBehaviour
                 {
                     UnitController.SelectedUnits.Add(results[0].transform.gameObject);
                 }
+                else
+                {
+                    UnitController.SelectedUnits.Clear();
+                }
             }
         }
     }
