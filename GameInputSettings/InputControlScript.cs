@@ -7,8 +7,7 @@ using UnityEngine.UI;
 
 public class InputControlScript : MonoBehaviour
 {
-    [SerializeField]
-    private new Camera camera;
+    private Camera mainCamera;
 
     private static Vector3 mouseDrugPosition;
     private bool druging;
@@ -18,7 +17,7 @@ public class InputControlScript : MonoBehaviour
 
     void Start()
     {
-        
+        mainCamera = GetComponent<Camera>();
     }
 
     void Update()
@@ -28,14 +27,14 @@ public class InputControlScript : MonoBehaviour
         {
             if (Input.mouseScrollDelta.y != 0)
             {
-                camera.orthographicSize = math.max(camera.orthographicSize +
+                mainCamera.orthographicSize = math.max(mainCamera.orthographicSize +
                     -Input.mouseScrollDelta.y * InputSettings.ZoomScrollSensivity, 0.1f);
             }
 
             if (Input.GetMouseButtonDown(1))//RCM
             {
                 druging = true;
-                mouseDrugPosition = camera.ScreenToWorldPoint(Input.mousePosition);
+                mouseDrugPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
             }
 
             if (Input.GetMouseButton(1))//RCM
@@ -43,10 +42,10 @@ public class InputControlScript : MonoBehaviour
                 if (mouseDrugPosition == Vector3.zero)
                 {
                     druging = true;
-                    mouseDrugPosition = camera.ScreenToWorldPoint(Input.mousePosition);
+                    mouseDrugPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
                 }
-                camera.transform.position += mouseDrugPosition - camera.ScreenToWorldPoint(Input.mousePosition);
-                camera.transform.position = new Vector3(camera.transform.position.x, camera.transform.position.y, -500);
+                mainCamera.transform.position += mouseDrugPosition - mainCamera.ScreenToWorldPoint(Input.mousePosition);
+                mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y, -500);
             }
 
             if (Input.GetMouseButtonUp(1))//RCM
@@ -57,10 +56,10 @@ public class InputControlScript : MonoBehaviour
             //Unit pic
             if (Input.GetMouseButtonDown(0))//LCM
             {
-                Vector2 _cursorPosition = camera.ScreenToWorldPoint(Input.mousePosition);
+                Vector2 _cursorPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
                 int rayCollision = Physics2D.Raycast(_cursorPosition, new Vector2(0, 0),
-                    contactFilter2D, results, camera.farClipPlane);
+                    contactFilter2D, results, mainCamera.farClipPlane);
                 if (rayCollision > 0)
                 {
                     UnitController.SelectedUnits.Add(results[0].transform.gameObject);

@@ -18,14 +18,9 @@ public static partial class S
 
     public static void GetCursorMagic(out float[] _cursorDamage, out float[] _cursorHeal)
     {
-        _cursorDamage = new float[]{HM.DestroyPower, MM.DestroyPower, EM.DestroyPower, SM.DestroyPower };
-        _cursorHeal = new float[] {HM.HealPower, MM.HealPower, EM.HealPower, SM.HealPower };
-    }
-
-    public static void GetBottleBar(out float[] _cursorDamage, out float[] _cursorHeal)
-    {
-        _cursorDamage = new float[] { HM.DestroyPower, MM.DestroyPower, EM.DestroyPower, SM.DestroyPower };
-        _cursorHeal = new float[] { HM.HealPower, MM.HealPower, EM.HealPower, SM.HealPower };
+        float d = Time.fixedDeltaTime;
+        _cursorDamage = new float[]{HM.DestroyPower * d, MM.DestroyPower * d, EM.DestroyPower * d, SM.DestroyPower * d };
+        _cursorHeal = new float[] {HM.HealPower * d, MM.HealPower * d, EM.HealPower * d, SM.HealPower * d };
     }
 
     public static int GetMaxMana(int index)

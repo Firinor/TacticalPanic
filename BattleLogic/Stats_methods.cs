@@ -76,62 +76,58 @@ public partial class Stats : MonoBehaviour
         return price;
     }
 
-    public void Damage(StringBuilder logs, float[] damage, float deltaTime)
+    public void Damage( float[] damage)
     {
         for (int i = 0; i < damage.Length && i < S.GistsCount; i++)
         {
             if (damage[i] != 0 && Element[i].slider != null)
             {
-                Damage(logs, damage[i], deltaTime, Element[i]);
+                Damage(damage[i], Element[i]);
             }
         }
     }
 
-    public void Damage(StringBuilder logs, float damage, float deltaTime, Gist gist = Gist.Life)
+    public void Damage(float damage, Gist gist = Gist.Life)
     {
         if (damage == 0)
             return;
 
-        Damage(logs, damage, deltaTime, Element[S.GetIndexByGist(gist)]);
+        Damage(damage, Element[S.GetIndexByGist(gist)]);
     }
 
-    private void Damage(StringBuilder logs, float damage, float deltaTime, BodyElement element)
+    private void Damage(float damage, BodyElement element)
     {
-        if (damage == 0 || deltaTime <= 0 ||element.slider == null || element.currentValue <= 0)
+        if (!IsAlive || damage == 0 ||element.slider == null || element.currentValue <= 0)
             return;
 
-        var forLog = new StringBuilder();
-        element.currentValue -= damage * deltaTime;
+        element.currentValue -= damage;
         element.currentValue = math.clamp(element.currentValue, 0, element.maxValue);
-        forLog.Append($"{logs} = > {GetName()} {-damage * deltaTime} {element.name}.");
         element.slider.value = element.currentValue;
 
         if (element.currentValue <= 0 && DeathElement == element)
         {
-            forLog.AppendLine($"\n{GetName()} die!");
-            
+            IsAlive = false;
             Death();
         }
-        Log.Info(forLog);
     }
 
-    public void Heal(StringBuilder logs, float[] cure, float deltaTime)
+    public void Heal(float[] cure)
     {
         for (int i = 0; i < cure.Length && i < S.GistsCount; i++)
         {
             if (cure[i] != 0 && Element[i].slider != null)
             {
-                Damage(logs, - cure[i], deltaTime, Element[i]);
+                Damage( - cure[i], Element[i]);
             }
         }
     }
 
-    public void Heal(StringBuilder logs, float cure, float deltaTime, Gist gist = Gist.Life)
+    public void Heal( float cure, Gist gist = Gist.Life)
     {
         if (cure == 0)
             return;
 
-        Damage(logs, - cure, deltaTime, Element[S.GetIndexByGist(gist)]);
+        Damage(- cure, Element[S.GetIndexByGist(gist)]);
     }
 
     private void RefreshBar()

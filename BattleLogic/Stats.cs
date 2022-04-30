@@ -10,7 +10,8 @@ public partial class Stats : MonoBehaviour
     public enum Visual { Normal, Haziness, Grayness, Off };
 
     [SerializeField]
-    private string name = "!NO NAME!";
+    private string unitName = "!NO NAME!";
+    public string Name { get => unitName; }
 
     [Serializable]
     private class BodyElement
@@ -59,15 +60,17 @@ public partial class Stats : MonoBehaviour
     private BodyElement[] Element;
 
     private BodyElement DeathElement;
+    private bool IsAlive = true;
 
     [SerializeField]
     private SpriteRenderer unitSpriteRenderer;
     [SerializeField]
     private Sprite unitSprite;
+    public Sprite UnitSprite { get => unitSprite; }
 
     private void Awake()
     {
-        unitSpriteRenderer.sprite = unitSprite;
+        unitSpriteRenderer.sprite = UnitSprite;
 
         HP = new BodyElement("Health points", "red", Gist.Life, 100, 100, 1, sliders[0], 1, 10);
         MP = new BodyElement("Magic points", "#0088ff", Gist.Magic, 50, 50, 1, sliders[1], 1, 10);

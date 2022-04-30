@@ -1,10 +1,10 @@
 using UnityEngine;
 using System.Text;
+using System;
 
 public class CursorMagic : MonoBehaviour
 {
-    [SerializeField]
-    private Camera camera;
+    private Camera mainCamera;
     [SerializeField]
     private ContactFilter2D contactFilter2D = new ContactFilter2D();
     private RaycastHit2D[] results = new RaycastHit2D[8];
@@ -12,13 +12,9 @@ public class CursorMagic : MonoBehaviour
     private float[] passiveDamage;
     private float[] passiveHeal;
 
-    private float currentCooldown = 0f;
-    private float currentArcCooldown = 0f;
-
-    private StringBuilder stringBuilder = new StringBuilder("Player");
-
     public void Start()
     {
+        mainCamera = GetComponent<Camera>();
         S.GetCursorMagic(out passiveDamage, out passiveHeal);
     }
 
@@ -27,10 +23,10 @@ public class CursorMagic : MonoBehaviour
         if (InputSettings.MouseLayer != 0)
             return;
 
-        Vector2 _cursorPosition = camera.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 _cursorPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
         //Ray2D ray = new Ray2D(_cursorPosition, new Vector3(0, 0, 1));
-        int rayCollision = Physics2D.Raycast(_cursorPosition, new Vector2(0, 0), contactFilter2D, results, camera.farClipPlane);
+        int rayCollision = Physics2D.Raycast(_cursorPosition, new Vector2(0, 0), contactFilter2D, results, mainCamera.farClipPlane);
         if (rayCollision > 0)
         {
             for (int i = 0; i < rayCollision; i++)
@@ -40,10 +36,10 @@ public class CursorMagic : MonoBehaviour
                     switch (results[i].transform.tag)
                     {
                         case "Enemy":
-                            MouseDamage(results[i].transform.GetComponent<Stats>(), Time.fixedDeltaTime);
+                            MouseDamage(results[i].transform.GetComponent<Stats>());
                             break;
                         case "Player":
-                            MouseHeal(results[i].transform.GetComponent<Stats>(), Time.fixedDeltaTime);
+                            MouseHeal(results[i].transform.GetComponent<Stats>());
                             break;
                     }
                 }
@@ -51,22 +47,20 @@ public class CursorMagic : MonoBehaviour
         }
     }
 
-    private void MouseDamage(Stats stats, float deltaTime, bool heal = false)
+    private void MouseDamage(Stats stats, bool heal = false)
     {
         if (heal)
         {
-            stats.Heal(stringBuilder, passiveHeal, deltaTime);
+            stats.Heal(passiveHeal);
         }
         else
         {
-            stats.Damage(stringBuilder, passiveDamage, deltaTime);
+            stats.Damage(passiveDamage);
         }
-        
-
     }
 
-    private void MouseHeal(Stats stats, float deltaTime)
+    private void MouseHeal(Stats stats)
     {
-        MouseDamage(stats, deltaTime, true);
+        MouseDamage(stats, true);
     }
 }

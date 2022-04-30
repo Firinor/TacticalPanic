@@ -16,7 +16,6 @@ public class Fight : MonoBehaviour
     private bool attackAction = false;
 
     private Stats stats;
-    private StringBuilder stringBuilder = new StringBuilder();
 
     private Collider2D attackArea;
     private Collider2D[] arrayColliders = new Collider2D[16];
@@ -31,7 +30,6 @@ public class Fight : MonoBehaviour
     public void Start()
     {
         stats = GetComponent<Stats>();
-        stringBuilder.Append(stats.GetName());
         attackArea = GetComponents<Collider2D>()[1];
 
         switch (gameObject.tag)
@@ -97,8 +95,8 @@ public class Fight : MonoBehaviour
             {
                 if (enemy != null && enemy.gameObject.CompareTag(compareTag))
                 {
-                    enemy.GetComponent<Stats>().Damage(stringBuilder, 1, deltaTime, Gist.Life);//Strenght to damage
-                    stats.Damage(stringBuilder, 7, deltaTime, Gist.Energy);
+                    enemy.GetComponent<Stats>().Damage(1, Gist.Life);//Strenght to damage
+                    stats.Damage(7, Gist.Energy);
                 }
             }
         }
