@@ -22,6 +22,6 @@ public static class UnitController
 
     public static void ShowUnitInfo(object sendler, NotifyCollectionChangedEventArgs e)
     {
-        Log.RefreshInfoPanel();
+        UnitInfo.RefreshInfoPanel();
     }
 }

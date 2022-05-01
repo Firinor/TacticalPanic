@@ -13,6 +13,12 @@ public partial class Stats : MonoBehaviour
     private string unitName = "!NO NAME!";
     public string Name { get => unitName; }
 
+    public struct PointsValue
+    {
+        public int max;
+        public float current;
+    }
+
     [Serializable]
     private class BodyElement
     {
@@ -20,8 +26,9 @@ public partial class Stats : MonoBehaviour
         public Gist point;
         public string colorString;
 
-        public int maxValue;
-        public float currentValue;
+        public PointsValue Value;
+        public int Max { get { return Value.max; } set { Value.max = value; } }
+        public float Current { get { return Value.current; } set { Value.current = Math.Min(value, Value.max); } }
         public float regen;
         public Slider slider;
         public float currentAttackSpeed;
@@ -41,8 +48,8 @@ public partial class Stats : MonoBehaviour
                 this.name = name;
                 this.colorString = colorString;
                 this.point = point;
-                this.maxValue = maxValue;
-                this.currentValue = currentValue;
+                this.Max = maxValue;
+                this.Current = currentValue;
                 this.regen = regen;
                 this.slider = slider;
                 this.currentAttackSpeed = currentAttackSpeed;

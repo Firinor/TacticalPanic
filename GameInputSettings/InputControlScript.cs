@@ -17,6 +17,7 @@ public class InputControlScript : MonoBehaviour
 
     void Start()
     {
+        contactFilter2D.useTriggers = true;
         mainCamera = GetComponent<Camera>();
     }
 
@@ -58,15 +59,15 @@ public class InputControlScript : MonoBehaviour
             {
                 Vector2 _cursorPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
+                //UnitController.SelectedUnits.Clear();
                 int rayCollision = Physics2D.Raycast(_cursorPosition, new Vector2(0, 0),
                     contactFilter2D, results, mainCamera.farClipPlane);
                 if (rayCollision > 0)
                 {
-                    UnitController.SelectedUnits.Add(results[0].transform.gameObject);
-                }
-                else
-                {
-                    UnitController.SelectedUnits.Clear();
+                    if (UnitController.SelectedUnits.Count > 0)
+                        UnitController.SelectedUnits[0] = results[0].transform.gameObject;
+                    else
+                        UnitController.SelectedUnits.Add(results[0].transform.gameObject);
                 }
             }
         }

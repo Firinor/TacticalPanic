@@ -12,8 +12,9 @@ public class LoadingManager : MonoBehaviour
     void Awake()
     {
         UnitController.Start();
+        UnitInfo.InfoEvent += UnitInfo.RefreshPointsInfo;
 
-        for(int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
             var Card = Instantiate(playerCard, playerHand.transform);
             var CardStats = Card.GetComponent<CardStats>();

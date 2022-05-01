@@ -9,12 +9,10 @@ public partial class Stats : MonoBehaviour
         SetUnitActivity(false);
         AnimDeath();
     }
-
     private void AnimDeath()
     {
         gameObject.GetComponentInChildren<Animator>().Play("Death");
     }
-
     public void DeathAnimationEnds()
     {
         Destroy(gameObject);
@@ -25,7 +23,6 @@ public partial class Stats : MonoBehaviour
         SetUnitActivity(true);
         SetVisualState(Visual.Normal);
     }
-
     public bool CheckTermsAndDeploy()
     {
         bool Landing = true;
@@ -47,33 +44,41 @@ public partial class Stats : MonoBehaviour
 
         return Landing;
     }
-
     public string GetElementColorString(int index)
     {
         return Element[index].colorString;
     }
-
     public string GetElementColorString(Gist gist)
     {
         return GetElementColorString(S.GetIndexByGist(gist));
     }
-
     public int GetElementManaPrice(int index)
     {
         return Element[index].manaPrice;
     }
-
     public int GetElementManaPrice(Gist gist)
     {
         return GetElementManaPrice(S.GetIndexByGist(gist));
     }
-
     public int[] GetManaPrice()
     {
         int[] price = new int[Element.Length];
         for (int i = 0; i < Element.Length; i++)
             price[i] = Element[i].manaPrice;
         return price;
+    }
+    public PointsValue[] GetPointInfo()
+    {
+        PointsValue[] result = new PointsValue[Element.Length];
+        for(int i = 0; i < Element.Length; i++)
+        {
+            if(Element[i] != null || Element[i].slider != null)
+            {
+                result[i].max = Element[i].Value.max;
+                result[i].current = Element[i].Value.current;
+            }
+        }
+        return result;
     }
 
     public void Damage( float[] damage)
@@ -86,7 +91,6 @@ public partial class Stats : MonoBehaviour
             }
         }
     }
-
     public void Damage(float damage, Gist gist = Gist.Life)
     {
         if (damage == 0)
@@ -94,23 +98,22 @@ public partial class Stats : MonoBehaviour
 
         Damage(damage, Element[S.GetIndexByGist(gist)]);
     }
-
     private void Damage(float damage, BodyElement element)
     {
-        if (!IsAlive || damage == 0 ||element.slider == null || element.currentValue <= 0)
+        if (!IsAlive || damage == 0 ||element.slider == null || element.Current <= 0)
             return;
 
-        element.currentValue -= damage;
-        element.currentValue = math.clamp(element.currentValue, 0, element.maxValue);
-        element.slider.value = element.currentValue;
+        element.Current -= damage;
+        element.Current = math.clamp(element.Current, 0, element.Max);
+        element.slider.value = element.Current;
 
-        if (element.currentValue <= 0 && DeathElement == element)
+        if (element.Current <= 0 && DeathElement == element)
         {
             IsAlive = false;
             Death();
         }
+        UnitInfo.RefreshPointsInfo(gameObject);
     }
-
     public void Heal(float[] cure)
     {
         for (int i = 0; i < cure.Length && i < S.GistsCount; i++)
@@ -121,7 +124,6 @@ public partial class Stats : MonoBehaviour
             }
         }
     }
-
     public void Heal( float cure, Gist gist = Gist.Life)
     {
         if (cure == 0)
@@ -135,10 +137,9 @@ public partial class Stats : MonoBehaviour
         for (int i = 0; i < S.GistsCount; i++)
         {
             if (Element[i].slider != null)
-                Element[i].slider.value = Element[i].currentValue;
+                Element[i].slider.value = Element[i].Current;
         }
     }
-
     public void SetUnitActivity(bool flag)
     {
         if(gameObject.TryGetComponent(out Player scriptPlayer))
@@ -153,7 +154,6 @@ public partial class Stats : MonoBehaviour
             collider2D.enabled = flag;
         }
     }
-
     public void SetConflictSide(ConflictSide side = ConflictSide.Enemy)
     {
 
@@ -173,7 +173,6 @@ public partial class Stats : MonoBehaviour
                 break;
         }
     }
-
     public void SetVisualState(Visual visual = Visual.Normal)
     {
         switch (visual)
@@ -195,12 +194,10 @@ public partial class Stats : MonoBehaviour
                 break;
         }
     }
-
     public string GetName()
     {
         return name;
     }
-
     public Sprite GetCardSprite()
     {
         return unitSprite;
