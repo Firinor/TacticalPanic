@@ -11,21 +11,14 @@ public class CardDragAndDrop : MonoBehaviour,
 {
     private new Camera camera;
     [SerializeField]
-    private Vector3 offset;
-    [SerializeField]
     private float cardPositionOffset;
-    [SerializeField]
-    private Vector3 positionUp;
-    private Vector3 positionStandart;
+    private float cardSiblingOffset;
+    private float currenPositionY;
     [SerializeField]
     private float smoothness = 0.25f;
 
     private GameObject cardUnit;
     private Stats statsUnit;
-
-    //В FixedUpdate используется процедура Vector3.Lerp( , которая при старте сцены сразу уводит карту в нулевую точку.
-    //После присвоения offset ошибка пропадает.
-    private bool showCardInfoDebug = false;
 
     private bool dragCard = false;
     private bool cursorOnCard = false;
@@ -36,6 +29,8 @@ public class CardDragAndDrop : MonoBehaviour,
         statsUnit = cardUnit.GetComponent<Stats>();
         camera = Camera.main;
         gameObject.transform.Find("Name").GetComponent<Text>().text = statsUnit.GetName();
+        cardSiblingOffset = -(gameObject.GetComponent<RectTransform>().rect.width 
+            + gameObject.GetComponentInParent<HorizontalLayoutGroup>().spacing)/2;
     }
     public void Update()
     {
@@ -44,12 +39,20 @@ public class CardDragAndDrop : MonoBehaviour,
             dragCard = false;
             WontToDeploy(false);
         }
+
+        if(currenPositionY != transform.position.y)
+        {
+            transform.position = new Vector3(transform.position.x, currenPositionY, transform.position.z);
+        }
     }
 
     public void FixedUpdate()
     {
-        if (showCardInfoDebug && !dragCard && transform.position != offset)
-            transform.position = Vector3.Lerp(transform.position, offset, smoothness);
+        if (!dragCard && transform.position.y != (cursorOnCard? cardPositionOffset: 0))
+        {
+            transform.position = Vector3.Lerp(transform.position, new Vector3( transform.position.x, cursorOnCard ? cardPositionOffset : 0, transform.position.z), smoothness);
+            currenPositionY = transform.position.y;
+        }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -107,37 +110,22 @@ public class CardDragAndDrop : MonoBehaviour,
     private void UnitOff()
     {
         statsUnit.SetVisualState(Stats.Visual.Off);
-        if (!cursorOnCard)
-        {
-            positionStandart.x = offset.x;
-            positionStandart.y = 0;
-            offset = positionStandart;
-        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         cursorOnCard = true;
-        showCardInfoDebug = true;
-        positionStandart = transform.position;
-        positionUp.x = transform.position.x;
-        offset = positionUp;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         cursorOnCard = false;
-        if (!dragCard)
-        {
-            positionStandart.y = 0;
-            offset = positionStandart;
-        }
     }
 
     void CheckPosition(float posX)
     {
         Transform defaultParent = gameObject.transform.parent;
-        posX += cardPositionOffset;
+        posX += cardSiblingOffset;
         int ChildCount = defaultParent.childCount;
         int NewIndex = ChildCount;
 
@@ -145,13 +133,11 @@ public class CardDragAndDrop : MonoBehaviour,
         {
             if (posX <= defaultParent.GetChild(i).position.x)
             {
-                offset.x = defaultParent.GetChild(i).position.x;
                 NewIndex = i;
                 break;
             }
         }
-
+        currenPositionY = transform.position.y;
         transform.SetSiblingIndex(NewIndex);
-        transform.position = offset;
     }
 }
