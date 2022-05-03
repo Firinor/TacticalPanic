@@ -13,7 +13,6 @@ public class CardDragAndDrop : MonoBehaviour,
     [SerializeField]
     private float cardPositionOffset;
     private float cardSiblingOffset;
-    private float currenPositionY;
     [SerializeField]
     private float smoothness = 0.25f;
 
@@ -39,11 +38,6 @@ public class CardDragAndDrop : MonoBehaviour,
             dragCard = false;
             WontToDeploy(false);
         }
-
-        if(currenPositionY != transform.position.y)
-        {
-            transform.position = new Vector3(transform.position.x, currenPositionY, transform.position.z);
-        }
     }
 
     public void FixedUpdate()
@@ -51,7 +45,6 @@ public class CardDragAndDrop : MonoBehaviour,
         if (!dragCard && transform.position.y != (cursorOnCard? cardPositionOffset: 0))
         {
             transform.position = Vector3.Lerp(transform.position, new Vector3( transform.position.x, cursorOnCard ? cardPositionOffset : 0, transform.position.z), smoothness);
-            currenPositionY = transform.position.y;
         }
     }
 
@@ -73,6 +66,9 @@ public class CardDragAndDrop : MonoBehaviour,
     {
         if (dragCard && eventData.button == PointerEventData.InputButton.Left)
         {
+            if (transform.position.y != cardPositionOffset)
+                transform.position = new Vector3(transform.position.x, cardPositionOffset, transform.position.z);
+
             //Vector3 pos = _camera.ScreenToWorldPoint(eventData.position);
             Vector3 pos = camera.ScreenToWorldPoint(Input.mousePosition);
             pos.z = 0;
@@ -137,7 +133,7 @@ public class CardDragAndDrop : MonoBehaviour,
                 break;
             }
         }
-        currenPositionY = transform.position.y;
-        transform.SetSiblingIndex(NewIndex);
+        if(transform.GetSiblingIndex() != NewIndex)
+            transform.SetSiblingIndex(NewIndex);
     }
 }
