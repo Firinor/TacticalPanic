@@ -43,7 +43,9 @@ Shader "Unit/Selection"
             float _OutlineWidth;
             sampler2D _MainTex;
 
-            static float2 _dirs[4] = { float2(1,0), float2(-1,0), float2(0,1), float2(0,-1) };
+            static float d = 0.71;
+            static float2 _dirs[8] = { float2(1,0), float2(-1,0), float2(0,1), float2(0,-1),
+                float2(d,d), float2(-d,d), float2(d,-d), float2(-d,-d) };
 
             v2f vert (appdata v)
             {
@@ -57,7 +59,7 @@ Shader "Unit/Selection"
             float GetMaxAlpha(float2 uv) 
             {
                 float result = 0;
-                for (uint i = 0; i < 4; i++)
+                for (uint i = 0; i < 8; i++)
                 {
                     float2 sUV = uv +_dirs[i] * _OutlineWidth;
                     result = max(result, tex2D(_MainTex, sUV).a);
@@ -68,12 +70,8 @@ Shader "Unit/Selection"
             fixed4 frag (v2f i) : SV_Target
             {
                 fixed4 col = tex2D(_MainTex, i.uv);
-                // just invert the colors
-                //col.rgb = 1 - col.rgb;
                 col *= i.color;
-
                 col.rgb = lerp(_OutlineColor, col.rgb, col.a);
-                //col.a = _OutlineColor.a;
                 col.a = GetMaxAlpha(i.uv);
 
                 return col;
