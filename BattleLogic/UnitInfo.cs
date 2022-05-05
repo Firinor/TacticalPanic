@@ -25,7 +25,10 @@ public static class UnitInfo
             {
                 return;
             }
+            if(unitFromThePoster != null)
+                unitFromThePoster.GetComponent<Stats>().UnPick();
             unitFromThePoster = UnitController.SelectedUnits[0];
+            unitFromThePoster.GetComponent<Stats>().Pick();
             unitSprite.sprite = unitFromThePoster.GetComponent<Stats>().GetCardSprite();
         }
         RefreshPointsInfo();
@@ -37,7 +40,7 @@ public static class UnitInfo
             RefreshPointsInfo();
         }
     }
-        public static void RefreshPointsInfo()
+    public static void RefreshPointsInfo()
     {
         if(unitFromThePoster != null)
         {

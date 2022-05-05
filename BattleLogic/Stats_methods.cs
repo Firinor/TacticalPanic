@@ -202,4 +202,15 @@ public partial class Stats : MonoBehaviour
     {
         return unitSprite;
     }
+
+    public void Pick()
+    {
+        unitSpriteRenderer.material = ControllerInputSettings.PickMaterial;
+    }
+
+    public void UnPick()
+    {
+        unitSpriteRenderer.material = ControllerInputSettings.DefaultMaterial;
+    }
+    
 }

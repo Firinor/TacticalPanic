@@ -7,11 +7,18 @@ public class ControllerInputSettings : MonoBehaviour
     public float TextScrollSensivity = 1;
     public float ZoomScrollSensivity = 1;
 
-    public Material DefaultShader;
-    public Material PickShader;
+    [SerializeField]
+    private Material defaultMaterial;
+    [SerializeField]
+    private Material pickMaterial;
+
+    public static Material DefaultMaterial { get; set; }
+    public static Material PickMaterial { get; set; }
 
     public void Awake()
     {
+        DefaultMaterial = defaultMaterial;
+        PickMaterial = pickMaterial;
         InputSettings.TextScrollSensivity = TextScrollSensivity;
         InputSettings.ZoomScrollSensivity = ZoomScrollSensivity;
     }
