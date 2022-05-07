@@ -16,4 +16,6 @@ public static class InputSettings
         get { return mouseLayer; }
         set { mouseLayer = math.clamp(value, 0, 1); }
     }
+
+
 }

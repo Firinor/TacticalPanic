@@ -15,6 +15,7 @@ public static partial class S
 {
     public static int GistsCount { get; } = Enum.GetValues(typeof(Gist)).Length;
     private static BattleTimer battleTimer;
+    private static CursorManager cursorManager;
 
     private static ManaBar HP = new ManaBar("Health points", "red", Gist.Life, 50, 0, 1);
     private static ManaBar MP = new ManaBar("Mana points", "#0088ff", Gist.Magic, 50, 0, 1);

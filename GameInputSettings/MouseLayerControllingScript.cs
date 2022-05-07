@@ -5,14 +5,32 @@ using UnityEngine.EventSystems;
 
 public class MouseLayerControllingScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    [SerializeField]
+    private CursorType cursorType;
+    [SerializeField]
+    private bool mouseLayer = true;
+
     public void OnPointerEnter(PointerEventData eventData)
     {
-        InputSettings.MouseLayer++;
+        if(mouseLayer)
+            InputSettings.MouseLayer++;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        InputSettings.MouseLayer--;
+        if (mouseLayer)
+            InputSettings.MouseLayer--;
         InputControlScript.ResetMouseDrugPosition();
+    }
+
+    public void OnMouseEnter()
+    {
+        if (cursorType != CursorType.Arrow)
+            S.GetCursorManager().CursorOverlap(cursorType);
+    }
+    public void OnMouseExit()
+    {
+        if (cursorType != CursorType.Arrow)
+            S.GetCursorManager().CursorRemove(cursorType);
     }
 }

@@ -91,6 +91,16 @@ public static partial class S
 
         return battleTimer;
     }
+
+    public static CursorManager GetCursorManager()
+    {
+        if (cursorManager == null)
+        {
+            cursorManager = GameObject.Find("GameController").GetComponent<CursorManager>();
+        }
+
+        return cursorManager;
+    }
 }
 
 public static partial class SideColor
