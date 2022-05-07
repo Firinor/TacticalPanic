@@ -17,10 +17,10 @@ public static partial class S
     private static BattleTimer battleTimer;
     private static CursorManager cursorManager;
 
-    private static ManaBar HP = new ManaBar("Health points", "red", Gist.Life, 50, 0, 1);
-    private static ManaBar MP = new ManaBar("Mana points", "#0088ff", Gist.Magic, 50, 0, 1);
-    private static ManaBar EP = new ManaBar("Energy points", "yellow", Gist.Energy, 50, 0, 1);
-    private static ManaBar SP = new ManaBar("Special points", "lime", Gist.Spectrum, 50, 0, 1);
+    private static ManaBar HP = new ManaBar("Health points", "red", Color.red, Gist.Life, 50, 15, 1);
+    private static ManaBar MP = new ManaBar("Mana points", "#0088ff", new Color(0, .47f, 1f, 1f), Gist.Magic, 50, 5, 1);
+    private static ManaBar EP = new ManaBar("Energy points", "yellow", Color.yellow, Gist.Energy, 50, 10, 1);
+    private static ManaBar SP = new ManaBar("Special points", "lime", Color.green, Gist.Spectrum, 50, 0, 1);
     private static ManaBar[] Mana = { HP, MP, EP, SP };
 
     private static MagicPower HM = new MagicPower(15, 1);
@@ -38,18 +38,20 @@ public static partial class S
         public string Name;
         public Gist Point;
         public string ColorString;
+        public Color Color;
         public int MaxMana;
         public float CurrentMana;
         public float Regen;
 
-        public ManaBar(string name = "", string colorString = "", Gist point = Gist.Life,
-            int maxMana = 100, float currentMana = 0, float regen = 1)
+        public ManaBar(string name, string colorString, Color color , Gist point,
+            int maxMana, float currentMana, float regen)
         {
             Name = name;
             MaxMana = maxMana;
             CurrentMana = currentMana;
             Regen = regen;
             ColorString = colorString;
+            Color = color;
             Point = point;
         }
     }

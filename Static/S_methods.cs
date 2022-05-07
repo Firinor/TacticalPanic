@@ -50,7 +50,22 @@ public static partial class S
 
     public static float GetCurrentMana(Gist gist)
     {
-        return GetRegen(GetIndexByGist(gist));
+        return GetCurrentMana(GetIndexByGist(gist));
+    }
+
+    public static float[] GetAllCurrentMana()
+    {
+        return new float[] { Mana[0].CurrentMana, Mana[1].CurrentMana, Mana[2].CurrentMana, Mana[3].CurrentMana };
+    }
+
+    public static Color GetManaColor(int index)
+    {
+        return Mana[index].Color;
+    }
+
+    public static Color GetManaColor(Gist gist)
+    {
+        return GetManaColor(GetIndexByGist(gist));
     }
 
     public static void DrawMana(int[] manaPrice)

@@ -81,7 +81,7 @@ public partial class Stats : MonoBehaviour
 
         HP = new BodyElement("Health points", "red", Gist.Life, 100, 100, 1, sliders[0], 1, 10);
         MP = new BodyElement("Magic points", "#0088ff", Gist.Magic, 50, 50, 1, sliders[1], 1, 10);
-        EP = new BodyElement("Energy points", "yellow", Gist.Energy, 50, 50, 1, sliders[2], 1, 10);
+        EP = new BodyElement("Energy points", "yellow", Gist.Energy, 50, 50, 1, sliders[2], 1, 5);
         SP = new BodyElement("Special points", "lime", Gist.Spectrum, 25, 25, 0, sliders[3], 1, 0);
         Element = new BodyElement[]{ HP, MP, EP, SP };
 
