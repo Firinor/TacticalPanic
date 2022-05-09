@@ -53,8 +53,6 @@ public class CardDragAndDrop : MonoBehaviour,
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             dragCard = true;
-            //statsUnit.SetVisualState(Stats.Visual.Haziness);
-            statsUnit.SetVisualState(Stats.Visual.Grayness);
         }
         else
         {
@@ -73,6 +71,14 @@ public class CardDragAndDrop : MonoBehaviour,
             Vector3 pos = camera.ScreenToWorldPoint(Input.mousePosition);
             pos.z = 0;
             cardUnit.transform.localPosition = pos;
+            if (statsUnit.CheckTerms())
+            {
+                statsUnit.SetVisualState(Stats.Visual.Haziness);
+            }
+            else
+            {
+                statsUnit.SetVisualState(Stats.Visual.Grayness);
+            }
             CheckPosition(eventData.position.x);
         }
     }

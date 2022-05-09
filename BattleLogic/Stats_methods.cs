@@ -23,27 +23,37 @@ public partial class Stats : MonoBehaviour
         SetUnitActivity(true);
         SetVisualState(Visual.Normal);
     }
+
     public bool CheckTermsAndDeploy()
     {
-        bool Landing = true;
+        bool Landing = false;
 
-        for (int i = 0; i < S.GistsCount; i++)
-        {
-            if (Element[i].manaPrice > 0 && S.GetCurrentMana(i) < Element[i].manaPrice)
-            {
-                Landing = false;
-                break;
-            }
-        }
-
-        if (Landing)
+        if (CheckTerms())
         {
             S.DrawMana(GetManaPrice());
+            Landing = true;
             Deploy();
         }
 
         return Landing;
     }
+
+    public bool CheckTerms()
+    {
+        bool Check = true;
+
+        for (int i = 0; i < S.GistsCount; i++)
+        {
+            if (Element[i].manaPrice > 0 && S.GetCurrentMana(i) < Element[i].manaPrice)
+            {
+                Check = false;
+                break;
+            }
+        }
+
+        return Check;
+    }
+
     public string GetElementColorString(int index)
     {
         return Element[index].colorString;
@@ -179,18 +189,20 @@ public partial class Stats : MonoBehaviour
         {
             case Visual.Haziness:
                 gameObject.SetActive(true);
-                unitSpriteRenderer.color = new Color(1f, 1f, 1f, 0.1f);
+                unitAnimator.enabled = false;
+                unitSpriteRenderer.color = new Color(.25f, 1f, .25f, .8f);
                 break;
             case Visual.Grayness:
                 gameObject.SetActive(true);
-                unitSpriteRenderer.color = new Color(.4f, .4f, .4f, .4f);
+                unitAnimator.enabled = false;
+                unitSpriteRenderer.color = new Color(1f, .25f, .25f, .8f);
                 break;
             case Visual.Off:
                 gameObject.SetActive(false);
                 break;
             default: //Visual.Normal
                 gameObject.SetActive(true);
-                unitSpriteRenderer.color = new Color(1f, 1f, 1f, 1f);
+                unitAnimator.enabled = true;
                 break;
         }
     }

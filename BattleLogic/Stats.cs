@@ -72,6 +72,8 @@ public partial class Stats : MonoBehaviour
     [SerializeField]
     private SpriteRenderer unitSpriteRenderer;
     [SerializeField]
+    private Animator unitAnimator;
+    [SerializeField]
     private Sprite unitSprite;
     public Sprite UnitSprite { get => unitSprite; }
 
