@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LoadingManager : MonoBehaviour
+public class LoadingManagerBattleScene : MonoBehaviour
 {
     [SerializeField]
     private GameObject playerHand;
