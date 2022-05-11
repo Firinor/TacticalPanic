@@ -14,18 +14,21 @@ public class LoadingScript : MonoBehaviour
     private Sprite[] pullOfSpaces;
     [SerializeField]
     private Image space;
+    private static Sprite spaceSprite;
     [SerializeField]
     private Animator animator;
 
     void Start()
     {
         instance = this;
-
-        if(needOpenSceneAnimation) instance.animator.SetTrigger("OpenScene");
+        space = GameObject.Find("LoadingSpace").GetComponent<Image>();
+        space.sprite = spaceSprite;
+        if (needOpenSceneAnimation) instance.animator.SetTrigger("OpenScene");
     }
 
     public static void LoadScene(string sceneName)
     {
+        instance.CloseSceneImage();
         instance.animator.SetTrigger("CloseScene");
 
         instance.operation = SceneManager.LoadSceneAsync(sceneName);
@@ -33,18 +36,13 @@ public class LoadingScript : MonoBehaviour
 
     }
 
-    public void CloseScene()
+    public void CloseSceneImage()
     {
         int SpriteIndex = Random.Range(0, pullOfSpaces.Length);
-        if(SpriteIndex < pullOfSpaces.Length)
-        {
-            space.color = Color.white;
-            space.sprite = pullOfSpaces[SpriteIndex];
-        }
-        else
-        {
-            space.color = Color.black;
-        }
+
+        space.color = Color.white;
+        spaceSprite = pullOfSpaces[SpriteIndex];
+        space.sprite = spaceSprite;
     }
 
     public void OpenScene()
