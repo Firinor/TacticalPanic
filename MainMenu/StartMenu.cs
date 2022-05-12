@@ -19,7 +19,7 @@ public class StartMenu : MonoBehaviour
 
     public void Continue()
     {
-        LoadingScript.LoadScene("WorldMap");
+        LoadingSceneScript.LoadScene("WorldMap");
     }
 
     public void QuitGame()
