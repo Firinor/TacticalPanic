@@ -27,6 +27,9 @@ public class LoadingSceneScript : MonoBehaviour
     [SerializeField]
     private float endPortalPosition = 2f;
 
+    [SerializeField]
+    private Scene currentScene;
+
     void Start()
     {
         instance = this;
@@ -34,6 +37,7 @@ public class LoadingSceneScript : MonoBehaviour
         space.sprite = spaceSprite;
         if (needOpenSceneAnimation)
             OpenScene();
+        currentScene = SceneManager.GetActiveScene();
     }
 
     void Update()
@@ -92,5 +96,11 @@ public class LoadingSceneScript : MonoBehaviour
     {
         OpenSceneFlag = true;
         currentPlayTime = 0f;
+        currentScene = SceneManager.GetActiveScene();
+    }
+
+    public static int GetScene()
+    {
+        return instance.currentScene.buildIndex;
     }
 }
