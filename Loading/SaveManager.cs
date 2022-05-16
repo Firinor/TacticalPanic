@@ -10,13 +10,13 @@ public class SaveManager : MonoBehaviour
 
     void Awake()
     {
-        path = Application.persistentDataPath + "/data.save";
+        path = Application.persistentDataPath;
     }
 
-    public void SaveLevel()
+    public void Save(int account)
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        FileStream stream = new FileStream(path, FileMode.Create);
+        FileStream stream = new FileStream(GetPath(account), FileMode.Create);
 
         int Data = 1;
 
@@ -24,9 +24,9 @@ public class SaveManager : MonoBehaviour
         stream.Close();
     }
 
-    public int LoadLevel()
+    public int Load(int account)
     {
-        if(File.Exists(path))
+        if(File.Exists(GetPath(account)))
         {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
@@ -37,7 +37,7 @@ public class SaveManager : MonoBehaviour
         }
         else
         {
-            new UnityException("There is no one save file");
+            Save(account);
             return 0;
         }
         
@@ -46,5 +46,20 @@ public class SaveManager : MonoBehaviour
     void SaveFile()
     {
 
+    }
+
+    public bool FileExists(string path)
+    {
+        return File.Exists(path);
+    }
+
+    public bool FileExists(int i)
+    {
+        return FileExists(GetPath(i));
+    }
+
+    string GetPath(int i)
+    {
+        return path + $"data{i}.save";
     }
 }

@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
-public class LoadingSceneScript : MonoBehaviour
+public class LoadingTransitionScript : MonoBehaviour
 {
-    private static LoadingSceneScript instance;
+    private static LoadingTransitionScript instance;
+    private static SceneManager sceneManager;
     private static bool needOpenSceneAnimation = false;
-    private AsyncOperation operation;
     private static bool CloseSceneFlag = false;
     private static bool OpenSceneFlag = false;
 
@@ -27,17 +26,14 @@ public class LoadingSceneScript : MonoBehaviour
     [SerializeField]
     private float endPortalPosition = 2f;
 
-    [SerializeField]
-    private Scene currentScene;
-
     void Start()
     {
         instance = this;
+        sceneManager = SceneManager.GetSceneManager();
         space = GetComponentInChildren<Image>();
         space.sprite = spaceSprite;
         if (needOpenSceneAnimation)
             OpenScene();
-        currentScene = SceneManager.GetActiveScene();
     }
 
     void Update()
@@ -53,7 +49,7 @@ public class LoadingSceneScript : MonoBehaviour
             {
                 CloseSceneFlag = false;
                 needOpenSceneAnimation = true;
-                instance.operation.allowSceneActivation = true;
+                SceneManager.SetAllowSceneActivation(true);
             }
         }
         if (OpenSceneFlag)
@@ -70,13 +66,10 @@ public class LoadingSceneScript : MonoBehaviour
         }
     }
 
-    public static void LoadScene(string sceneName)
+    public static void LoadScene()
     {
         instance.SetSceneImage();
         instance.CloseScene();
-        instance.operation = SceneManager.LoadSceneAsync(sceneName);
-        instance.operation.allowSceneActivation = false;
-        
     }
 
     public void SetSceneImage()
@@ -96,11 +89,5 @@ public class LoadingSceneScript : MonoBehaviour
     {
         OpenSceneFlag = true;
         currentPlayTime = 0f;
-        currentScene = SceneManager.GetActiveScene();
-    }
-
-    public static int GetScene()
-    {
-        return instance.currentScene.buildIndex;
     }
 }
