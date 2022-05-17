@@ -50,7 +50,7 @@ Material:
     m_Floats:
     - Boolean_a3d45da88d114285aba760aaa1de22b7: 0
     - Diameter: 3
-    - InPortal: 1
+    - InPortal: 0
     - OutlineWidth: 0.06
     - Vector1_20766c655de6489cacff4c89f1ea0aaa: 0.03
     - Vector1_2aca21f0c3f940909bcabe16111bb6eb: -0.5

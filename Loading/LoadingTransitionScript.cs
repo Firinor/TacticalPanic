@@ -32,8 +32,7 @@ public class LoadingTransitionScript : MonoBehaviour
         sceneManager = SceneManager.GetSceneManager();
         space = GetComponentInChildren<Image>();
         space.sprite = spaceSprite;
-        if (needOpenSceneAnimation)
-            OpenScene();
+        loadingImageMaterial.SetFloat("InPortal", 0f);
     }
 
     void Update()
@@ -48,11 +47,11 @@ public class LoadingTransitionScript : MonoBehaviour
             if (Diameter >= endPortalPosition)
             {
                 CloseSceneFlag = false;
-                needOpenSceneAnimation = true;
+                OpenSceneFlag = true;
                 SceneManager.SetAllowSceneActivation(true);
             }
         }
-        if (OpenSceneFlag)
+        else if (OpenSceneFlag)
         {
             currentPlayTime += Time.deltaTime;
             float presentage = currentPlayTime / playTime;
