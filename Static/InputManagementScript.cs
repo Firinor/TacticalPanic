@@ -2,7 +2,7 @@ using Unity.Mathematics;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class InputSettings
+public static class InputMouseInformator
 {
     public static GameObject MouseTarget;
     
