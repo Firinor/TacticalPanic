@@ -8,21 +8,21 @@ public enum SceneDirection { basic, exit, options, changeScene, saves, off }
 public class SceneManager : MonoBehaviour
 {
     private static SceneManager instance;
-    private Scene currentScene;
     public static IScenePanel scenePanel { get; set; }
     private AsyncOperation operation;
 
     [SerializeField]
     private GameObject optionsPanel;
+    private OptionsOperator optionsOperator;
     [SerializeField]
     private LoadingTransitionOperator loadingTransitionOperator;
     [SerializeField]
     private GameObject[] doNotDestroyOnLoad;
 
-    void Start()
+    void Awake()
     {
         instance = this;
-        currentScene = UnitySceneManagement.GetActiveScene();
+        optionsOperator = optionsPanel.GetComponent<OptionsOperator>();
 
         foreach (GameObject go in doNotDestroyOnLoad)
         {
@@ -31,6 +31,8 @@ public class SceneManager : MonoBehaviour
                 DontDestroyOnLoad(go);
             }
         }
+
+        CheckingTheScene();
     }
 
     public static SceneManager GetSceneManager()
@@ -40,12 +42,12 @@ public class SceneManager : MonoBehaviour
 
     public static int GetScene()
     {
-        return instance.currentScene.buildIndex;
+        return UnitySceneManagement.GetActiveScene().buildIndex;
     }
 
     public static bool MenuScene()
     {
-        return instance.currentScene.buildIndex == 0;
+        return GetScene() == 0;
     }
 
     public static void LoadScene(string sceneName, int data = 0)
@@ -68,6 +70,7 @@ public class SceneManager : MonoBehaviour
                 instance.optionsPanel.SetActive(true);
                 break;
             case SceneDirection.exit:
+                DiactiveAllPanels();
                 ExitAction();
                 break;
             case SceneDirection.basic:
@@ -103,5 +106,29 @@ public class SceneManager : MonoBehaviour
     public static void DiactiveAllPanels()
     {
         instance.optionsPanel.SetActive(false);
+    }
+
+    public static void CheckingTheScene()
+    {
+        int SceneIndex = GetScene();
+        if (SceneIndex == 2)//"BattleScene"
+        {
+            //FindObjectOfType<BattleSceneManager>().SetAllInstance();
+            instance.optionsOperator.SetAcriveOfExitButton(true);
+        }
+        else if (SceneIndex == 1)//"WorldMap"
+        {
+            FindObjectOfType<WorldMenuManager>().SetAllInstance();
+            instance.optionsOperator.SetAcriveOfExitButton(false);
+        }
+        else if (SceneIndex == 0)//"MainMenu"
+        {
+            FindObjectOfType<MainMenuManager>().SetAllInstance();
+            instance.optionsOperator.SetAcriveOfExitButton(false);
+        }
+        else
+        {
+            new Exception("Error on checking scene!");
+        }
     }
 }

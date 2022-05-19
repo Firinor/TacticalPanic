@@ -1,11 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum WorldMarks { options, squad, magic, blacksmith, off }
 
-public class WorldMenuManager : MonoBehaviour
+public class WorldMenuManager : MonoBehaviour, IScenePanel
 {
 
     [SerializeField]
@@ -14,18 +12,18 @@ public class WorldMenuManager : MonoBehaviour
     private GameObject magic;
     [SerializeField]
     private GameObject blacksmith;
-    private GameObject options;
     public static WorldMenuManager instance { get; private set; }
 
-    void Awake()
+    public void SetAllInstance()
     {
-        instance = GameObject.FindGameObjectWithTag("GameController").GetComponent<WorldMenuManager>();
-        options = Resources.FindObjectsOfTypeAll<OptionsOperator>()[0].gameObject;
+        instance = this;
+        SceneManager.scenePanel = this;
+
     }
 
-    public void SwitchMenuMarks(WorldMarks mark)
+    public void SwitchPanels(WorldMarks mark)
     {
-        DiactiveAllMenuMarks();
+        DiactiveAllPanels();
         switch (mark)
         {
             case WorldMarks.squad:
@@ -35,7 +33,7 @@ public class WorldMenuManager : MonoBehaviour
                 magic.SetActive(true);
                 break;
             case WorldMarks.options:
-                options.SetActive(true);
+                SceneManager.SwitchPanels(SceneDirection.options);
                 break;
             case WorldMarks.blacksmith:
                 blacksmith.SetActive(true);
@@ -47,16 +45,21 @@ public class WorldMenuManager : MonoBehaviour
                 break;
         }
     }
-    public void SwitchMenuMarks(int mark)
+    public void SwitchPanels(int mark)
     {
-        SwitchMenuMarks((WorldMarks)mark);
+        SwitchPanels((WorldMarks)mark);
     }
 
-    private void DiactiveAllMenuMarks()
+    public void DiactiveAllPanels()
     {
-        squad?.SetActive(false);
-        magic?.SetActive(false);
-        blacksmith?.SetActive(false);
-        options?.SetActive(false);
+        //squad.SetActive(false);
+        //magic.SetActive(false);
+        //blacksmith.SetActive(false);
+        SceneManager.DiactiveAllPanels();
+    }
+
+    public void BasicPanelSettings()
+    {
+        SwitchPanels(WorldMarks.off);
     }
 }

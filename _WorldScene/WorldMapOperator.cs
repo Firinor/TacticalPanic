@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorldMapManager : MonoBehaviour
+public class WorldMapOperator : MonoBehaviour
 {
     public void Return()
     {
@@ -16,6 +16,6 @@ public class WorldMapManager : MonoBehaviour
 
     public void Options()
     {
-        WorldMenuManager.instance.SwitchMenuMarks(WorldMarks.options);
+        WorldMenuManager.instance.SwitchPanels(WorldMarks.options);
     }
 }

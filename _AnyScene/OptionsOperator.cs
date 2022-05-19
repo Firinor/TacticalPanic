@@ -8,10 +8,12 @@ public class OptionsOperator : MonoBehaviour
     private GameObject exitButton;
     [SerializeField]
     private SceneManager sceneManager;
+    //private static OptionsOperator instance;
 
     void Awake()
     {
-        if(sceneManager == null)
+        //instance = this;
+        if (sceneManager == null)
         {
             GameObject go = GameObject.FindGameObjectWithTag("AnyScene");
             sceneManager = go.GetComponent<SceneManager>();

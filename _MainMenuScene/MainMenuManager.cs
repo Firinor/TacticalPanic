@@ -11,13 +11,13 @@ public class MainMenuManager : MonoBehaviour, IScenePanel
 
     public static MainMenuManager instance { get; private set; }
 
-    void Start()
+    public void SetAllInstance()
     {
         instance = this;
+        SceneManager.scenePanel = this;
         baner = MainMenuInformator.GetBaner();
         credits = MainMenuInformator.GetCredits();
         saves = MainMenuInformator.GetSaves();
-        SceneManager.scenePanel = this;
     }
 
     public static void SwitchPanels(MenuMarks mark)
@@ -52,9 +52,9 @@ public class MainMenuManager : MonoBehaviour, IScenePanel
 
     public void DiactiveAllPanels()
     {
-        baner?.SetActive(false);
-        credits?.SetActive(false);
-        saves?.SetActive(false);
+        baner.SetActive(false);
+        credits.SetActive(false);
+        saves.SetActive(false);
         SceneManager.DiactiveAllPanels();
     }
 
