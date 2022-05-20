@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -11,41 +9,49 @@ public class SaveManager : MonoBehaviour
     void Awake()
     {
         path = Application.persistentDataPath;
+        OptionsOperator.LoadOptions();
     }
 
-    public void Save(int account)
+    public static void Save<T>(string path, T data)
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        FileStream stream = new FileStream(GetPath(account), FileMode.Create);
+        FileStream stream = new FileStream(path, FileMode.Create);
 
-        int Data = 1;
-
-        formatter.Serialize(stream, Data);
+        formatter.Serialize(stream, data);
         stream.Close();
     }
 
-    public int Load(int account)
+    public static void Save(int account)
     {
-        if(File.Exists(GetPath(account)))
+        Save(GetPath(account), account);
+    }
+
+
+    public static void SaveOptions()
+    {
+        Save<OptionsParameters>(GetOptionPath(), OptionsOperator.GetParameters());
+    }
+
+    public static OptionsParameters LoadOptions()
+    {
+        return Load<OptionsParameters>(GetOptionPath());
+    }
+
+    public static T Load<T>(string path)
+    {
+        if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
 
-            int data = (int)formatter.Deserialize(stream);
+            T data = (T)formatter.Deserialize(stream);
             stream.Close();
             return data;
         }
         else
         {
-            Save(account);
-            return 0;
+            return default;
         }
-        
-    }
-
-    void SaveFile()
-    {
-
     }
 
     public bool FileExists(string path)
@@ -58,8 +64,13 @@ public class SaveManager : MonoBehaviour
         return FileExists(GetPath(i));
     }
 
-    string GetPath(int i)
+    static string GetPath(int i)
     {
         return path + $"data{i}.save";
+    }
+
+    static string GetOptionPath()
+    {
+        return path + $"option.save";
     }
 }

@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 public class BanerMenuOperator : MonoBehaviour
@@ -19,6 +20,10 @@ public class BanerMenuOperator : MonoBehaviour
 
     public void QuitGame()
     {
-        Application.Quit();
+        #if UNITY_EDITOR
+            EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
     }
 }

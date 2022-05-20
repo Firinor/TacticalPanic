@@ -23,6 +23,7 @@ public class SceneManager : MonoBehaviour
     {
         instance = this;
         optionsOperator = optionsPanel.GetComponent<OptionsOperator>();
+        optionsOperator.RefreshInstance();
 
         foreach (GameObject go in doNotDestroyOnLoad)
         {
