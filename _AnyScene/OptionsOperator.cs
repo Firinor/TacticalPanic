@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -74,6 +75,7 @@ public class OptionsOperator : MonoBehaviour
     {
         if(instance == null)
         {
+            new Exception("Singleton exeption!");
             return 0;
         }
 
@@ -88,6 +90,12 @@ public class OptionsOperator : MonoBehaviour
 
     public static OptionsParameters GetParameters()
     {
+        if (instance == null)
+        {
+            new Exception("Singleton exeption!");
+            return default;
+        }
+
         return new OptionsParameters(false, instance.volumeSlider.value, 0.5f, 0);
     }
 

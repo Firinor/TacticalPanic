@@ -7,6 +7,7 @@ public class SoundInformator : MonoBehaviour
 {
     private List<AudioSourceOperator> backgroundMusicSource = new List<AudioSourceOperator>();
     private List<AudioSourceOperator> buttonsSource = new List<AudioSourceOperator>();
+    private List<AudioSourceOperator> cardsSource = new List<AudioSourceOperator>();
 
     public static SoundInformator instance;
 
@@ -20,6 +21,9 @@ public class SoundInformator : MonoBehaviour
             {
                 case AudioType.Button:
                     buttonsSource.Add(AudioOperators[i]);
+                    break;
+                case AudioType.HeroCard:
+                    cardsSource.Add(AudioOperators[i]);
                     break;
                 case AudioType.Background:
                     backgroundMusicSource.Add(AudioOperators[i]);
@@ -39,5 +43,10 @@ public class SoundInformator : MonoBehaviour
     public static List<AudioSourceOperator> GetButtonsMusicOperators()
     {
         return instance.buttonsSource;
+    }
+
+    public static List<AudioSourceOperator> GetCardMusicOperators()
+    {
+        return instance.cardsSource;
     }
 }

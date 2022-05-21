@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public enum AudioType { Button, Background}
+public enum AudioType { Button, HeroCard, Background}
 
-[RequireComponent(typeof(EventTrigger))]
 [RequireComponent(typeof(AudioSource))]
-public class AudioSourceOperator : MonoBehaviour
+public class AudioSourceOperator : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     private List<AudioClip> audioClips = new List<AudioClip>();
     private AudioSource audioSource;
@@ -53,15 +52,56 @@ public class AudioSourceOperator : MonoBehaviour
         return audioType;
     }
 
-    public void PlaySoundFromList(int i, bool global)
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        if (audioClips.Count <= i || audioClips[i] == null)
-            return;
-
-        if (global)
-            SoundManager.GlobalAudioSource.PlayOneShot(audioClips[i]);
-        else
-            GetSource().PlayOneShot(audioClips[i]);
+        int SoundNumber = 0;
+        switch (audioType)
+        {
+            case AudioType.Button:
+                if (CheckClip(SoundNumber))
+                    GetSource().PlayOneShot(audioClips[SoundNumber]);
+                break;
+            case AudioType.HeroCard:
+                if (CheckClip(SoundNumber))
+                    GetSource().PlayOneShot(audioClips[SoundNumber]);
+                break;
+        }
     }
 
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        int SoundNumber = 1;
+        switch (audioType)
+        {
+            case AudioType.Button:
+                if (CheckClip(SoundNumber))
+                    GetSource().PlayOneShot(audioClips[SoundNumber]);
+                break;
+            case AudioType.HeroCard:
+                if (CheckClip(SoundNumber))
+                    GetSource().PlayOneShot(audioClips[SoundNumber]);
+                break;
+        }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        int SoundNumber = 2;
+        switch (audioType)
+        {
+            case AudioType.Button:
+                if (CheckClip(SoundNumber))
+                    SoundManager.GlobalUIAudioSource.PlayOneShot(audioClips[SoundNumber]);
+                break;
+            case AudioType.HeroCard:
+                if (CheckClip(SoundNumber))
+                    GetSource().PlayOneShot(audioClips[SoundNumber]);
+                break;
+        }
+    }
+
+    private bool CheckClip(int SoundNumber)
+    {
+        return audioClips.Count > SoundNumber || audioClips[SoundNumber] != null;
+    }
 }

@@ -7,6 +7,7 @@ public class SoundManager : MonoBehaviour
 {
     [SerializeField]
     private AudioClip backgroundMusic;
+
     [Space]
     [SerializeField]
     private AudioClip buttonOnMouseEnter;
@@ -15,11 +16,19 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     private AudioClip buttonOnClic;
 
-    public static AudioSource GlobalAudioSource { get; private set; }
+    [Space]
+    [SerializeField]
+    private AudioClip cardOnMouseEnter;
+    [SerializeField]
+    private AudioClip cardOnMouseExit;
+    [SerializeField]
+    private AudioClip cardOnClic;
+
+    public static AudioSource GlobalUIAudioSource { get; private set; }
 
     void Awake()
     {
-        GlobalAudioSource = GetComponent<AudioSource>();
+        GlobalUIAudioSource = GetComponent<AudioSource>();
 
         var BackgroundOperator = SoundInformator.GetBackgroundMusicOperator();
         BackgroundOperator.SetSound(backgroundMusic);
@@ -30,5 +39,12 @@ public class SoundManager : MonoBehaviour
             {
                 Operator.SetSound(buttonsSound);
             }
+
+        var CardOperators = SoundInformator.GetCardMusicOperators();
+        List<AudioClip> cardsSound = new List<AudioClip>() { cardOnMouseEnter, cardOnMouseExit, cardOnClic };
+        foreach (var Operator in CardOperators)
+        {
+            Operator.SetSound(cardsSound);
+        }
     }
 }
