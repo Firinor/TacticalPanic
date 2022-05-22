@@ -2,6 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum MaterialSoundType { Flesh, Wood, Metal };
+public enum UnitSounds { Death, Hit, Attack }
+
 public partial class Unit : MonoBehaviour
 {
     public enum Visual { Normal, Haziness, Grayness, Off };
@@ -74,6 +77,10 @@ public partial class Unit : MonoBehaviour
     private Sprite unitSprite;
     public Sprite UnitSprite { get => unitSprite; }
 
+    [SerializeField]
+    private Sounds sounds;
+    private AudioSourceOperator audioOperator;
+
     private void Awake()
     {
         unitSpriteRenderer.sprite = UnitSprite;
@@ -87,5 +94,41 @@ public partial class Unit : MonoBehaviour
         DeathElement = HP;
 
         RefreshBar();
+
+        sounds.SetSounds(SoundInformator.GetUnitSounds(sounds.GetMaterials()));
+        audioOperator = GetComponentInChildren<AudioSourceOperator>();
+    }
+
+    [Serializable]
+    private class Sounds
+    {
+        [HideInInspector]
+        public AudioClip Death;
+        [HideInInspector]
+        public AudioClip Hit;
+        [HideInInspector]
+        public AudioClip Attack;
+
+        [SerializeField]
+        private MaterialSoundType DeathSoundType;
+        [SerializeField]
+        private MaterialSoundType HitSoundType;
+        [SerializeField]
+        private MaterialSoundType AttackSoundType;
+
+        public void SetSounds(AudioClip[] clips)
+        {
+            if (clips != null && clips.Length == 3)
+            {
+                Death = clips[0];
+                Hit = clips[1];
+                Attack = clips[2];
+            }
+        }
+
+        public MaterialSoundType[] GetMaterials()
+        {
+            return new MaterialSoundType[] { DeathSoundType, HitSoundType, AttackSoundType };
+        }
     }
 }

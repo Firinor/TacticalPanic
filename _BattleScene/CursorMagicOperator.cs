@@ -51,11 +51,11 @@ public class CursorMagicOperator : MonoBehaviour
     {
         if (heal)
         {
-            stats.Heal(passiveHeal);
+            //stats.Heal(passiveHeal);
         }
         else
         {
-            stats.Damage(passiveDamage);
+            //stats.Damage(passiveDamage);
         }
     }
 

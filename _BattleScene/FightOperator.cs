@@ -12,7 +12,7 @@ public class FightOperator : MonoBehaviour
     private bool readyToAttack = true;
     private bool attackAction = false;
 
-    private Unit stats;
+    private Unit unit;
 
     private Collider2D attackArea;
     private Collider2D[] arrayColliders = new Collider2D[16];
@@ -24,10 +24,13 @@ public class FightOperator : MonoBehaviour
 
     private string compareTag = "";
 
+    private AudioSourceOperator audioOperator;
+
     public void Start()
     {
-        stats = GetComponent<Unit>();
+        unit = GetComponent<Unit>();
         attackArea = GetComponents<Collider2D>()[1];
+        audioOperator = GetComponentInChildren<AudioSourceOperator>();
 
         switch (gameObject.tag)
         {
@@ -54,7 +57,7 @@ public class FightOperator : MonoBehaviour
                 attackStage = AttackStages.swing;
             }
 
-            currentCooldown += deltaTime * 3/100;//Attack speed
+            currentCooldown += deltaTime;// * 3/100;//Attack speed
 
             if (attackStage == AttackStages.swing)
             {
@@ -62,7 +65,7 @@ public class FightOperator : MonoBehaviour
                 {
                     attackStage = AttackStages.arc;
                     currentArcCooldown = 0;
-                    //Invoke("AreaDamage", .45f);
+                    AreaDamage();
                 }
             }
             else if (attackStage == AttackStages.arc)
@@ -84,7 +87,7 @@ public class FightOperator : MonoBehaviour
         }
     }
 
-    private void AreaDamage(int i, float deltaTime)
+    private void AreaDamage()
     {
         if (attackArea.OverlapCollider(filter2D, arrayColliders) > 0)
         {
@@ -93,7 +96,8 @@ public class FightOperator : MonoBehaviour
                 if (enemy != null && enemy.gameObject.CompareTag(compareTag))
                 {
                     enemy.GetComponent<Unit>().Damage(1, Gist.Life);//Strenght to damage
-                    stats.Damage(7, Gist.Energy);
+                    unit.Damage(7, Gist.Energy);
+                    audioOperator.PlaySound(UnitSounds.Attack, unit);
                 }
             }
         }

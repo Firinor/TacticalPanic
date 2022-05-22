@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public enum AudioType { Button, HeroCard, Background}
+public enum AudioType { Button, HeroCard, Background, Unit}
 
 [RequireComponent(typeof(AudioSource))]
 public class AudioSourceOperator : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
@@ -12,6 +12,11 @@ public class AudioSourceOperator : MonoBehaviour, IPointerEnterHandler, IPointer
     private AudioSource audioSource;
     [SerializeField]
     private AudioType audioType;
+
+    void Awake()
+    {
+        audioClips = SoundInformator.GetClips(audioType);
+    }
 
     private AudioSource GetSource()
     {
@@ -34,6 +39,7 @@ public class AudioSourceOperator : MonoBehaviour, IPointerEnterHandler, IPointer
         switch (audioType)
         {
             case AudioType.Button:
+            case AudioType.HeroCard:
                 audioClips = clips;
                 break;
             case AudioType.Background:
@@ -58,12 +64,10 @@ public class AudioSourceOperator : MonoBehaviour, IPointerEnterHandler, IPointer
         switch (audioType)
         {
             case AudioType.Button:
-                if (CheckClip(SoundNumber))
-                    GetSource().PlayOneShot(audioClips[SoundNumber]);
+                PlaySound(SoundNumber, false);
                 break;
             case AudioType.HeroCard:
-                if (CheckClip(SoundNumber))
-                    GetSource().PlayOneShot(audioClips[SoundNumber]);
+                PlaySound(SoundNumber, false);
                 break;
         }
     }
@@ -74,12 +78,10 @@ public class AudioSourceOperator : MonoBehaviour, IPointerEnterHandler, IPointer
         switch (audioType)
         {
             case AudioType.Button:
-                if (CheckClip(SoundNumber))
-                    GetSource().PlayOneShot(audioClips[SoundNumber]);
+                PlaySound(SoundNumber, false);
                 break;
             case AudioType.HeroCard:
-                if (CheckClip(SoundNumber))
-                    GetSource().PlayOneShot(audioClips[SoundNumber]);
+                PlaySound(SoundNumber, false);
                 break;
         }
     }
@@ -90,18 +92,50 @@ public class AudioSourceOperator : MonoBehaviour, IPointerEnterHandler, IPointer
         switch (audioType)
         {
             case AudioType.Button:
-                if (CheckClip(SoundNumber))
-                    SoundManager.GlobalUIAudioSource.PlayOneShot(audioClips[SoundNumber]);
+                PlaySound(SoundNumber, true);
                 break;
             case AudioType.HeroCard:
-                if (CheckClip(SoundNumber))
-                    GetSource().PlayOneShot(audioClips[SoundNumber]);
+                PlaySound(SoundNumber, false);
+                break;
+        }
+    }
+
+    public void PlaySound(int SoundNumber, bool global)
+    {
+        if (CheckClip(SoundNumber))
+            if(global)
+                SoundInformator.GlobalUIAudioSource.PlayOneShot(audioClips[SoundNumber]);
+            else
+                GetSource().PlayOneShot(audioClips[SoundNumber]);
+    }
+
+    public void PlaySound(UnitSounds unitSounds, Unit unit)
+    {
+        switch (unitSounds)
+        {
+            case UnitSounds.Death:
+                SoundInformator.GlobalUIAudioSource.PlayOneShot(unit.GetDeathSound());
+                break;
+            case UnitSounds.Hit:
+                if (!GetSource().isPlaying)
+                {
+                    GetSource().clip = unit.GetHitSound();
+                    GetSource().Play();
+                }
+                
+                break;
+            case UnitSounds.Attack:
+                if (!GetSource().isPlaying)
+                {
+                    GetSource().clip = unit.GetAttackSound();
+                    GetSource().Play();
+                }
                 break;
         }
     }
 
     private bool CheckClip(int SoundNumber)
     {
-        return audioClips.Count > SoundNumber || audioClips[SoundNumber] != null;
+        return audioClips.Count > SoundNumber && audioClips[SoundNumber] != null;
     }
 }

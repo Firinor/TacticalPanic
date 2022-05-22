@@ -6,6 +6,7 @@ public partial class Unit : MonoBehaviour
 {
     private void Death()
     {
+        audioOperator.PlaySound(UnitSounds.Death, this);
         SetUnitActivity(false);
         AnimDeath();
     }
@@ -122,6 +123,10 @@ public partial class Unit : MonoBehaviour
             IsAlive = false;
             Death();
         }
+        else
+        {
+            audioOperator.PlaySound(UnitSounds.Hit, this);
+        }
         UnitInfoPanelOperator.RefreshPointsInfo(gameObject);
     }
     public void Heal(float[] cure)
@@ -224,5 +229,17 @@ public partial class Unit : MonoBehaviour
     {
         unitSpriteRenderer.material = InputOperator.DefaultMaterial;
     }
-    
+
+    public AudioClip GetDeathSound()
+    {
+        return sounds.Death;
+    }
+    public AudioClip GetHitSound()
+    {
+        return sounds.Hit;
+    }
+    public AudioClip GetAttackSound()
+    {
+        return sounds.Attack;
+    }
 }
