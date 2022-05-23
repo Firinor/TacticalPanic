@@ -8,6 +8,7 @@ public class SaveManager : MonoBehaviour
 
     void Awake()
     {
+        //C:\Users\<userprofile>\AppData\LocalLow\<companyname>\<productname>
         path = Application.persistentDataPath;
         OptionsOperator.LoadOptions();
     }
