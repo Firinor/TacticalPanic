@@ -21,6 +21,10 @@ public class SceneManager : MonoBehaviour
 
     void Awake()
     {
+        if(instance != null)
+        {
+            Destroy(gameObject);
+        }
         instance = this;
         optionsOperator = optionsPanel.GetComponent<OptionsOperator>();
         optionsOperator.RefreshInstance();

@@ -10,8 +10,5 @@ public class CSVOperator : MonoBehaviour
         path = Application.dataPath + "/Database/UnitData.csv";
 
         string[] AllText = File.ReadAllLines(path);
-
-        foreach (string text in AllText)
-            Debug.Log(text);
     }
 }

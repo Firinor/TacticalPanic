@@ -33,6 +33,7 @@ public static class UnitInfoPanelOperator
         }
         RefreshPointsInfo();
     }
+
     public static void RefreshPointsInfo(GameObject unit)
     {
         if (unit == unitFromThePoster)

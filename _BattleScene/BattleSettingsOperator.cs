@@ -11,6 +11,6 @@ public class BattleSettingsOperator : MonoBehaviour
 
     public void Options()
     {
-        WorldMenuManager.instance.SwitchPanels(WorldMarks.options);
+        SceneManager.SwitchPanels(SceneDirection.options);
     }
 }
