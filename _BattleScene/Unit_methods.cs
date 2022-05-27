@@ -2,7 +2,7 @@ using UnityEngine;
 using Unity.Mathematics;
 using System.Text;
 
-public partial class Unit : MonoBehaviour
+public partial class Unit : MonoBehaviour, IInfo
 {
     private void Death()
     {
@@ -217,7 +217,7 @@ public partial class Unit : MonoBehaviour
     }
     public Sprite GetCardSprite()
     {
-        return unitSprite;
+        return sprite;
     }
 
     public void Pick()
@@ -241,5 +241,10 @@ public partial class Unit : MonoBehaviour
     public AudioClip GetAttackSound()
     {
         return sounds.Attack;
+    }
+
+    public string GetTextInfo()
+    {
+        return GetName();
     }
 }

@@ -4,10 +4,11 @@ using UnityEngine.UI;
 
 public enum MaterialSoundType { Flesh, Wood, Metal };
 public enum UnitSounds { Death, Hit, Attack }
+public enum Visual { Normal, Haziness, Grayness, Off };
 
 public partial class Unit : MonoBehaviour
 {
-    public enum Visual { Normal, Haziness, Grayness, Off };
+    public Numerical numerical => throw new System.NotImplementedException();
 
     [SerializeField]
     private string unitName = "!NO NAME!";
@@ -74,8 +75,8 @@ public partial class Unit : MonoBehaviour
     [SerializeField]
     private Animator unitAnimator;
     [SerializeField]
-    private Sprite unitSprite;
-    public Sprite UnitSprite { get => unitSprite; }
+    private Sprite sprite;
+    public Sprite SpriteInfo { get => sprite; }
 
     [SerializeField]
     private Sounds sounds;
@@ -83,7 +84,7 @@ public partial class Unit : MonoBehaviour
 
     private void Awake()
     {
-        unitSpriteRenderer.sprite = UnitSprite;
+        unitSpriteRenderer.sprite = SpriteInfo;
 
         HP = new BodyElement("Health points", "red", Gist.Life, 100, 100, 1, sliders[0], 1, 10);
         MP = new BodyElement("Magic points", "#0088ff", Gist.Magic, 50, 50, 1, sliders[1], 1, 10);
