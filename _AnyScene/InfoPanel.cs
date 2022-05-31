@@ -60,7 +60,7 @@ public static class SelectedUnitsInformator
 {
     private static bool debugLoadCompleted = false;
 
-    public static ObservableCollection<IInfo> SelectedUnits { get; set; } = new ObservableCollection<IInfo>();
+    public static ObservableCollection<Unit> SelectedUnits { get; set; } = new ObservableCollection<Unit>();
 
     public static void Start()
     {

@@ -73,11 +73,11 @@ public class CardDragAndDropOperator : MonoBehaviour,
             cardUnit.transform.localPosition = pos;
             if (statsUnit.CheckTerms())
             {
-                statsUnit.SetVisualState(Unit.Visual.Haziness);
+                statsUnit.SetVisualState(VisualOfUnit.Haziness);
             }
             else
             {
-                statsUnit.SetVisualState(Unit.Visual.Grayness);
+                statsUnit.SetVisualState(VisualOfUnit.Grayness);
             }
             CheckPosition(eventData.position.x);
         }
@@ -111,7 +111,7 @@ public class CardDragAndDropOperator : MonoBehaviour,
 
     private void UnitOff()
     {
-        statsUnit.SetVisualState(Unit.Visual.Off);
+        statsUnit.SetVisualState(VisualOfUnit.Off);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

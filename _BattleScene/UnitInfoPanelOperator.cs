@@ -14,7 +14,7 @@ public static class UnitInfoPanelOperator
     private static Slider[] InfoSliderBar = infoPanel.GetComponentsInChildren<Slider>();
     private static Text[] InfoTextBar = infoPanel.GetComponentsInChildren<Text>();
 
-    private static GameObject unitFromThePoster;
+    private static Unit unitFromThePoster;
 
     public static void RefreshInfoPanel()
     {
@@ -26,7 +26,7 @@ public static class UnitInfoPanelOperator
                 return;
             }
             if(unitFromThePoster != null)
-                unitFromThePoster.GetComponent<Unit>().UnPick();
+                unitFromThePoster.UnPick();
             unitFromThePoster = SelectedUnitsInformator.SelectedUnits[0];
             unitFromThePoster.GetComponent<Unit>().Pick();
             unitSprite.sprite = unitFromThePoster.GetComponent<Unit>().GetCardSprite();
@@ -34,7 +34,7 @@ public static class UnitInfoPanelOperator
         RefreshPointsInfo();
     }
 
-    public static void RefreshPointsInfo(GameObject unit)
+    public static void RefreshPointsInfo(IInfo unit)
     {
         if (unit == unitFromThePoster)
         {

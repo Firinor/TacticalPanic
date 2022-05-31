@@ -4,6 +4,8 @@ using System.Text;
 
 public partial class Unit : MonoBehaviour, IInfo
 {
+    public Numerical NumericalInfo => throw new System.NotImplementedException();
+
     private void Death()
     {
         audioOperator.PlaySound(UnitSounds.Death, this);
@@ -22,7 +24,7 @@ public partial class Unit : MonoBehaviour, IInfo
     public void Deploy()
     {
         SetUnitActivity(true);
-        SetVisualState(Visual.Normal);
+        SetVisualState(VisualOfUnit.Normal);
     }
 
     public bool CheckTermsAndDeploy()
@@ -127,7 +129,7 @@ public partial class Unit : MonoBehaviour, IInfo
         {
             audioOperator.PlaySound(UnitSounds.Hit, this);
         }
-        UnitInfoPanelOperator.RefreshPointsInfo(gameObject);
+        UnitInfoPanelOperator.RefreshPointsInfo(gameObject.GetComponent<Unit>());
     }
     public void Heal(float[] cure)
     {
@@ -188,21 +190,21 @@ public partial class Unit : MonoBehaviour, IInfo
                 break;
         }
     }
-    public void SetVisualState(Visual visual = Visual.Normal)
+    public void SetVisualState(VisualOfUnit visual = VisualOfUnit.Normal)
     {
         switch (visual)
         {
-            case Visual.Haziness:
+            case VisualOfUnit.Haziness:
                 gameObject.SetActive(true);
                 unitAnimator.enabled = false;
                 unitSpriteRenderer.color = new Color(.25f, 1f, .25f, .8f);
                 break;
-            case Visual.Grayness:
+            case VisualOfUnit.Grayness:
                 gameObject.SetActive(true);
                 unitAnimator.enabled = false;
                 unitSpriteRenderer.color = new Color(1f, .25f, .25f, .8f);
                 break;
-            case Visual.Off:
+            case VisualOfUnit.Off:
                 gameObject.SetActive(false);
                 break;
             default: //Visual.Normal

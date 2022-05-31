@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public enum MaterialSoundType { Flesh, Wood, Metal };
 public enum UnitSounds { Death, Hit, Attack }
-public enum Visual { Normal, Haziness, Grayness, Off };
+public enum VisualOfUnit { Normal, Haziness, Grayness, Off };
 
 public partial class Unit : MonoBehaviour
 {

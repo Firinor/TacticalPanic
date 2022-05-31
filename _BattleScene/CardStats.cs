@@ -23,7 +23,7 @@ public class CardStats : MonoBehaviour
         
         stats.SetUnitActivity(false);
         stats.SetConflictSide(ConflictSide.Player);
-        stats.SetVisualState(Unit.Visual.Off);
+        stats.SetVisualState(VisualOfUnit.Off);
 
         cardImage.sprite = stats.GetCardSprite();
 
