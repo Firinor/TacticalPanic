@@ -1,7 +1,5 @@
 using System;
 using UnityEngine;
-
-public enum Gist { Life, Magic, Energy, Spectrum };
 public enum ConflictSide { Player, Neutral, Peaceful, Enemy };
 public static partial class SideColor 
 {

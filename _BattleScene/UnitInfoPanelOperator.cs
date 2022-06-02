@@ -45,7 +45,7 @@ public static class UnitInfoPanelOperator
     {
         if(unitFromThePoster != null)
         {
-            Unit.PointsValue[] pointInfo = unitFromThePoster.GetComponent<Unit>().GetPointInfo();
+            BodyElement.PointsValue[] pointInfo = unitFromThePoster.GetComponent<Unit>().GetPointInfo();
 
             for (int i = 0; i < pointInfo.Length; i++)
             {

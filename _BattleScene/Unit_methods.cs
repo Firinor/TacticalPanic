@@ -3,9 +3,7 @@ using Unity.Mathematics;
 using System.Text;
 
 public partial class Unit : MonoBehaviour, IInfo
-{
-    public Numerical NumericalInfo => throw new System.NotImplementedException();
-
+{ 
     private void Death()
     {
         audioOperator.PlaySound(UnitSounds.Death, this);
@@ -47,7 +45,7 @@ public partial class Unit : MonoBehaviour, IInfo
 
         for (int i = 0; i < S.GistsCount; i++)
         {
-            if (Element[i].manaPrice > 0 && S.GetCurrentMana(i) < Element[i].manaPrice)
+            if (Elements[i].manaPrice > 0 && S.GetCurrentMana(i) < Elements[i].manaPrice)
             {
                 Check = false;
                 break;
@@ -59,7 +57,7 @@ public partial class Unit : MonoBehaviour, IInfo
 
     public string GetElementColorString(int index)
     {
-        return Element[index].colorString;
+        return Elements[index].colorString;
     }
     public string GetElementColorString(Gist gist)
     {
@@ -67,7 +65,7 @@ public partial class Unit : MonoBehaviour, IInfo
     }
     public int GetElementManaPrice(int index)
     {
-        return Element[index].manaPrice;
+        return Elements[index].manaPrice;
     }
     public int GetElementManaPrice(Gist gist)
     {
@@ -75,20 +73,20 @@ public partial class Unit : MonoBehaviour, IInfo
     }
     public int[] GetManaPrice()
     {
-        int[] price = new int[Element.Length];
-        for (int i = 0; i < Element.Length; i++)
-            price[i] = Element[i].manaPrice;
+        int[] price = new int[Elements.Length];
+        for (int i = 0; i < Elements.Length; i++)
+            price[i] = Elements[i].manaPrice;
         return price;
     }
-    public PointsValue[] GetPointInfo()
+    public BodyElement.PointsValue[] GetPointInfo()
     {
-        PointsValue[] result = new PointsValue[Element.Length];
-        for(int i = 0; i < Element.Length; i++)
+        BodyElement.PointsValue[] result = new BodyElement.PointsValue[Elements.Length];
+        for(int i = 0; i < Elements.Length; i++)
         {
-            if(Element[i] != null || Element[i].slider != null)
+            if(Elements[i] != null || Elements[i].slider != null)
             {
-                result[i].max = Element[i].Value.max;
-                result[i].current = Element[i].Value.current;
+                result[i].max = Elements[i].Value.max;
+                result[i].current = Elements[i].Value.current;
             }
         }
         return result;
@@ -98,9 +96,9 @@ public partial class Unit : MonoBehaviour, IInfo
     {
         for (int i = 0; i < damage.Length && i < S.GistsCount; i++)
         {
-            if (damage[i] != 0 && Element[i].slider != null)
+            if (damage[i] != 0 && Elements[i].slider != null)
             {
-                Damage(damage[i], Element[i]);
+                Damage(damage[i], Elements[i]);
             }
         }
     }
@@ -109,7 +107,7 @@ public partial class Unit : MonoBehaviour, IInfo
         if (damage == 0)
             return;
 
-        Damage(damage, Element[S.GetIndexByGist(gist)]);
+        Damage(damage, Elements[S.GetIndexByGist(gist)]);
     }
     private void Damage(float damage, BodyElement element)
     {
@@ -135,9 +133,9 @@ public partial class Unit : MonoBehaviour, IInfo
     {
         for (int i = 0; i < cure.Length && i < S.GistsCount; i++)
         {
-            if (cure[i] != 0 && Element[i].slider != null)
+            if (cure[i] != 0 && Elements[i].slider != null)
             {
-                Damage( - cure[i], Element[i]);
+                Damage( - cure[i], Elements[i]);
             }
         }
     }
@@ -146,15 +144,15 @@ public partial class Unit : MonoBehaviour, IInfo
         if (cure == 0)
             return;
 
-        Damage(- cure, Element[S.GetIndexByGist(gist)]);
+        Damage(- cure, Elements[S.GetIndexByGist(gist)]);
     }
 
     private void RefreshBar()
     {
         for (int i = 0; i < S.GistsCount; i++)
         {
-            if (Element[i].slider != null)
-                Element[i].slider.value = Element[i].Current;
+            if (Elements[i].slider != null)
+                Elements[i].slider.value = Elements[i].Current;
         }
     }
     public void SetUnitActivity(bool flag)

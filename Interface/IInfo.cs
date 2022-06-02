@@ -5,7 +5,7 @@ public interface IInfo
 {
     public Sprite SpriteInfo { get; }
 
-    public Numerical NumericalInfo { get; }
+    public BodyElement[] Elements { get; }
 
     public string GetTextInfo();
 }

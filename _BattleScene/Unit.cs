@@ -6,57 +6,11 @@ public enum MaterialSoundType { Flesh, Wood, Metal };
 public enum UnitSounds { Death, Hit, Attack }
 public enum VisualOfUnit { Normal, Haziness, Grayness, Off };
 
-public partial class Unit : MonoBehaviour
+public partial class Unit : MonoBehaviour, IInfo
 {
-    public Numerical numerical => throw new System.NotImplementedException();
-
     [SerializeField]
     private string unitName = "!NO NAME!";
     public string Name { get => unitName; }
-
-    public struct PointsValue
-    {
-        public int max;
-        public float current;
-    }
-
-    [Serializable]
-    private class BodyElement
-    {
-        public string name;
-        public Gist point;
-        public string colorString;
-
-        public PointsValue Value;
-        public int Max { get { return Value.max; } set { Value.max = value; } }
-        public float Current { get { return Value.current; } set { Value.current = Math.Min(value, Value.max); } }
-        public float regen;
-        public Slider slider;
-        public float currentAttackSpeed;
-        //private float currentSkillSpeed;
-        //private float currentActiveDefense;
-        //private float currentPasiveDefense;
-        //private float currentDodge;
-        //private float currentParry;
-
-        public int manaPrice;
-
-        public BodyElement(string name = "", string colorString = "", Gist point = Gist.Life,
-            int maxValue = 0, float currentValue = 0, float regen = 0, Slider slider = null,
-            float currentAttackSpeed = 0,
-            int manaPrice = 0)
-            {
-                this.name = name;
-                this.colorString = colorString;
-                this.point = point;
-                this.Max = maxValue;
-                this.Current = currentValue;
-                this.regen = regen;
-                this.slider = slider;
-                this.currentAttackSpeed = currentAttackSpeed;
-                this.manaPrice = manaPrice;
-            }
-    }
 
     [SerializeField]
     private Slider[] sliders = new Slider[S.GistsCount];
@@ -65,7 +19,8 @@ public partial class Unit : MonoBehaviour
     private BodyElement MP;
     private BodyElement EP;
     private BodyElement SP;
-    private BodyElement[] Element;
+    private BodyElement[] elements;
+    public BodyElement[] Elements { get => elements; }
 
     private BodyElement DeathElement;
     private bool IsAlive = true;
@@ -90,7 +45,7 @@ public partial class Unit : MonoBehaviour
         MP = new BodyElement("Magic points", "#0088ff", Gist.Magic, 50, 50, 1, sliders[1], 1, 10);
         EP = new BodyElement("Energy points", "yellow", Gist.Energy, 50, 50, 1, sliders[2], 1, 5);
         SP = new BodyElement("Special points", "lime", Gist.Spectrum, 25, 25, 0, sliders[3], 1, 0);
-        Element = new BodyElement[]{ HP, MP, EP, SP };
+        elements = new BodyElement[]{ HP, MP, EP, SP };
 
         DeathElement = HP;
 
@@ -131,5 +86,49 @@ public partial class Unit : MonoBehaviour
         {
             return new MaterialSoundType[] { DeathSoundType, HitSoundType, AttackSoundType };
         }
+    }
+}
+
+[Serializable]
+public class BodyElement
+{
+    public string name;
+    public Gist point;
+    public string colorString;
+
+    public PointsValue Value;
+    public int Max { get { return Value.max; } set { Value.max = value; } }
+    public float Current { get { return Value.current; } set { Value.current = Math.Min(value, Value.max); } }
+    public float regen;
+    public Slider slider;
+    public float currentAttackSpeed;
+    //private float currentSkillSpeed;
+    //private float currentActiveDefense;
+    //private float currentPasiveDefense;
+    //private float currentDodge;
+    //private float currentParry;
+
+    public int manaPrice;
+
+    public BodyElement(string name = "", string colorString = "", Gist point = Gist.Life,
+        int maxValue = 0, float currentValue = 0, float regen = 0, Slider slider = null,
+        float currentAttackSpeed = 0,
+        int manaPrice = 0)
+    {
+        this.name = name;
+        this.colorString = colorString;
+        this.point = point;
+        this.Max = maxValue;
+        this.Current = currentValue;
+        this.regen = regen;
+        this.slider = slider;
+        this.currentAttackSpeed = currentAttackSpeed;
+        this.manaPrice = manaPrice;
+    }
+
+    public struct PointsValue
+    {
+        public int max;
+        public float current;
     }
 }

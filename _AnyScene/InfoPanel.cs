@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +11,7 @@ public class InfoPanel : MonoBehaviour
     [SerializeField]
     private Image image;
     [SerializeField]
-    private Numerical numerical;
+    private Text[,] parameters = new Text[4, 4];
     [SerializeField]
     private Text description;
 
@@ -33,12 +34,29 @@ public class InfoPanel : MonoBehaviour
         {
             picedObject = SelectedUnitsInformator.SelectedUnits[0];
             SetImage(picedObject);
+            SetDescription(picedObject);
+        }
+        SetNumerical(picedObject);
+    }
+
+    private void SetDescription(IInfo picedObject)
+    {
+        description.text = picedObject.GetTextInfo();
+    }
+
+    private void SetNumerical(IInfo picedObject)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            parameters[i,0].text = picedObject.Elements[i]. ToString();
         }
     }
 
     public void RefreshPointsInfo(IInfo picedObject)
     {
         SetImage(picedObject);
+        SetDescription(picedObject);
+        SetNumerical(picedObject);
     }
 
     private void SetImage(IInfo picedObject)
@@ -49,11 +67,6 @@ public class InfoPanel : MonoBehaviour
         }
         image.sprite = picedObject.SpriteInfo;
     }
-}
-
-public class Numerical 
-{
-    
 }
 
 public static class SelectedUnitsInformator
