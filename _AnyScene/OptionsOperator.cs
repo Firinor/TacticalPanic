@@ -16,6 +16,10 @@ public class OptionsOperator : MonoBehaviour
     [SerializeField]
     public Slider volumeSlider;
     private static OptionsOperator instance;
+    [SerializeField]
+    private AnimationCurve curve;
+
+private static bool OnLoad;
 
     void Awake() 
     {
@@ -67,18 +71,15 @@ public class OptionsOperator : MonoBehaviour
     }
     public void MasterVolume()
     {
-        mixerMasterGroup.audioMixer.SetFloat("MasterVolume", Mathf.Lerp(-80f, 0, GetVolume()));
-        SaveManager.SaveOptions();
+        float volume = Mathf.Lerp(-80f, 0, curve.Evaluate(GetVolume()));
+
+        mixerMasterGroup.audioMixer.SetFloat("MasterVolume", volume);
+        if (instance != null && !OnLoad)
+            SaveManager.SaveOptions();
     }
 
     public static float GetVolume()
     {
-        if(instance == null)
-        {
-            new Exception("Singleton exeption!");
-            return 0;
-        }
-
         //volumeSlider minValue = -1, minValue = 1
         return instance.volumeSlider.value / 2 + .5f;
     }
@@ -90,26 +91,22 @@ public class OptionsOperator : MonoBehaviour
 
     public static OptionsParameters GetParameters()
     {
-        if (instance == null)
-        {
-            new Exception("Singleton exeption!");
-            return default;
-        }
-
         return new OptionsParameters(false, instance.volumeSlider.value, 0.5f, 0);
     }
 
     public static void LoadOptions()
     {
+        OnLoad = true;
         var parametrs = SaveManager.LoadOptions();
         //fullScreen = parametrs.fullScreen;
         instance.volumeSlider.value = parametrs.volume;
         instance.sensitivitySlider.value = parametrs.sensitivit;
         //Language = parametrs.language;
+        OnLoad = false;
     }
 }
 
-[System.Serializable]
+[Serializable]
 public struct OptionsParameters
 {
     public bool fullScreen;

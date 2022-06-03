@@ -29,6 +29,15 @@ public class SaveChoosingOperator : MonoBehaviour
 
     public void LoadSave(int i)
     {
+        if (Jar[i].activeSelf)
+        {
+            SaveManager.Load(i);
+        }
+        else
+        {
+            SaveManager.CreateNewSave(i);
+        }
+        
         MainMenuManager.SwitchPanels(MenuMarks.off);
         SceneManager.LoadScene("WorldMap");
     }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Unit/Unit sprite", fileName = "New unit sprite")]
+[CreateAssetMenu(menuName = "Unit/Unit sprite", fileName = "Usprite")]
 public class UnitSprite : ScriptableObject
 {
     [Tooltip("Name of unit")]
@@ -15,8 +15,13 @@ public class UnitSprite : ScriptableObject
 
     [Tooltip("Image of the portrait of the unit's face")]
     [SerializeField]
-    private Rect face = new Rect(new Vector2(50f, 0f), new Vector2(100f,100f));
-    public Rect GetFace { get { return face; } private set { } }
+    private Sprite face;
+    public Sprite GetFace { get { return face; } private set { } }
+
+    [Tooltip("The central line of the unit in the sprite")]
+    [SerializeField]
+    private float centerOffset;
+    public float GetCenterOffset { get { return centerOffset; } private set { } }
 
     [Tooltip("The point of contact of the feet with the ground")]
     [SerializeField]

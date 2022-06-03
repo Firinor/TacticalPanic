@@ -26,12 +26,13 @@ public class LoadingTransitionOperator : MonoBehaviour
     [SerializeField]
     private float endPortalPosition = 2f;
 
-    void Start()
+    void Awake()
     {
         instance = this;
         space = GetComponentInChildren<Image>();
         space.sprite = spaceSprite;
         loadingImageMaterial.SetFloat("InPortal", 0f);
+        loadingImageMaterial.SetFloat("Diameter", endPortalPosition);
     }
 
     void Update()

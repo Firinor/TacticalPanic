@@ -22,6 +22,11 @@ public class SaveManager : MonoBehaviour
         stream.Close();
     }
 
+    public static void CreateNewSave(int account)
+    {
+        Save(GetPath(account), account);
+    }
+
     public static void Save(int account)
     {
         Save(GetPath(account), account);
@@ -36,6 +41,11 @@ public class SaveManager : MonoBehaviour
     public static OptionsParameters LoadOptions()
     {
         return Load<OptionsParameters>(GetOptionPath());
+    }
+
+    public static void Load(int account)
+    {
+        //Load(GetPath(account));
     }
 
     public static T Load<T>(string path)

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum MaterialSoundType { Flesh, Wood, Metal };
+public enum MaterialSoundType { Flesh, Wood, Metal, Stone, Spirit };
 public enum UnitSounds { Death, Hit, Attack }
 public enum VisualOfUnit { Normal, Haziness, Grayness, Off };
 

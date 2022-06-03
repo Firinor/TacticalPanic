@@ -16,6 +16,11 @@ public class AudioSourceOperator : MonoBehaviour, IPointerEnterHandler, IPointer
     void Awake()
     {
         audioClips = SoundInformator.GetClips(audioType);
+        if (audioType == AudioType.Background)
+        {
+            GetSource().clip = audioClips[0];
+            GetSource().Play();
+        }
     }
 
     private AudioSource GetSource()
