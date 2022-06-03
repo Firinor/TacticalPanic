@@ -31,4 +31,9 @@ public class UnitBasis
     {
         this.unitSprite = unitSprite;
     }
+
+    public UnitSprite GetUnitSprite()
+    {
+        return unitSprite;
+    }
 }
