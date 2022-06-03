@@ -15,7 +15,7 @@ public class InfoPanel : MonoBehaviour
     [SerializeField]
     private Text description;
 
-    private IInfo picedObject;
+    private IGInfo picedObject;
 
     private void Awake()
     {
@@ -39,33 +39,37 @@ public class InfoPanel : MonoBehaviour
         SetNumerical(picedObject);
     }
 
-    private void SetDescription(IInfo picedObject)
+    public void RefreshPointsInfo(IGInfo picedObject)
     {
-        description.text = picedObject.GetTextInfo();
-    }
+        if (this.picedObject == picedObject)
+            return;
 
-    private void SetNumerical(IInfo picedObject)
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            parameters[i,0].text = picedObject.Elements[i]. ToString();
-        }
-    }
+        this.picedObject = picedObject;
 
-    public void RefreshPointsInfo(IInfo picedObject)
-    {
         SetImage(picedObject);
         SetDescription(picedObject);
         SetNumerical(picedObject);
     }
 
-    private void SetImage(IInfo picedObject)
+    private void SetImage(IGInfo picedObject)
     {
-        if (this.picedObject == picedObject)
-        {
-            return;
-        }
+        if (!image.enabled)
+            image.enabled = true;
+
         image.sprite = picedObject.SpriteInfo;
+    }
+
+    private void SetDescription(IGInfo picedObject)
+    {
+        description.text = picedObject.GetTextInfo();
+    }
+
+    private void SetNumerical(IGInfo picedObject)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            parameters[i, 0].text = picedObject.Elements[i].ToString();
+        }
     }
 }
 

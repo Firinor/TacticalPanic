@@ -1,4 +1,4 @@
-public interface IScenePanel
+public interface IGScenePanel
 {
     public void DiactiveAllPanels();
     public void BasicPanelSettings();

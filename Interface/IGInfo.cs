@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public interface IInfo 
+public interface IGInfo
 {
     public Sprite SpriteInfo { get; }
 

@@ -8,7 +8,7 @@ public enum SceneDirection { basic, exit, options, changeScene, saves, off }
 public class SceneManager : MonoBehaviour
 {
     private static SceneManager instance;
-    public static IScenePanel scenePanel { get; set; }
+    public static IGScenePanel scenePanel { get; set; }
     private AsyncOperation operation;
 
     [SerializeField]

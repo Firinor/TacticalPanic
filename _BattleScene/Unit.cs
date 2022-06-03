@@ -6,7 +6,7 @@ public enum MaterialSoundType { Flesh, Wood, Metal, Stone, Spirit };
 public enum UnitSounds { Death, Hit, Attack }
 public enum VisualOfUnit { Normal, Haziness, Grayness, Off };
 
-public partial class Unit : MonoBehaviour, IInfo
+public partial class Unit : MonoBehaviour, IGInfo
 {
     [SerializeField]
     private string unitName = "!NO NAME!";

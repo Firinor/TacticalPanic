@@ -34,7 +34,7 @@ public static class UnitInfoPanelOperator
         RefreshPointsInfo();
     }
 
-    public static void RefreshPointsInfo(IInfo unit)
+    public static void RefreshPointsInfo(IGInfo unit)
     {
         if (unit == unitFromThePoster)
         {

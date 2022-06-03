@@ -2,7 +2,7 @@ using UnityEngine;
 using Unity.Mathematics;
 using System.Text;
 
-public partial class Unit : MonoBehaviour, IInfo
+public partial class Unit : MonoBehaviour, IGInfo
 { 
     private void Death()
     {

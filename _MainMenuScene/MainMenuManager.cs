@@ -3,7 +3,7 @@ using UnityEngine;
 
 public enum MenuMarks { baner, credits, saves, options, off };
 
-public class MainMenuManager : MonoBehaviour, IScenePanel
+public class MainMenuManager : MonoBehaviour, IGScenePanel
 {
     private static GameObject baner;
     private static GameObject credits;
