@@ -7,7 +7,7 @@ public enum Gist
     Energy = GistColors.Yellow,
     Spectrum = GistColors.Green,
     Aura = GistColors.Orange,
-    Ñorruption = GistColors.Purple,
+    Corruption = GistColors.Purple,
     Boredom = GistColors.Gray
 };
 
@@ -47,6 +47,7 @@ public class BodyGist
     public int defense;
     public float reattack;
     public float regen;
+    public float moveSpeed;
 
     public int manaPrice;
 }

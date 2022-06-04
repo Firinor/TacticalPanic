@@ -21,6 +21,7 @@ public partial class Unit : MonoBehaviour, IGInfo
     private BodyElement SP;
     private BodyElement[] elements;
     public BodyElement[] Elements { get => elements; }
+    BodyGist[] IGInfo.Elements => throw new NotImplementedException();
 
     private BodyElement DeathElement;
     private bool IsAlive = true;

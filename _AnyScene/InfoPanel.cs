@@ -11,7 +11,7 @@ public class InfoPanel : MonoBehaviour
     [SerializeField]
     private Image image;
     [SerializeField]
-    private Text[,] parameters = new Text[4, 4];
+    private GistInfoOperator[] parameters;
     [SerializeField]
     private Text description;
 
@@ -66,9 +66,18 @@ public class InfoPanel : MonoBehaviour
 
     private void SetNumerical(IGInfo picedObject)
     {
-        for (int i = 0; i < 4; i++)
+        DisableAllCollum();
+        foreach (BodyGist element in picedObject.Elements)
         {
-            parameters[i, 0].text = picedObject.Elements[i].ToString();
+            parameters[(int)element.gist].SetNumerical(element);
+        }
+    }
+
+    private void DisableAllCollum()
+    {
+        foreach(var collum in parameters)
+        {
+            collum.SetActive(false);
         }
     }
 }

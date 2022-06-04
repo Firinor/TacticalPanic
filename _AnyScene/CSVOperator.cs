@@ -38,9 +38,9 @@ public class CSVOperator : MonoBehaviour
                 BodyGist resultBodyGist = new BodyGist();
                 resultBodyGist.gist = (Gist)Enum.Parse(typeof(GistColors), elements[index]);
                 resultBodyGist.attack = Convert.ToInt32(elements[index + gistCount]);
-                resultBodyGist.defense = Convert.ToInt32(elements[index + gistCount * 2]);
-                resultBodyGist.points = Convert.ToInt32(elements[index + gistCount * 3]);
-                resultBodyGist.reattack = Convert.ToInt32(elements[index + gistCount * 4]);
+                resultBodyGist.reattack = Convert.ToInt32(elements[index + gistCount * 2]);
+                resultBodyGist.defense = Convert.ToInt32(elements[index + gistCount * 3]);
+                resultBodyGist.points = Convert.ToInt32(elements[index + gistCount * 4]);
                 resultBodyGist.regen = Convert.ToInt32(elements[index + gistCount * 5]);
                 resultBodyGist.manaPrice = Convert.ToInt32(elements[index + gistCount * 6]);
                 bodyGists[j] = resultBodyGist;

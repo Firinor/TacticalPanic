@@ -5,7 +5,7 @@ public interface IGInfo
 {
     public Sprite SpriteInfo { get; }
 
-    public BodyElement[] Elements { get; }
+    public BodyGist[] Elements { get; }
 
     public string GetTextInfo();
 }

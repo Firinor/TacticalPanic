@@ -7,19 +7,20 @@ public class UnitBasis: IGInfo
     public int id { get; private set; }
     public string unitName { get; private set; }
     public float mspeed { get; private set; }
-    public BodyGist[] bodyGists { get; private set; }
 
     private UnitSprite unitSprite;
     public Sprite SpriteInfo => unitSprite.unitSprite;
 
-    public BodyElement[] Elements => new BodyElement[0];
+    public BodyElement[] bodyElements => new BodyElement[0];
 
-    public UnitBasis(int id, string unitName, float mspeed, BodyGist[] bodyGists)
+    public BodyGist[] Elements { get; }
+
+    public UnitBasis(int id, string unitName, float mspeed, BodyGist[] Elements)
     {
         this.id = id;
         this.unitName = unitName;
         this.mspeed = mspeed;
-        this.bodyGists = bodyGists;
+        this.Elements = Elements;
     }
 
     public string GetTextInfo()
