@@ -6,7 +6,7 @@ public enum MaterialSoundType { Flesh, Wood, Metal, Stone, Spirit };
 public enum UnitSounds { Death, Hit, Attack }
 public enum VisualOfUnit { Normal, Haziness, Grayness, Off };
 
-public partial class Unit : MonoBehaviour, IGInfo
+public partial class Unit : MonoBehaviour, IInfoble
 {
     [SerializeField]
     private string unitName = "!NO NAME!";
@@ -21,7 +21,7 @@ public partial class Unit : MonoBehaviour, IGInfo
     private BodyElement SP;
     private BodyElement[] elements;
     public BodyElement[] Elements { get => elements; }
-    BodyGist[] IGInfo.Elements => throw new NotImplementedException();
+    BodyGist[] IInfoble.Elements => throw new NotImplementedException();
 
     private BodyElement DeathElement;
     private bool IsAlive = true;

@@ -6,7 +6,7 @@ using System.Collections.Specialized;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InfoPanel : MonoBehaviour
+public class InfoPanelOperator : MonoBehaviour
 {
     [SerializeField]
     private Image image;
@@ -15,7 +15,7 @@ public class InfoPanel : MonoBehaviour
     [SerializeField]
     private Text description;
 
-    private IGInfo picedObject;
+    private IInfoble picedObject;
 
     private void Awake()
     {
@@ -39,7 +39,7 @@ public class InfoPanel : MonoBehaviour
         SetNumerical(picedObject);
     }
 
-    public void RefreshPointsInfo(IGInfo picedObject)
+    public void RefreshPointsInfo(IInfoble picedObject)
     {
         if (this.picedObject == picedObject)
             return;
@@ -51,7 +51,7 @@ public class InfoPanel : MonoBehaviour
         SetNumerical(picedObject);
     }
 
-    private void SetImage(IGInfo picedObject)
+    private void SetImage(IInfoble picedObject)
     {
         if (!image.enabled)
             image.enabled = true;
@@ -59,12 +59,12 @@ public class InfoPanel : MonoBehaviour
         image.sprite = picedObject.SpriteInfo;
     }
 
-    private void SetDescription(IGInfo picedObject)
+    private void SetDescription(IInfoble picedObject)
     {
         description.text = picedObject.GetTextInfo();
     }
 
-    private void SetNumerical(IGInfo picedObject)
+    private void SetNumerical(IInfoble picedObject)
     {
         DisableAllCollum();
         foreach (BodyGist element in picedObject.Elements)
@@ -100,6 +100,6 @@ public static class SelectedUnitsInformator
 
     public static void ShowUnitInfo(object sendler, NotifyCollectionChangedEventArgs e)
     {
-        UnitInfoPanelOperator.RefreshInfoPanel();
+        //UnitInfoPanelOperator.RefreshInfoPanel();
     }
 }

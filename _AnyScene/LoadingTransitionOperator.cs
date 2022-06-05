@@ -7,7 +7,7 @@ public class LoadingTransitionOperator : MonoBehaviour
 {
     private static LoadingTransitionOperator instance;
     private static SceneManager sceneManager;
-    private static bool needOpenSceneAnimation = false;
+    //private static bool needOpenSceneAnimation = false;
     private static bool CloseSceneFlag = false;
     private static bool OpenSceneFlag = false;
 

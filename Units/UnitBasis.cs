@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitBasis: IGInfo
+public class UnitBasis: IInfoble
 {
     public int id { get; private set; }
     public string unitName { get; private set; }

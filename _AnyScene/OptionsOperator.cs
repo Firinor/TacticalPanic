@@ -8,8 +8,6 @@ public class OptionsOperator : MonoBehaviour
     [SerializeField]
     private GameObject exitButton;
     [SerializeField]
-    private SceneManager sceneManager;
-    [SerializeField]
     private AudioMixerGroup mixerMasterGroup;
     [SerializeField]
     public Slider sensitivitySlider;
@@ -19,20 +17,13 @@ public class OptionsOperator : MonoBehaviour
     [SerializeField]
     private AnimationCurve curve;
 
-private static bool OnLoad;
+    private static bool OnLoad;
 
-    void Awake() 
+    public void SetInstance(OptionsOperator optionsOperator)
     {
-        if (sceneManager == null)
-        {
-            GameObject go = GameObject.FindGameObjectWithTag("AnyScene");
-            sceneManager = go.GetComponent<SceneManager>();
-        }
-    }
-
-    public void RefreshInstance()
-    {
-        instance = this;
+        if (instance != null)
+            return;
+        instance = optionsOperator;
     }
 
     public void Return()
@@ -69,12 +60,16 @@ private static bool OnLoad;
     {
 
     }
+
     public void MasterVolume()
     {
+        if (instance != null)
+            return;
+
         float volume = Mathf.Lerp(-80f, 0, curve.Evaluate(GetVolume()));
 
         mixerMasterGroup.audioMixer.SetFloat("MasterVolume", volume);
-        if (instance != null && !OnLoad)
+        if (!OnLoad)
             SaveManager.SaveOptions();
     }
 
@@ -96,6 +91,9 @@ private static bool OnLoad;
 
     public static void LoadOptions()
     {
+        if (instance == null) 
+            return;
+
         OnLoad = true;
         var parametrs = SaveManager.LoadOptions();
         //fullScreen = parametrs.fullScreen;

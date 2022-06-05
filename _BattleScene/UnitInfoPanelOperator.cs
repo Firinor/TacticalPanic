@@ -14,53 +14,53 @@ public static class UnitInfoPanelOperator
     private static Slider[] InfoSliderBar = infoPanel.GetComponentsInChildren<Slider>();
     private static Text[] InfoTextBar = infoPanel.GetComponentsInChildren<Text>();
 
-    private static Unit unitFromThePoster;
+    //private static IInfoble unitFromThePoster;
 
     public static void RefreshInfoPanel()
     {
         bool Pic = SelectedUnitsInformator.SelectedUnits.Count > 0;
         if (Pic)
         {
-            if(unitFromThePoster == SelectedUnitsInformator.SelectedUnits[0])
-            {
-                return;
-            }
-            if(unitFromThePoster != null)
-                unitFromThePoster.UnPick();
-            unitFromThePoster = SelectedUnitsInformator.SelectedUnits[0];
-            unitFromThePoster.GetComponent<Unit>().Pick();
-            unitSprite.sprite = unitFromThePoster.GetComponent<Unit>().GetCardSprite();
+            //if(unitFromThePoster == SelectedUnitsInformator.SelectedUnits[0])
+            //{
+            //    return;
+            //}
+            //if(unitFromThePoster != null)
+            //    unitFromThePoster.UnPick();
+            //unitFromThePoster = SelectedUnitsInformator.SelectedUnits[0];
+            //unitFromThePoster.GetComponent<Unit>().Pick();
+            //unitSprite.sprite = unitFromThePoster.GetComponent<Unit>().GetCardSprite();
         }
         RefreshPointsInfo();
     }
 
-    public static void RefreshPointsInfo(IGInfo unit)
+    public static void RefreshPointsInfo(IInfoble unit)
     {
-        if (unit == unitFromThePoster)
-        {
-            RefreshPointsInfo();
-        }
+        //if (unit == unitFromThePoster)
+        //{
+        //    RefreshPointsInfo();
+        //}
     }
     public static void RefreshPointsInfo()
     {
-        if(unitFromThePoster != null)
-        {
-            BodyElement.PointsValue[] pointInfo = unitFromThePoster.GetComponent<Unit>().GetPointInfo();
+        //if(unitFromThePoster != null)
+        //{
+            //BodyElement.PointsValue[] pointInfo = unitFromThePoster.GetComponent<Unit>().GetPointInfo();
 
-            for (int i = 0; i < pointInfo.Length; i++)
-            {
-                if (pointInfo[i].max > 0)
-                {
-                    InfoSliderBar[i].maxValue = pointInfo[i].max;
-                    InfoSliderBar[i].value = pointInfo[i].current;
-                    InfoTextBar[i].text = $"{(int)pointInfo[i].current}/{pointInfo[i].max}";
-                }
-                else
-                {
+            //for (int i = 0; i < pointInfo.Length; i++)
+            //{
+            //    if (pointInfo[i].max > 0)
+            //    {
+            //        InfoSliderBar[i].maxValue = pointInfo[i].max;
+            //        InfoSliderBar[i].value = pointInfo[i].current;
+            //        InfoTextBar[i].text = $"{(int)pointInfo[i].current}/{pointInfo[i].max}";
+            //    }
+            //    else
+            //    {
 
-                }
-            }
-        }
+            //    }
+            //}
+        //}
     }
 
     public static void ClearInfoPanel()

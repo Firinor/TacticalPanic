@@ -3,7 +3,7 @@ using UnityEngine;
 
 public enum WorldMarks { options, squad, magic, blacksmith, off }
 
-public class WorldMenuManager : MonoBehaviour, IGScenePanel
+public class WorldMenuManager : MonoBehaviour, IScenePanel
 {
 
     [SerializeField]

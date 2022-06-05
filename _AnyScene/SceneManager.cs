@@ -8,7 +8,7 @@ public enum SceneDirection { basic, exit, options, changeScene, saves, off }
 public class SceneManager : MonoBehaviour
 {
     private static SceneManager instance;
-    public static IGScenePanel scenePanel { get; set; }
+    public static IScenePanel scenePanel { get; set; }
     private AsyncOperation operation;
 
     [SerializeField]
@@ -26,8 +26,10 @@ public class SceneManager : MonoBehaviour
             Destroy(gameObject);
         }
         instance = this;
+
         optionsOperator = optionsPanel.GetComponent<OptionsOperator>();
-        optionsOperator.RefreshInstance();
+        //optionsOperator is disabled. Awake & Start procedures are not suitable
+        optionsOperator.SetInstance(optionsOperator);//Singltone
 
         foreach (GameObject go in doNotDestroyOnLoad)
         {
@@ -82,8 +84,7 @@ public class SceneManager : MonoBehaviour
                 scenePanel.BasicPanelSettings();
                 break;
             default:
-                new Exception("Unrealized bookmark!");
-                break;
+                throw new Exception("Unrealized bookmark!");
         }
     }
 
@@ -104,7 +105,7 @@ public class SceneManager : MonoBehaviour
         }
         else
         {
-            new Exception("Error on exit button!");
+            throw new Exception("Error on exit button!");
         }
     }
 
@@ -133,7 +134,7 @@ public class SceneManager : MonoBehaviour
         }
         else
         {
-            new Exception("Error on checking scene!");
+            throw new Exception("Error on checking scene!");
         }
     }
 }
