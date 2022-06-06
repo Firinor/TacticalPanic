@@ -14,7 +14,7 @@ public class MainMenuManager : MonoBehaviour, IScenePanel
     public void SetAllInstance()
     {
         instance = this;
-        SceneManager.scenePanel = this;
+        SceneManager.ScenePanel = this;
         baner = MainMenuInformator.GetBaner();
         credits = MainMenuInformator.GetCredits();
         saves = MainMenuInformator.GetSaves();

@@ -6,6 +6,7 @@ using UnityEngine;
 public class SquadOperator : MonoBehaviour
 {
     public static SquadOperator instance { get; private set; }
+    public static List<int> result { get; private set; } = new List<int>() { 0 };
 
     [Header("Main")]
     [SerializeField]
@@ -35,7 +36,12 @@ public class SquadOperator : MonoBehaviour
                 if (!ComplianceRequirement(unit))
                     continue;
 
-                GameObject mercenaryCard = Instantiate(mercenaryCardPrefab, tavernPanel.transform);
+                GameObject parent;
+                if (Array.Exists(SaveManager.Data.Party, x => x == unit.id))
+                    parent = partyPanel;
+                else
+                    parent = tavernPanel;
+                GameObject mercenaryCard = Instantiate(mercenaryCardPrefab, parent.transform);
                 mercenaryCard.GetComponent<UnitTavernCardOperator>().SetUnit(unit);
             }
         }
@@ -79,6 +85,10 @@ public class SquadOperator : MonoBehaviour
     internal static void CardOnDrop(GameObject cardOperator, GameObject parent)
     {
         cardOperator.GetComponent<UnitTavernCardOperator>().SetParent(parent.transform);
+        if(instance == null)
+            return;
+        instance.SetParty();
+        SaveManager.Save(S.account);
     }
 
     private bool ComplianceRequirement(UnitBasis unit)
@@ -94,5 +104,19 @@ public class SquadOperator : MonoBehaviour
     public void RefreshPointsInfo(IInfoble unit)
     {
         infoPanel.RefreshPointsInfo(unit);
+    }
+
+    public void SetParty()
+    {
+        result.Clear();
+        foreach (UnitTavernCardOperator unitCard in partyPanel.GetComponentsInChildren<UnitTavernCardOperator>())
+        {
+            result.Add(unitCard.GetUnitID());
+        }
+    }
+
+    public static int[] GetParty()
+    {
+        return result.ToArray();
     }
 }

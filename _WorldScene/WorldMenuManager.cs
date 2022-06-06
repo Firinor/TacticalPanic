@@ -17,7 +17,7 @@ public class WorldMenuManager : MonoBehaviour, IScenePanel
     public void SetAllInstance()
     {
         instance = this;
-        SceneManager.scenePanel = this;
+        SceneManager.ScenePanel = this;
 
     }
 

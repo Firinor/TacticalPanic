@@ -1,22 +1,21 @@
 using UnityEngine;
 using System.IO;
+using System.Collections;
 using System.Runtime.Serialization.Formatters.Binary;
 
 public class SaveManager : MonoBehaviour
 {
-    static string path;
+    public static SaveData Data;
 
     void Awake()
     {
-        //C:\Users\<userprofile>\AppData\LocalLow\<companyname>\<productname>
-        path = Application.persistentDataPath;
         OptionsOperator.LoadOptions();
     }
 
     public static void Save<T>(string path, T data)
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        FileStream stream = new FileStream(path, FileMode.Create);
+        FileStream stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Write);
 
         formatter.Serialize(stream, data);
         stream.Close();
@@ -24,12 +23,15 @@ public class SaveManager : MonoBehaviour
 
     public static void CreateNewSave(int account)
     {
-        Save(GetPath(account), account);
+        Save(GetPath(account), new SaveData(account));
     }
 
     public static void Save(int account)
     {
-        Save(GetPath(account), account);
+        Data.Account = account;
+        Data.Party = SquadOperator.GetParty();
+
+        Save(GetPath(account), Data);
     }
 
 
@@ -43,9 +45,16 @@ public class SaveManager : MonoBehaviour
         return Load<OptionsParameters>(GetOptionPath());
     }
 
-    public static void Load(int account)
+    public static SaveData Load(int account)
     {
-        //Load(GetPath(account));
+        Data = Load<SaveData>(GetPath(account));
+
+        if(Data == null)
+        {
+            CreateNewSave(account);
+        }
+
+        return Data;
     }
 
     public static T Load<T>(string path)
@@ -77,11 +86,31 @@ public class SaveManager : MonoBehaviour
 
     static string GetPath(int i)
     {
-        return path + $"data{i}.save";
+        return GetPath() + $"data{i}.save";
     }
 
     static string GetOptionPath()
     {
-        return path + $"option.save";
+        return GetPath() + $"option.save";
+    }
+
+    static string GetPath()
+    {
+        //C:\Users\<userprofile>\AppData\LocalLow\<companyname>\<productname>
+        return Application.persistentDataPath;
+    }
+
+    [System.Serializable]
+    public class SaveData
+    {
+        public int Account = -1;
+        public int[] Party;
+
+        public SaveData(int Account, int[] Party = default)
+        {
+            this.Account = Account;
+            this.Party = Party == null? new int[0]: Party;
+        }
     }
 }
+

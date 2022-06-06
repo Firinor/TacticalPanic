@@ -63,7 +63,7 @@ public class OptionsOperator : MonoBehaviour
 
     public void MasterVolume()
     {
-        if (instance != null)
+        if (instance == null)
             return;
 
         float volume = Mathf.Lerp(-80f, 0, curve.Evaluate(GetVolume()));
@@ -75,6 +75,9 @@ public class OptionsOperator : MonoBehaviour
 
     public static float GetVolume()
     {
+        if (instance == null)
+            return default;
+
         //volumeSlider minValue = -1, minValue = 1
         return instance.volumeSlider.value / 2 + .5f;
     }

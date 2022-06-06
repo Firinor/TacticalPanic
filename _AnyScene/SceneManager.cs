@@ -8,7 +8,7 @@ public enum SceneDirection { basic, exit, options, changeScene, saves, off }
 public class SceneManager : MonoBehaviour
 {
     private static SceneManager instance;
-    public static IScenePanel scenePanel { get; set; }
+    public static IScenePanel ScenePanel { get; set; }
     private AsyncOperation operation;
 
     [SerializeField]
@@ -81,7 +81,7 @@ public class SceneManager : MonoBehaviour
                 ExitAction();
                 break;
             case SceneDirection.basic:
-                scenePanel.BasicPanelSettings();
+                ScenePanel.BasicPanelSettings();
                 break;
             default:
                 throw new Exception("Unrealized bookmark!");

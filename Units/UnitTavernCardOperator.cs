@@ -85,5 +85,8 @@ public class UnitTavernCardOperator : MonoBehaviour,
         image.color = Color.white;
     }
 
-
+    public int GetUnitID()
+    {
+        return unit.id;
+    }
 }

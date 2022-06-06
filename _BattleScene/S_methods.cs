@@ -4,6 +4,11 @@ using UnityEngine.UI;
 
 public static partial class S // Top-Manager
 {
+    public static void OnLoad()
+    {
+        account = SaveManager.Data.Account;
+    }
+
     public static int GetIndexByGist(Gist gist)
     {
         return gist switch
