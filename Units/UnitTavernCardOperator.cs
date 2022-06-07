@@ -54,8 +54,8 @@ public class UnitTavernCardOperator : MonoBehaviour,
     public void OnEndDrag(PointerEventData eventData)
     {
         canvasGroup.blocksRaycasts = true;
-        SquadOperator.CardOnEndDrag();
         ReturnToParent();
+        SquadOperator.CardOnEndDrag();
     }
 
     public void OnPointerDown(PointerEventData eventData)

@@ -17,7 +17,9 @@ public class OnDropInformator : MonoBehaviour, IDropHandler
         switch (system)
         {
             case DropHandlerSystem.OnTavern:
-                SquadOperator.CardOnDrop(eventData.pointerDrag, keyObject);
+                UnitTavernCardOperator pointerDrag = eventData.pointerDrag.GetComponent<UnitTavernCardOperator>();
+                if(pointerDrag != null)
+                    SquadOperator.CardOnDrop(pointerDrag, keyObject);
                 break;
         }
     }

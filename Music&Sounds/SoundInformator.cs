@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoundInformator : MonoBehaviour
+public class SoundInformator : SinglBehaviour<SoundInformator>
 {
     [SerializeField]
     private AudioClip backgroundMusic;
@@ -38,11 +38,9 @@ public class SoundInformator : MonoBehaviour
 
     public static AudioSource GlobalUIAudioSource { get; private set; }
 
-    public static SoundInformator instance;
-
     void Awake()
     {
-        instance = this;
+        SingltoneCheck(this);
         GlobalUIAudioSource = GetComponent<AudioSource>();
 
         AudioSourceOperator[] AudioOperators = FindObjectsOfType<AudioSourceOperator>(true);

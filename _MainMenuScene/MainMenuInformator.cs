@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainMenuInformator : MonoBehaviour
+public class MainMenuInformator : SinglBehaviour<MainMenuInformator>
 {
     [SerializeField]
     private GameObject baner;
@@ -12,11 +12,10 @@ public class MainMenuInformator : MonoBehaviour
     [SerializeField]
     private GameObject saves;
     private GameObject options;
-    public static MainMenuInformator instance { get; private set; }
 
     void Awake()
     {
-        instance = GameObject.FindGameObjectWithTag("GameController").GetComponent<MainMenuInformator>();
+        SingltoneCheck(this);
     }
 
     public static GameObject GetBaner()

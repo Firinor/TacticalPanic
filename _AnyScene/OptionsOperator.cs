@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-public class OptionsOperator : MonoBehaviour
+public class OptionsOperator : SinglBehaviour<OptionsOperator>
 {
     [SerializeField]
     private GameObject exitButton;
@@ -13,18 +13,10 @@ public class OptionsOperator : MonoBehaviour
     public Slider sensitivitySlider;
     [SerializeField]
     public Slider volumeSlider;
-    private static OptionsOperator instance;
     [SerializeField]
     private AnimationCurve curve;
 
     private static bool OnLoad;
-
-    public void SetInstance(OptionsOperator optionsOperator)
-    {
-        if (instance != null)
-            return;
-        instance = optionsOperator;
-    }
 
     public void Return()
     {

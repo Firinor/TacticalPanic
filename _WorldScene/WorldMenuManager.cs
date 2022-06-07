@@ -3,7 +3,7 @@ using UnityEngine;
 
 public enum WorldMarks { options, squad, magic, blacksmith, off }
 
-public class WorldMenuManager : MonoBehaviour, IScenePanel
+public class WorldMenuManager : SinglBehaviour<WorldMenuManager>, IScenePanel
 {
 
     [SerializeField]
@@ -12,11 +12,10 @@ public class WorldMenuManager : MonoBehaviour, IScenePanel
     private GameObject magic;
     [SerializeField]
     private GameObject blacksmith;
-    public static WorldMenuManager instance { get; private set; }
 
     public void SetAllInstance()
     {
-        instance = this;
+        SingltoneCheck(this);
         SceneManager.ScenePanel = this;
 
     }

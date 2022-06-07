@@ -3,10 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DB : MonoBehaviour//Top-manager
+public class DB : SinglBehaviour<DB>//Top-manager
 {
-    private static DB inctance;
-
     [SerializeField]
     private List<UnitSprite> unitSprites;
 
@@ -14,7 +12,7 @@ public class DB : MonoBehaviour//Top-manager
 
     void Awake()
     {
-        Singltone();
+        SingltoneCheck(this);
 
         Units = CSVOperator.GetUnits();
 
@@ -22,13 +20,6 @@ public class DB : MonoBehaviour//Top-manager
         {
             unit.SetUnitSprite(GetUnitSpriteByName(unit.unitName));
         }
-    }
-
-    private void Singltone()
-    {
-        if (inctance != null)
-            Destroy(gameObject);
-        inctance = this;
     }
 
     private UnitSprite GetUnitSpriteByName(string name)

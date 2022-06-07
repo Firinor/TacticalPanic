@@ -3,9 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SquadOperator : MonoBehaviour
+public class SquadOperator : SinglBehaviour<SquadOperator>
 {
-    public static SquadOperator instance { get; private set; }
     public static List<int> result { get; private set; } = new List<int>() { 0 };
 
     [Header("Main")]
@@ -27,7 +26,7 @@ public class SquadOperator : MonoBehaviour
 
     private void Awake()
     {
-        Singltone();
+        SingltoneCheck(this);
 
         if (tavernPanel.transform.childCount <= 1)
         {
@@ -45,13 +44,6 @@ public class SquadOperator : MonoBehaviour
                 mercenaryCard.GetComponent<UnitTavernCardOperator>().SetUnit(unit);
             }
         }
-    }
-
-    private void Singltone()
-    {
-        if (instance != null)
-            Destroy(gameObject);
-        instance = this;
     }
 
     public static void CardOnBeginDrag(Transform cardTransform, int index)
@@ -80,15 +72,15 @@ public class SquadOperator : MonoBehaviour
     {
         instance.tawernUnitCardShadow.gameObject.SetActive(false);
         instance.partyUnitCardShadow.gameObject.SetActive(false);
-    }
-
-    internal static void CardOnDrop(GameObject cardOperator, GameObject parent)
-    {
-        cardOperator.GetComponent<UnitTavernCardOperator>().SetParent(parent.transform);
         if(instance == null)
             return;
         instance.SetParty();
         SaveManager.Save(S.account);
+    }
+
+    internal static void CardOnDrop(UnitTavernCardOperator cardOperator, GameObject parent)
+    {
+        cardOperator.SetParent(parent.transform);
     }
 
     private bool ComplianceRequirement(UnitBasis unit)

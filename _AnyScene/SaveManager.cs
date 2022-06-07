@@ -2,6 +2,7 @@ using UnityEngine;
 using System.IO;
 using System.Collections;
 using System.Runtime.Serialization.Formatters.Binary;
+using System;
 
 public class SaveManager : MonoBehaviour
 {
@@ -10,6 +11,14 @@ public class SaveManager : MonoBehaviour
     void Awake()
     {
         OptionsOperator.LoadOptions();
+    }
+
+    internal static int PlayerAccount()
+    {
+        if (Data == null)
+            return -1;
+
+        return Data.Account;
     }
 
     public static void Save<T>(string path, T data)
@@ -103,10 +112,10 @@ public class SaveManager : MonoBehaviour
     [System.Serializable]
     public class SaveData
     {
-        public int Account = -1;
+        public int Account;
         public int[] Party;
 
-        public SaveData(int Account, int[] Party = default)
+        public SaveData(int Account = -1, int[] Party = default)
         {
             this.Account = Account;
             this.Party = Party == null? new int[0]: Party;

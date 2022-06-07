@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LoadingTransitionOperator : MonoBehaviour
+public class LoadingTransitionOperator : SinglBehaviour<LoadingTransitionOperator>
 {
-    private static LoadingTransitionOperator instance;
     private static SceneManager sceneManager;
     //private static bool needOpenSceneAnimation = false;
     private static bool CloseSceneFlag = false;
@@ -28,7 +27,7 @@ public class LoadingTransitionOperator : MonoBehaviour
 
     void Awake()
     {
-        instance = this;
+        SingltoneCheck(this);
         space = GetComponentInChildren<Image>();
         space.sprite = spaceSprite;
         loadingImageMaterial.SetFloat("InPortal", 0f);

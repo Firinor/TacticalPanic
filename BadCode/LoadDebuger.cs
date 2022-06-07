@@ -9,7 +9,7 @@ public class LoadDebuger : MonoBehaviour
 
     void Awake()
     {
-        if(SaveManager.Data.Account == -1)
+        if(SaveManager.PlayerAccount() == -1)
         {
             SaveManager.Load(Account);
             S.OnLoad();

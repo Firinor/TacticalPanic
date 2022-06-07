@@ -3,17 +3,15 @@ using UnityEngine;
 
 public enum MenuMarks { baner, credits, saves, options, off };
 
-public class MainMenuManager : MonoBehaviour, IScenePanel
+public class MainMenuManager : SinglBehaviour<MainMenuManager>, IScenePanel
 {
     private static GameObject baner;
     private static GameObject credits;
     private static GameObject saves;
 
-    public static MainMenuManager instance { get; private set; }
-
     public void SetAllInstance()
     {
-        instance = this;
+        SingltoneCheck(instance);
         SceneManager.ScenePanel = this;
         baner = MainMenuInformator.GetBaner();
         credits = MainMenuInformator.GetCredits();

@@ -5,9 +5,8 @@ using UnitySceneManagement = UnityEngine.SceneManagement.SceneManager;
 
 public enum SceneDirection { basic, exit, options, changeScene, saves, off }
 
-public class SceneManager : MonoBehaviour
+public class SceneManager : SinglBehaviour<SceneManager>
 {
-    private static SceneManager instance;
     public static IScenePanel ScenePanel { get; set; }
     private AsyncOperation operation;
 
@@ -21,15 +20,11 @@ public class SceneManager : MonoBehaviour
 
     void Awake()
     {
-        if(instance != null)
-        {
-            Destroy(gameObject);
-        }
-        instance = this;
+        SingltoneCheck(this);
 
         optionsOperator = optionsPanel.GetComponent<OptionsOperator>();
         //optionsOperator is disabled. Awake & Start procedures are not suitable
-        optionsOperator.SetInstance(optionsOperator);//Singltone
+        optionsOperator.SingltoneCheck(optionsOperator);//Singltone
 
         foreach (GameObject go in doNotDestroyOnLoad)
         {
