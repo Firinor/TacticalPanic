@@ -1,11 +1,13 @@
 using System;
 using UnityEngine;
 
-public enum WorldMarks { options, squad, magic, blacksmith, off }
+public enum WorldMarks { options, squad, magic, blacksmith, map }
 
 public class WorldMenuManager : SinglBehaviour<WorldMenuManager>, IScenePanel
 {
 
+    [SerializeField]
+    private GameObject levels;
     [SerializeField]
     private GameObject squad;
     [SerializeField]
@@ -15,9 +17,8 @@ public class WorldMenuManager : SinglBehaviour<WorldMenuManager>, IScenePanel
 
     public void SetAllInstance()
     {
-        SingltoneCheck(this);
+        SingletoneCheck(this);
         SceneManager.ScenePanel = this;
-
     }
 
     public void SwitchPanels(WorldMarks mark)
@@ -37,13 +38,15 @@ public class WorldMenuManager : SinglBehaviour<WorldMenuManager>, IScenePanel
             case WorldMarks.blacksmith:
                 blacksmith.SetActive(true);
                 break;
-            case WorldMarks.off:
+            case WorldMarks.map:
+                levels.SetActive(true);
                 break;
             default:
                 new Exception("Unrealized bookmark!");
                 break;
         }
     }
+
     public void SwitchPanels(int mark)
     {
         SwitchPanels((WorldMarks)mark);
@@ -51,7 +54,8 @@ public class WorldMenuManager : SinglBehaviour<WorldMenuManager>, IScenePanel
 
     public void DiactiveAllPanels()
     {
-        //squad.SetActive(false);
+        squad.SetActive(false);
+        levels.SetActive(false);
         //magic.SetActive(false);
         //blacksmith.SetActive(false);
         SceneManager.DiactiveAllPanels();
@@ -59,6 +63,6 @@ public class WorldMenuManager : SinglBehaviour<WorldMenuManager>, IScenePanel
 
     public void BasicPanelSettings()
     {
-        SwitchPanels(WorldMarks.off);
+        SwitchPanels(WorldMarks.map);
     }
 }

@@ -40,7 +40,7 @@ public class SoundInformator : SinglBehaviour<SoundInformator>
 
     void Awake()
     {
-        SingltoneCheck(this);
+        SingletoneCheck(this);
         GlobalUIAudioSource = GetComponent<AudioSource>();
 
         AudioSourceOperator[] AudioOperators = FindObjectsOfType<AudioSourceOperator>(true);

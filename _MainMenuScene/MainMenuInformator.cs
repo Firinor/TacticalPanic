@@ -15,7 +15,7 @@ public class MainMenuInformator : SinglBehaviour<MainMenuInformator>
 
     void Awake()
     {
-        SingltoneCheck(this);
+        SingletoneCheck(this);
     }
 
     public static GameObject GetBaner()

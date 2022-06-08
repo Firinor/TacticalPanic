@@ -20,11 +20,11 @@ public class SceneManager : SinglBehaviour<SceneManager>
 
     void Awake()
     {
-        SingltoneCheck(this);
+        SingletoneCheck(this);
 
         optionsOperator = optionsPanel.GetComponent<OptionsOperator>();
         //optionsOperator is disabled. Awake & Start procedures are not suitable
-        optionsOperator.SingltoneCheck(optionsOperator);//Singltone
+        optionsOperator.SingletoneCheck(optionsOperator);//Singltone
 
         foreach (GameObject go in doNotDestroyOnLoad)
         {
@@ -120,7 +120,7 @@ public class SceneManager : SinglBehaviour<SceneManager>
         else if (SceneIndex == 1)//"WorldMap"
         {
             FindObjectOfType<WorldMenuManager>().SetAllInstance();
-            instance.optionsOperator.SetAcriveOfExitButton(false);
+            instance.optionsOperator.SetAcriveOfExitButton(true);
         }
         else if (SceneIndex == 0)//"MainMenu"
         {

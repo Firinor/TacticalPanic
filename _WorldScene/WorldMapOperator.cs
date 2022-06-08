@@ -18,4 +18,14 @@ public class WorldMapOperator : MonoBehaviour
     {
         WorldMenuManager.instance.SwitchPanels(WorldMarks.options);
     }
+
+    public void ToSquad()
+    {
+        WorldMenuManager.instance.SwitchPanels(WorldMarks.squad);
+    }
+
+    public void ToMap()
+    {
+        WorldMenuManager.instance.SwitchPanels(WorldMarks.map);
+    }
 }

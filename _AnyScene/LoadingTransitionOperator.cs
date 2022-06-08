@@ -27,7 +27,7 @@ public class LoadingTransitionOperator : SinglBehaviour<LoadingTransitionOperato
 
     void Awake()
     {
-        SingltoneCheck(this);
+        SingletoneCheck(this);
         space = GetComponentInChildren<Image>();
         space.sprite = spaceSprite;
         loadingImageMaterial.SetFloat("InPortal", 0f);

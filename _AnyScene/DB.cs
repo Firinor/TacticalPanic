@@ -12,7 +12,7 @@ public class DB : SinglBehaviour<DB>//Top-manager
 
     void Awake()
     {
-        SingltoneCheck(this);
+        SingletoneCheck(this);
 
         Units = CSVOperator.GetUnits();
 

@@ -11,7 +11,7 @@ public class MainMenuManager : SinglBehaviour<MainMenuManager>, IScenePanel
 
     public void SetAllInstance()
     {
-        SingltoneCheck(instance);
+        SingletoneCheck(instance);
         SceneManager.ScenePanel = this;
         baner = MainMenuInformator.GetBaner();
         credits = MainMenuInformator.GetCredits();

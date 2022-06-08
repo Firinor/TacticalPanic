@@ -26,7 +26,7 @@ public class SquadOperator : SinglBehaviour<SquadOperator>
 
     private void Awake()
     {
-        SingltoneCheck(this);
+        SingletoneCheck(this);
 
         if (tavernPanel.transform.childCount <= 1)
         {
