@@ -15,19 +15,28 @@ public class TileMapOperator : MonoBehaviour
 
     public void GenerateNewMap()
     {
-        TileMap tileMap = TileMapGenerator.GenerateNewMap(mapSize.x, mapSize.y);
+        if(tileGroup.transform.childCount > 0)
+        {
+            Transform[] Childrens = tileGroup.transform.GetComponentsInChildren<Transform>();
+            foreach (Transform Children in Childrens)
+            {
+                Destroy(Children.gameObject);
+            }
+        }
+
+        int[][] intMap = TileMapGenerator.GenerateNewMap(mapSize.x, mapSize.y);
         float offset = tileSize / 2;
 
-        for (int x = 0; x < tileMap.x; x++)
-            for(int y = 0; y < tileMap.y; y++)
+        for (int x = 0; x < mapSize.x; x++)
+            for(int y = 0; y < mapSize.y; y++)
             {
-                GameObject tile = Instantiate(TileByInt(tileMap.tiles[x, y].tileClass), tileGroup.transform);
+                GameObject tile = Instantiate(TileByInt(intMap[x][y]), tileGroup.transform);
                 tile.transform.localPosition = new Vector3(offset + x * tileSize, offset + y * tileSize, 0);
             }
     }
 
-    private GameObject TileByInt(TileClass tileClass)
+    private GameObject TileByInt(int i)
     {
-        return tilePrefabs[(int)tileClass];
+        return tilePrefabs[i];
     }
 }
