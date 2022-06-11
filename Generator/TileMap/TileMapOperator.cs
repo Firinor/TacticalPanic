@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FirGamesTileHelper;
 
 public class TileMapOperator : MonoBehaviour
 {
@@ -13,25 +14,28 @@ public class TileMapOperator : MonoBehaviour
     [SerializeField]
     private Vector2Int mapSize;
 
+    private List<Transform> transforms = new List<Transform>();
+
     public void GenerateNewMap()
     {
-        if(tileGroup.transform.childCount > 0)
+        if(transforms.Count > 0)
         {
-            Transform[] Childrens = tileGroup.transform.GetComponentsInChildren<Transform>();
-            foreach (Transform Children in Childrens)
+            foreach (Transform tr in transforms)
             {
-                Destroy(Children.gameObject);
+                Destroy(tr.gameObject);
             }
+            transforms.Clear();
         }
 
-        int[][] intMap = TileMapGenerator.GenerateNewMap(mapSize.x, mapSize.y);
+        List<List<Tile>> intMap = TileMapGenerator.GenerateNewMap(mapSize.x, mapSize.y);
         float offset = tileSize / 2;
 
         for (int x = 0; x < mapSize.x; x++)
             for(int y = 0; y < mapSize.y; y++)
             {
-                GameObject tile = Instantiate(TileByInt(intMap[x][y]), tileGroup.transform);
+                GameObject tile = Instantiate(TileByInt(intMap[x][y].value), tileGroup.transform);
                 tile.transform.localPosition = new Vector3(offset + x * tileSize, offset + y * tileSize, 0);
+                transforms.Add(tile.transform);
             }
     }
 

@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using FirGamesTileHelper;
 
-public enum TileClass { EnemySpawner, ProtectedPoint, Road, Grass, Wood, Rock, River }
+public enum TileTipe { EnemySpawner, ProtectedPoint, Road, Grass, Wood, Rock, River }
 
 public static class TileMapGenerator// Top-manager
 {
-    public static int[][] mapCode;
+    public static List<List<Tile>> mapCode;
     private static int width;
     private static int height;
 
@@ -17,22 +18,6 @@ public static class TileMapGenerator// Top-manager
     private static List<Tile> unoccupiedTiles;
 
     private static System.Random random = new System.Random((int)Time.timeSinceLevelLoad);
-
-    private struct Tile {
-        public int x;
-        public int y;
-
-        public Tile(int x, int y)
-        {
-            this.x = x;
-            this.y = y;
-        }
-    }
-    private struct Zone
-    {
-        public bool stuffed;
-        public List<Tile> tiles;
-    }
 
     /*
      * all map sectors
@@ -53,23 +38,18 @@ public static class TileMapGenerator// Top-manager
      */
     private static Zone[] mapZones = new Zone[5];
 
-    public static int[][] GenerateNewMap(int x, int y) 
+    public static List<List<Tile>> GenerateNewMap(int x, int y) 
     {
         width = x;
         height = y;
 
-        mapCode = new int[x][];
-        for(int i = 0; i < x; i++)
-        {
-            mapCode[i] = new int[y];
-        }
-
-        unoccupiedTiles = GetAllTiles(x, y);
-        mapSectors = DivideTheMapIntoSectors(unoccupiedTiles);
+        mapCode = NewListListTile();
+        unoccupiedTiles = GetAllTiles();
+        mapSectors = DivideTheMapIntoSectors();
         mapZones = DistributeTheSectorsIntoZones(mapSectors);
 
         GenerateProtectedPoint();
-        //GenerateEnemySpawners(mapCode, tileMap);
+        GenerateEnemySpawners();
         //GenerateRoadPoints(mapCode, tileMap);
         //GenerateRocksAndRivers(mapCode, tileMap);
         //GenerateConnectedRoads(mapCode, tileMap);
@@ -79,7 +59,23 @@ public static class TileMapGenerator// Top-manager
 
         return mapCode;
     }
-    private static Zone[] DivideTheMapIntoSectors(List<Tile> unoccupiedTiles)
+
+    static List<List<Tile>> NewListListTile()
+    {
+        var result = new List<List<Tile>>();
+        for (int _x = 0; _x < width; _x++)
+        {
+            result.Add(new List<Tile>());
+            result[_x] = new List<Tile>();
+            for (int _y = 0; _y < height; _y++)
+            {
+                result[_x].Add(new Tile(_x, _y));
+            }
+        }
+
+        return result;
+    }
+    private static Zone[] DivideTheMapIntoSectors()
     {
         Zone[] zones = new Zone[divider * divider];
 
@@ -91,9 +87,15 @@ public static class TileMapGenerator// Top-manager
 
         foreach(Tile tile in unoccupiedTiles)
         {
-            int dx = Mathf.FloorToInt((tile.x / (width)) * divider);
-            int dy = Mathf.FloorToInt((tile.y / (height)) * divider);
-            zones[dx + dy*divider].tiles.Add(tile);//for divider == 4 ; from 0 to 15
+            int dx = Mathf.FloorToInt(((float)tile.x / (float)width) * divider);
+            int dy = Mathf.FloorToInt(((float)tile.y / (float)height) * divider);
+            int i = dx + dy * divider;
+            zones[i].tiles.Add(tile);//for divider == 4 ; from 0 to 15
+            tile.mapSector = zones[i];
+            //if ((i + (dy % 2 == 0 ? 0 : 1)) % 2 == 0)
+            //{
+            //    tile.value = 4;
+            //}
         }
 
         return zones;
@@ -135,20 +137,21 @@ public static class TileMapGenerator// Top-manager
             foreach (Tile tile in giverZone.tiles)
             {
                 takerZone.tiles.Add(tile);
+                tile.mapZone = takerZone;
             }
         }
 
         return zones;
     }
-    private static List<Tile> GetAllTiles(int x, int y)
+    private static List<Tile> GetAllTiles()
     {
         List<Tile> tiles = new List<Tile>();
 
-        for(int _x = 0; _x < x; _x++)
+        for(int _x = 0; _x < width; _x++)
         {
-            for (int _y = 0; _y < y; _y++)
+            for (int _y = 0; _y < height; _y++)
             {
-                tiles.Add(new Tile(_x, _y));
+                tiles.Add(mapCode[_x][_y]);
             }
         }
 
@@ -161,29 +164,25 @@ public static class TileMapGenerator// Top-manager
         playerPoint[0].x = random.Next(width);
         playerPoint[0].y = random.Next(height);
 
-        mapCode[playerPoint[0].x][playerPoint[0].y] = 1;
+        mapCode[playerPoint[0].x][playerPoint[0].y].value = 1;
 
-        Tile tileToRemove = unoccupiedTiles.Find(t => t.x == playerPoint[0].x && t.y == playerPoint[0].y);
-        unoccupiedTiles.Remove(tileToRemove);
-
+        TileMath.BookATerritory(playerPoint[0], 5, unoccupiedTiles, stufferStatus: true);
     }
 
-    private static void GenerateEnemySpawners(int[][] mapCode, TileMap tileMap)
+    private static void GenerateEnemySpawners()
     {
         enemies = new Vector2Int[1];
 
-        enemies[0].x = random.Next(width);
-        enemies[0].y = random.Next(height);
+        List<Tile> tiles = TileMath.GetAllowedTiles(mapCode);
 
-        mapCode[enemies[0].x][enemies[0].y] = 0;
+        Tile chosenTile = tiles[random.Next(tiles.Count)];
 
-        foreach (Vector2Int enemy in enemies)
-        {
-            tileMap.tiles[enemy.x, enemy.y].tileClass = TileClass.EnemySpawner;
-        }
+        chosenTile.value = 2;
+
+        TileMath.BookATerritory(chosenTile, 3, unoccupiedTiles, stufferStatus: true);
     }
 
-    private static void GenerateRoadPoints(int[][] mapCode, TileMap tileMap)
+    private static void GenerateRoadPoints()
     {
         roadPoints = new Vector2Int[3];
         
@@ -191,21 +190,16 @@ public static class TileMapGenerator// Top-manager
         {
             roadPoints[i].x = random.Next(width);
             roadPoints[i].y = random.Next(height);
-            mapCode[roadPoints[i].x][roadPoints[i].y] = 2;
-        }
-
-        foreach (Vector2Int road in roadPoints)
-        {
-            tileMap.tiles[road.x, road.y].tileClass = TileClass.Road;
+            mapCode[roadPoints[i].x][roadPoints[i].y].value = 3;
         }
     }
 
-    private static void GenerateRocksAndRivers(int[][] mapCode, TileMap tileMap)
+    private static void GenerateRocksAndRivers()
     {
         
     }
 
-    private static void GenerateConnectedRoads(int[][] mapCode, TileMap tileMap)
+    private static void GenerateConnectedRoads()
     {
         
     }
@@ -228,7 +222,7 @@ public class TileMap
         for (int _x = 0; _x < x; _x++)
             for(int _y = 0; _y < y; _y++)
             {
-                tiles[_x,_y] = new Tile();
+                //tiles[_x,_y] = new Tile();
             }
         
     }
