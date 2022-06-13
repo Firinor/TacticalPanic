@@ -6,64 +6,52 @@ namespace FirGamesTileHelper
 {
     public static class TileMath
     {
-        //public static void DrawALine(Tile a, Tile b, List<List<Tile>> map, TileTipe tipe = TileTipe.Road)
-        public static void DrawALine(Graphics g, int x0, int y0, int x1, int y1, int blockSize)
+        //public static void DrawLine(Tile a, Tile b, List<List<Tile>> map, )
+        public static void DrawLine(Vector2Int p0, Vector2Int p1, List<List<Tile>> map, TileTipe tipe = TileTipe.Road)
+        {
+            DrawLine(p0.x, p0.y, p1.x, p1.y, map, tipe);
+        }
+
+        public static void DrawLine(int x0, int y0, int x1, int y1, List<List<Tile>> map, TileTipe tipe = TileTipe.Road)
         {
             {
-                int scaledX0 = x0 / blockSize;
-                int scaledY0 = y0 / blockSize;
-                int scaledX1 = x1 / blockSize;
-                int scaledY1 = y1 / blockSize;
-                int dx = scaledX1 - scaledX0;
-                int dy = scaledY1 - scaledY0;
-                int stepX = 0; //Integer.signum(dx);
-                int stepY = 0; //Integer.signum(dy);
-                //dx = Math.abs(dx);
-                //dy = Math.abs(dy);
-                int dx2 = dx << 1;
-                int dy2 = dy << 1;
-                int x = scaledX0;
-                int y = scaledY0;
-                int error;
+                int dx = x1 - x0;
+                int dy = y1 - y0;
+                int stepX = (int)Mathf.Sign(dx);
+                int stepY = (int)Mathf.Sign(dy);
+                dx = Math.Abs(dx);
+                dy = Math.Abs(dy);
+                int shift;
                 if (dx >= dy)
                 {
-                    error = dy2 - dx;
+                    shift = (int)(dx / 2) + dy;
                     do
                     {
-                        plot(g, x, y, blockSize);
-                        if (error > 0)
+                        shift -= dy;
+                        map[x0][y0].value = (int)tipe;
+                        if (shift < 0)
                         {
-                            y += stepY;
-                            error -= dx2;
+                            y0 += stepY;
+                            shift += dx;
                         }
-                        error += dy2;
-                        x += stepX;
-                    } while (x != scaledX1);
+                        x0 += stepX;
+                    } while (x0 != x1);
                 }
                 else
                 {
-                    error = dx2 - dy;
+                    shift = (int)(dy / 2) + dx;
                     do
                     {
-                        plot(g, x, y, blockSize);
-                        if (error > 0)
+                        shift -= dx;
+                        map[x0][y0].value = (int)tipe;
+                        if (shift < 0)
                         {
-                            x += stepX;
-                            error -= dy2;
+                            x0 += stepX;
+                            shift += dy;
                         }
-                        error += dx2;
-                        y += stepY;
-                    } while (y != scaledY1);
+                        y0 += stepY;
+                    } while (y0 != y1);
                 }
-            }
-
-            static void plot(Graphics g, int x, int y, int blockSize)
-            {
-                int x0 = x * blockSize;
-                int y0 = y * blockSize;
-                int w = blockSize;
-                int h = blockSize;
-                //g.fillRect(x0, y0, w, h);
             }
         }
 

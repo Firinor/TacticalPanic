@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using FirGamesTileHelper;
 
-public enum TileTipe { EnemySpawner, ProtectedPoint, Road, Grass, Wood, Rock, River }
+public enum TileTipe { Grass, EnemySpawner, ProtectedPoint, Road, Wood, Rock, River }
 
 public static class TileMapGenerator// Top-manager
 {
@@ -50,8 +50,8 @@ public static class TileMapGenerator// Top-manager
 
         GenerateProtectedPoint();
         GenerateEnemySpawners();
-        //GenerateRoadPoints(mapCode, tileMap);
-        //GenerateRocksAndRivers(mapCode, tileMap);
+        GenerateRoadPoints();
+        GenerateRocksAndRivers();
         //GenerateConnectedRoads(mapCode, tileMap);
 
         //for (int i = 0; i < mapCode.GetLength(0); i++)
@@ -196,7 +196,7 @@ public static class TileMapGenerator// Top-manager
 
     private static void GenerateRocksAndRivers()
     {
-        
+        TileMath.DrawLine(roadPoints[0], roadPoints[1], mapCode);
     }
 
     private static void GenerateConnectedRoads()
