@@ -9,6 +9,8 @@ public class TileMapOperator : MonoBehaviour
     private GameObject tileGroup;
     [SerializeField]
     private GameObject[] tilePrefabs;
+    [Range(1, 50)]
+    public static int level = 1;
     [SerializeField]
     private int tileSize;
     [SerializeField]
@@ -16,9 +18,9 @@ public class TileMapOperator : MonoBehaviour
 
     private List<Transform> transforms = new List<Transform>();
 
-    public void GenerateNewMap()
+    public void GenerateMap()
     {
-        if(transforms.Count > 0)
+        if (transforms.Count > 0)
         {
             foreach (Transform tr in transforms)
             {
@@ -27,13 +29,19 @@ public class TileMapOperator : MonoBehaviour
             transforms.Clear();
         }
 
-        List<List<Tile>> intMap = TileMapGenerator.GenerateNewMap(mapSize.x, mapSize.y);
-        float offset = tileSize / 2;
+        //List<List<Tile>> intMap = TileMapGenerator.GenerateNewMap(mapSize.x, mapSize.y);
+        List<List<Tile>> intMap = TileMapGenerator.LoadLevel(level);
+        Instantiate(intMap);
+    }
 
-        for (int x = 0; x < mapSize.x; x++)
-            for(int y = 0; y < mapSize.y; y++)
+    private void Instantiate(List<List<Tile>> intMap)
+    {
+        float offset = tileSize / 2;
+        
+        for (int y = 0; y < mapSize.y; y++)
+            for (int x = 0; x < mapSize.x; x++)
             {
-                GameObject tile = Instantiate(TileByInt(intMap[x][y].value), tileGroup.transform);
+                GameObject tile = Instantiate(TileByInt(intMap[y][x].value), tileGroup.transform);
                 tile.transform.localPosition = new Vector3(offset + x * tileSize, offset + y * tileSize, 0);
                 transforms.Add(tile.transform);
             }

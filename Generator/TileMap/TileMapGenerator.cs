@@ -10,15 +10,11 @@ public static class TileMapGenerator// Top-manager
     public static List<List<Tile>> mapCode;
     private static int width;
     private static int height;
-
     private static Vector2Int[] playerPoint;
     private static Vector2Int[] enemies;
     private static Vector2Int[] roadPoints;
-
     private static List<Tile> unoccupiedTiles;
-
     private static System.Random random = new System.Random((int)Time.timeSinceLevelLoad);
-
     /*
      * all map sectors
      * 
@@ -28,14 +24,14 @@ public static class TileMapGenerator// Top-manager
      * 12 13 14 15
      */
     private static int divider = 4;
-    private static Zone[] mapSectors = new Zone[divider*divider];
+    private static Zone[] mapSectors = new Zone[divider * divider];
     /*
-     * all map zones
-     * 1 1 2 2
-     * 1 0 0 2
-     * 3 0 0 4
-     * 3 3 4 4
-     */
+    * all map zones
+    * 1 1 2 2
+    * 1 0 0 2
+    * 3 0 0 4
+    * 3 3 4 4
+    */
     private static Zone[] mapZones = new Zone[5];
 
     public static List<List<Tile>> GenerateNewMap(int x, int y) 
@@ -59,7 +55,6 @@ public static class TileMapGenerator// Top-manager
 
         return mapCode;
     }
-
     static List<List<Tile>> NewListListTile()
     {
         var result = new List<List<Tile>>();
@@ -168,7 +163,6 @@ public static class TileMapGenerator// Top-manager
 
         TileMath.BookATerritory(playerPoint[0], 5, unoccupiedTiles, stufferStatus: true);
     }
-
     private static void GenerateEnemySpawners()
     {
         enemies = new Vector2Int[1];
@@ -181,7 +175,6 @@ public static class TileMapGenerator// Top-manager
 
         TileMath.BookATerritory(chosenTile, 3, unoccupiedTiles, stufferStatus: true);
     }
-
     private static void GenerateRoadPoints()
     {
         roadPoints = new Vector2Int[3];
@@ -193,15 +186,62 @@ public static class TileMapGenerator// Top-manager
             mapCode[roadPoints[i].x][roadPoints[i].y].value = 3;
         }
     }
-
     private static void GenerateRocksAndRivers()
     {
         TileMath.DrawLine(roadPoints[0], roadPoints[1], mapCode);
     }
-
     private static void GenerateConnectedRoads()
     {
         
+    }
+
+    internal static List<List<Tile>> LoadLevel(int level)
+    {
+        switch (level)
+        {
+            case 1: return Level1();
+            default: return new List<List<Tile>>();
+        }
+    }
+
+    private static List<List<Tile>> Level1()
+    {
+        List<List<Tile>> level = new List<List<Tile>>();
+
+        int[,] map = new int[20, 30]
+        {
+            { 6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6 },
+            { 6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6 },
+            { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+            { 1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2 },
+            { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0 },
+            { 4,4,4,0,0,0,4,4,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,5,5,5,5,5 },
+            { 4,4,4,4,4,0,4,4,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,5,5,5,5,5,5 },
+            { 4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0 },
+            { 4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0 },
+            { 4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0 },
+            { 4,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,0 },
+            { 4,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0 },
+            { 4,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0 },
+            { 4,4,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,0 },
+            { 4,4,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0 },
+            { 4,4,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,2 },
+            { 4,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+        };
+
+        for (int y = 0; y < 20; y++)
+        {
+            level.Add(new List<Tile>());
+            for (int x = 0; x<30; x++)
+            {
+                level[y].Add(new Tile(x,y));
+                level[y][x].value = map[y,x];
+            }
+        }
+        return level;
     }
 }
 
