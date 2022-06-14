@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 5b904c0d2e7b9ba49b0134f6a6b1b2df
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - infoPanel: {instanceID: 0}
+  - mercenaryCardPrefab: {fileID: 6657174346089197721, guid: b5d210d1cbe54ee40aa741433fa8f9a5, type: 3}
+  - tavernPanel: {instanceID: 0}
+  - partyPanel: {instanceID: 0}
+  - tawernUnitCardShadow: {instanceID: 0}
+  - partyUnitCardShadow: {instanceID: 0}
+  executionOrder: 300
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

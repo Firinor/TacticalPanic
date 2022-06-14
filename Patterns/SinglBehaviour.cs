@@ -6,7 +6,7 @@ public class SinglBehaviour<T> : MonoBehaviour
 
     public void SingletoneCheck(T instance)
     {
-        if(instance == null)
+        if(SinglBehaviour<T>.instance != null)
             Destroy(gameObject);
         SinglBehaviour<T>.instance = instance;
     }

@@ -38,7 +38,7 @@ public class SaveManager : MonoBehaviour
     public static void Save(int account)
     {
         Data.Account = account;
-        Data.Party = SquadOperator.GetParty();
+        Data.Party = S.GetPartyAsInts();
 
         Save(GetPath(account), Data);
     }

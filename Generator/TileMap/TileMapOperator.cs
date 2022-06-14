@@ -42,7 +42,7 @@ public class TileMapOperator : MonoBehaviour
             for (int x = 0; x < mapSize.x; x++)
             {
                 GameObject tile = Instantiate(TileByInt(intMap[y][x].value), tileGroup.transform);
-                tile.transform.localPosition = new Vector3(offset + x * tileSize, offset + y * tileSize, 0);
+                tile.transform.localPosition = new Vector3(offset + x * tileSize, offset + -y * tileSize, 0);
                 transforms.Add(tile.transform);
             }
     }

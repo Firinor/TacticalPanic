@@ -6,6 +6,7 @@ public class LoadDebuger : MonoBehaviour
 {
     [Range(0, 2)]
     public int Account = 0;
+    public UnitsCardManager squadManager;
 
     void Awake()
     {

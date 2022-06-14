@@ -19,7 +19,7 @@ public class OnDropInformator : MonoBehaviour, IDropHandler
             case DropHandlerSystem.OnTavern:
                 UnitTavernCardOperator pointerDrag = eventData.pointerDrag.GetComponent<UnitTavernCardOperator>();
                 if(pointerDrag != null)
-                    SquadOperator.CardOnDrop(pointerDrag, keyObject);
+                    SquadCanvasOperator.CardOnDrop(pointerDrag, keyObject);
                 break;
         }
     }

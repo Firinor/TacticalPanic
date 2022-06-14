@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,7 +7,28 @@ public static partial class S // Top-Manager
 {
     public static void OnLoad()
     {
+        party = new List<UnitBasis>();
         account = SaveManager.Data.Account;
+        UnitsCardManager.CreateUnits();
+    }
+
+    public static void AddUnitToParty(UnitBasis unit)
+    {
+        if(unit == null && !party.Contains(unit))
+            party.Add(unit);
+    }
+
+    public static void RemoveUnitToParty(UnitBasis unit)
+    {
+        party.Remove(unit);
+    }
+
+    public static int[] GetPartyAsInts()
+    {
+        int[] result = new int[party.Count];
+        for (int i = 0; i < result.Length; i++)
+            result[i] = party[i].id;
+        return result;
     }
 
     public static int GetIndexByGist(Gist gist)

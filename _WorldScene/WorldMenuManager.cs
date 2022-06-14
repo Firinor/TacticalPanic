@@ -17,7 +17,8 @@ public class WorldMenuManager : SinglBehaviour<WorldMenuManager>, IScenePanel
 
     public void SetAllInstance()
     {
-        SingletoneCheck(this);
+        if(instance == null)
+            SingletoneCheck(this);
         SceneManager.ScenePanel = this;
     }
 

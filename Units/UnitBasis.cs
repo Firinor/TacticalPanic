@@ -6,6 +6,7 @@ public class UnitBasis: IInfoble
 {
     public int id { get; private set; }
     public string unitName { get; private set; }
+    public bool inParty { get; private set; }
     public float mspeed { get; private set; }
 
     private UnitSprite unitSprite;
@@ -36,5 +37,10 @@ public class UnitBasis: IInfoble
     public UnitSprite GetUnitSprite()
     {
         return unitSprite;
+    }
+
+    public void SetUnitParty(bool inParty)
+    {
+        this.inParty = inParty;
     }
 }

@@ -42,7 +42,7 @@ public class UnitTavernCardOperator : MonoBehaviour,
     {
         canvasGroup.blocksRaycasts = false;
         int siblingIndex = transform.GetSiblingIndex();
-        SquadOperator.CardOnBeginDrag(transform, siblingIndex);
+        SquadCanvasOperator.CardOnBeginDrag(transform, siblingIndex);
         
     }
 
@@ -55,12 +55,12 @@ public class UnitTavernCardOperator : MonoBehaviour,
     {
         canvasGroup.blocksRaycasts = true;
         ReturnToParent();
-        SquadOperator.CardOnEndDrag();
+        SquadCanvasOperator.CardOnEndDrag();
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        SquadOperator.instance.RefreshPointsInfo(unit);
+        SquadCanvasOperator.instance.RefreshPointsInfo(unit);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -85,8 +85,8 @@ public class UnitTavernCardOperator : MonoBehaviour,
         image.color = Color.white;
     }
 
-    public int GetUnitID()
+    public UnitBasis GetUnit()
     {
-        return unit.id;
+        return unit;
     }
 }
