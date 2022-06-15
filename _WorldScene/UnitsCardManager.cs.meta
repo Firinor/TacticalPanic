@@ -10,7 +10,7 @@ MonoImporter:
   - partyPanel: {instanceID: 0}
   - tawernUnitCardShadow: {instanceID: 0}
   - partyUnitCardShadow: {instanceID: 0}
-  executionOrder: 300
+  executionOrder: 220
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 

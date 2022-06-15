@@ -9,18 +9,22 @@ public static partial class S // Top-Manager
     {
         party = new List<UnitBasis>();
         account = SaveManager.Data.Account;
-        UnitsCardManager.CreateUnits();
     }
 
     public static void AddUnitToParty(UnitBasis unit)
     {
-        if(unit == null && !party.Contains(unit))
+        if(unit != null && !party.Contains(unit))
             party.Add(unit);
     }
 
     public static void RemoveUnitToParty(UnitBasis unit)
     {
         party.Remove(unit);
+    }
+
+    public static void ClearParty()
+    {
+        party.Clear();
     }
 
     public static int[] GetPartyAsInts()

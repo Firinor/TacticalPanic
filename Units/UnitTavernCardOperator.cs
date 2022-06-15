@@ -12,7 +12,6 @@ public class UnitTavernCardOperator : MonoBehaviour,
     private Image highlighting;
     [SerializeField]
     private Image image;
-    private Transform transform;
     private RectTransform rectTransform;
     private Transform parent;
     [SerializeField]
@@ -21,7 +20,6 @@ public class UnitTavernCardOperator : MonoBehaviour,
     private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
-        transform = GetComponent<Transform>();
         rectTransform = GetComponent<RectTransform>();
         parent = transform.parent;
         gameObject.SetActive(false);

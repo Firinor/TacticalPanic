@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class WorldMapOperator : MonoBehaviour
 {
+
     public void Return()
     {
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void ToBriefing(int level)
+    {
+        WorldMenuManager.instance.SwitchPanels(WorldMarks.briefing);
+        UnitsCardManager.CardsToParent(CardHolder.BriefingCanvas);
     }
 
     public void ToBattle(int level)
@@ -22,6 +29,8 @@ public class WorldMapOperator : MonoBehaviour
     public void ToSquad()
     {
         WorldMenuManager.instance.SwitchPanels(WorldMarks.squad);
+        UnitsCardManager.CardsToParent(CardHolder.SquadCanvas);
+
     }
 
     public void ToMap()

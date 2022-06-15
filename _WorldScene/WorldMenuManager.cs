@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public enum WorldMarks { options, squad, magic, blacksmith, map }
+public enum WorldMarks { options, squad, magic, blacksmith, map, briefing }
 
 public class WorldMenuManager : SinglBehaviour<WorldMenuManager>, IScenePanel
 {
@@ -14,12 +14,26 @@ public class WorldMenuManager : SinglBehaviour<WorldMenuManager>, IScenePanel
     private GameObject magic;
     [SerializeField]
     private GameObject blacksmith;
+    [SerializeField]
+    private GameObject briefing;
+
+    private SquadCanvasOperator squadCanvasOperator;
+    private BriefingCanvasOperator briefingCanvasOperator;
 
     public void SetAllInstance()
     {
         if(instance == null)
             SingletoneCheck(this);
         SceneManager.ScenePanel = this;
+
+        squadCanvasOperator = squad.GetComponent<SquadCanvasOperator>();
+        //squadCanvasOperator is disabled. Awake & Start procedures are not suitable
+        squadCanvasOperator.SingletoneCheck(squadCanvasOperator);//Singltone
+        squadCanvasOperator.SetParentToAllUnits();
+
+        briefingCanvasOperator = briefing.GetComponent<BriefingCanvasOperator>();
+        //squadCanvasOperator is disabled. Awake & Start procedures are not suitable
+        briefingCanvasOperator.SingletoneCheck(briefingCanvasOperator);//Singltone
     }
 
     public void SwitchPanels(WorldMarks mark)
@@ -42,6 +56,9 @@ public class WorldMenuManager : SinglBehaviour<WorldMenuManager>, IScenePanel
             case WorldMarks.map:
                 levels.SetActive(true);
                 break;
+            case WorldMarks.briefing:
+                briefing.SetActive(true);
+                break;
             default:
                 new Exception("Unrealized bookmark!");
                 break;
@@ -57,6 +74,7 @@ public class WorldMenuManager : SinglBehaviour<WorldMenuManager>, IScenePanel
     {
         squad.SetActive(false);
         levels.SetActive(false);
+        briefing.SetActive(false);
         //magic.SetActive(false);
         //blacksmith.SetActive(false);
         SceneManager.DiactiveAllPanels();

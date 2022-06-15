@@ -37,11 +37,6 @@ public class SceneManager : SinglBehaviour<SceneManager>
         CheckingTheScene();
     }
 
-    public static SceneManager GetSceneManager()
-    {
-        return instance;
-    }
-
     public static int GetScene()
     {
         return UnitySceneManagement.GetActiveScene().buildIndex;
@@ -52,7 +47,7 @@ public class SceneManager : SinglBehaviour<SceneManager>
         return GetScene() == 0;
     }
 
-    public static void LoadScene(string sceneName, int data = 0)
+    public static void LoadScene(string sceneName)
     {
         instance.operation = UnitySceneManagement.LoadSceneAsync(sceneName);
         SetAllowSceneActivation(false);
