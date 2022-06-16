@@ -7,7 +7,8 @@ public enum CardHolder { SquadCanvas, BriefingCanvas}
 
 public class UnitsCardManager : SinglBehaviour<UnitsCardManager>
 {
-    public static Dictionary<UnitBasis, GameObject> unitCards { get; private set; } = new Dictionary<UnitBasis, GameObject>();
+    public static Dictionary<UnitBasis, GameObject> unitCards { get; private set; } 
+        = new Dictionary<UnitBasis, GameObject>();
 
     [SerializeField]
     private GameObject mercenaryCardPrefab;
@@ -42,30 +43,38 @@ public class UnitsCardManager : SinglBehaviour<UnitsCardManager>
         switch (holder)
         {
             case CardHolder.SquadCanvas:
-                CardsToParent(SquadCanvasOperator.GetPartyTransform(), SquadCanvasOperator.GetTavernTransform());
+                CardsToParent(SquadCanvasOperator.GetPartyTransform(),
+                    SquadCanvasOperator.GetTavernTransform(),
+                    DragAndDropEnable: true);
                 break;
             case CardHolder.BriefingCanvas:
                 CardsToParent(BriefingCanvasOperator.GetPartyTransform());
                 break;
         }
     }
-    public static void CardsToParent(Transform inPartyTransform = null, Transform inTawernTransform = null)
+    public static void CardsToParent(Transform inPartyTransform = null,
+        Transform inTawernTransform = null,
+        bool DragAndDropEnable = false)
     {
         foreach(UnitBasis unit in unitCards.Keys)
         {
+            GameObject unitCard = unitCards[unit];
+            UnitTavernCardOperator cardOperator = unitCard.GetComponent<UnitTavernCardOperator>();
             if (unit.inParty && inPartyTransform != null)
             {
-                unitCards[unit].transform.SetParent(inPartyTransform);
-                unitCards[unit].SetActive(true);
+                unitCard.transform.SetParent(inPartyTransform);
+                unitCard.SetActive(true);
+                cardOperator.BlockRaycasts(DragAndDropEnable);
             }
             else if (!unit.inParty && inTawernTransform != null)
             {
-                unitCards[unit].transform.SetParent(inTawernTransform);
-                unitCards[unit].SetActive(true);
+                unitCard.transform.SetParent(inTawernTransform);
+                unitCard.SetActive(true);
+                cardOperator.BlockRaycasts(DragAndDropEnable);
             }
             else
             {
-                unitCards[unit].SetActive(false);
+                unitCard.SetActive(false);
             }
         }
     }

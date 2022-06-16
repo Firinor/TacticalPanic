@@ -38,7 +38,7 @@ public class UnitTavernCardOperator : MonoBehaviour,
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        canvasGroup.blocksRaycasts = false;
+        BlockRaycasts(block: false);
         int siblingIndex = transform.GetSiblingIndex();
         SquadCanvasOperator.CardOnBeginDrag(transform, siblingIndex);
         
@@ -51,9 +51,14 @@ public class UnitTavernCardOperator : MonoBehaviour,
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        canvasGroup.blocksRaycasts = true;
+        BlockRaycasts(block: true);
         ReturnToParent();
         SquadCanvasOperator.CardOnEndDrag();
+    }
+
+    public void BlockRaycasts(bool block)
+    {
+        canvasGroup.blocksRaycasts = block;
     }
 
     public void OnPointerDown(PointerEventData eventData)

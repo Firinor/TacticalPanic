@@ -30,7 +30,6 @@ public class WorldMapOperator : MonoBehaviour
     {
         WorldMenuManager.instance.SwitchPanels(WorldMarks.squad);
         UnitsCardManager.CardsToParent(CardHolder.SquadCanvas);
-
     }
 
     public void ToMap()
