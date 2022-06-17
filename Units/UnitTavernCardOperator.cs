@@ -22,7 +22,6 @@ public class UnitTavernCardOperator : MonoBehaviour,
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
         parent = transform.parent;
-        gameObject.SetActive(false);
     }
 
     public void SetParent(Transform parent)
@@ -78,8 +77,6 @@ public class UnitTavernCardOperator : MonoBehaviour,
 
     public void SetUnit(UnitBasis unit)
     {
-        gameObject.SetActive(true);
-
         transform.SetSiblingIndex(unit.id);
 
         this.unit = unit;

@@ -7,13 +7,13 @@ public enum TileTipe { Grass, EnemySpawner, ProtectedPoint, Road, Wood, Rock, Ri
 
 public static class TileMapGenerator// Top-manager
 {
-    public static List<List<Tile>> mapCode;
+    public static List<List<TerraTile>> mapCode;
     private static int width;
     private static int height;
     private static Vector2Int[] playerPoint;
     private static Vector2Int[] enemies;
     private static Vector2Int[] roadPoints;
-    private static List<Tile> unoccupiedTiles;
+    private static List<TerraTile> unoccupiedTiles;
     private static System.Random random = new System.Random((int)Time.timeSinceLevelLoad);
     /*
      * all map sectors
@@ -34,7 +34,7 @@ public static class TileMapGenerator// Top-manager
     */
     private static Zone[] mapZones = new Zone[5];
 
-    public static List<List<Tile>> GenerateNewMap(int x, int y) 
+    public static List<List<TerraTile>> GenerateNewMap(int x, int y) 
     {
         width = x;
         height = y;
@@ -55,16 +55,16 @@ public static class TileMapGenerator// Top-manager
 
         return mapCode;
     }
-    static List<List<Tile>> NewListListTile()
+    static List<List<TerraTile>> NewListListTile()
     {
-        var result = new List<List<Tile>>();
+        var result = new List<List<TerraTile>>();
         for (int _x = 0; _x < width; _x++)
         {
-            result.Add(new List<Tile>());
-            result[_x] = new List<Tile>();
+            result.Add(new List<TerraTile>());
+            result[_x] = new List<TerraTile>();
             for (int _y = 0; _y < height; _y++)
             {
-                result[_x].Add(new Tile(_x, _y));
+                result[_x].Add(new TerraTile(_x, _y));
             }
         }
 
@@ -77,16 +77,16 @@ public static class TileMapGenerator// Top-manager
         for( int i = 0; i < zones.Length; i++)
         {
             zones[i] = new Zone();
-            zones[i].tiles = new List<Tile>();
+            zones[i].tiles = new List<TerraTile>();
         }
 
-        foreach(Tile tile in unoccupiedTiles)
+        foreach(TerraTile tile in unoccupiedTiles)
         {
-            int dx = Mathf.FloorToInt(((float)tile.x / (float)width) * divider);
-            int dy = Mathf.FloorToInt(((float)tile.y / (float)height) * divider);
-            int i = dx + dy * divider;
-            zones[i].tiles.Add(tile);//for divider == 4 ; from 0 to 15
-            tile.mapSector = zones[i];
+            //int dx = Mathf.FloorToInt(((float)tile.x / (float)width) * divider);
+            //int dy = Mathf.FloorToInt(((float)tile.y / (float)height) * divider);
+            //int i = dx + dy * divider;
+            //zones[i].tiles.Add(tile);//for divider == 4 ; from 0 to 15
+            //tile.mapSector = zones[i];
             //if ((i + (dy % 2 == 0 ? 0 : 1)) % 2 == 0)
             //{
             //    tile.value = 4;
@@ -120,7 +120,7 @@ public static class TileMapGenerator// Top-manager
         void TilesForZone(Zone zone, int[] ints)
         {
             zone = new Zone();
-            zone.tiles = new List<Tile>();
+            zone.tiles = new List<TerraTile>();
             foreach(int i in ints)
             {
                 CopyTiles(zone, mapSectors[i]);
@@ -129,7 +129,7 @@ public static class TileMapGenerator// Top-manager
 
         void CopyTiles(Zone takerZone, Zone giverZone) 
         {
-            foreach (Tile tile in giverZone.tiles)
+            foreach (TerraTile tile in giverZone.tiles)
             {
                 takerZone.tiles.Add(tile);
                 tile.mapZone = takerZone;
@@ -138,9 +138,9 @@ public static class TileMapGenerator// Top-manager
 
         return zones;
     }
-    private static List<Tile> GetAllTiles()
+    private static List<TerraTile> GetAllTiles()
     {
-        List<Tile> tiles = new List<Tile>();
+        List<TerraTile> tiles = new List<TerraTile>();
 
         for(int _x = 0; _x < width; _x++)
         {
@@ -167,9 +167,9 @@ public static class TileMapGenerator// Top-manager
     {
         enemies = new Vector2Int[1];
 
-        List<Tile> tiles = TileMath.GetAllowedTiles(mapCode);
+        List<TerraTile> tiles = TileMath.GetAllowedTiles(mapCode);
 
-        Tile chosenTile = tiles[random.Next(tiles.Count)];
+        TerraTile chosenTile = tiles[random.Next(tiles.Count)];
 
         chosenTile.value = 2;
 
@@ -195,18 +195,18 @@ public static class TileMapGenerator// Top-manager
         
     }
 
-    internal static List<List<Tile>> LoadLevel(int level)
+    internal static List<List<TerraTile>> LoadLevel(int level)
     {
         switch (level)
         {
             case 1: return Level1();
-            default: return new List<List<Tile>>();
+            default: return new List<List<TerraTile>>();
         }
     }
 
-    private static List<List<Tile>> Level1()
+    private static List<List<TerraTile>> Level1()
     {
-        List<List<Tile>> level = new List<List<Tile>>();
+        List<List<TerraTile>> level = new List<List<TerraTile>>();
 
         int[,] map = new int[20, 30]
         {
@@ -234,10 +234,10 @@ public static class TileMapGenerator// Top-manager
 
         for (int y = 0; y < 20; y++)
         {
-            level.Add(new List<Tile>());
+            level.Add(new List<TerraTile>());
             for (int x = 0; x<30; x++)
             {
-                level[y].Add(new Tile(x,y));
+                level[y].Add(new TerraTile(x,y));
                 level[y][x].value = map[y,x];
             }
         }
@@ -245,27 +245,27 @@ public static class TileMapGenerator// Top-manager
     }
 }
 
-public class TileMap
-{
-    public int x{get; private set;}
-    public int y{get; private set;}
-    public Tile[,] tiles { get; private set; }
+//public class TileMap
+//{
+//    public int x{get; private set;}
+//    public int y{get; private set;}
+//    public Tile[,] tiles { get; private set; }
 
-    public TileMap(Vector2 vector) : this((int)vector.x, (int)vector.y) { }
-    public TileMap(Vector2Int vector) : this(vector.x, vector.y){ }
-    public TileMap(int x, int y)
-    {
-        this.x = x;
-        this.y = y;
-        tiles = new Tile[x,y];
+//    public TileMap(Vector2 vector) : this((int)vector.x, (int)vector.y) { }
+//    public TileMap(Vector2Int vector) : this(vector.x, vector.y){ }
+//    public TileMap(int x, int y)
+//    {
+//        this.x = x;
+//        this.y = y;
+//        tiles = new Tile[x,y];
 
-        for (int _x = 0; _x < x; _x++)
-            for(int _y = 0; _y < y; _y++)
-            {
-                //tiles[_x,_y] = new Tile();
-            }
+//        for (int _x = 0; _x < x; _x++)
+//            for(int _y = 0; _y < y; _y++)
+//            {
+//                //tiles[_x,_y] = new Tile();
+//            }
         
-    }
+//    }
 
     
-}
+//}

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WorldMapOperator : MonoBehaviour
 {
-
+    public Level[] levels;
     public void Return()
     {
         SceneManager.LoadScene("MainMenu");

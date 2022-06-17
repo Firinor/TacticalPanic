@@ -7,12 +7,12 @@ namespace FirGamesTileHelper
     public static class TileMath
     {
         //public static void DrawLine(Tile a, Tile b, List<List<Tile>> map, )
-        public static void DrawLine(Vector2Int p0, Vector2Int p1, List<List<Tile>> map, TileTipe tipe = TileTipe.Road)
+        public static void DrawLine(Vector2Int p0, Vector2Int p1, List<List<TerraTile>> map, TileTipe tipe = TileTipe.Road)
         {
             DrawLine(p0.x, p0.y, p1.x, p1.y, map, tipe);
         }
 
-        public static void DrawLine(int x0, int y0, int x1, int y1, List<List<Tile>> map, TileTipe tipe = TileTipe.Road)
+        public static void DrawLine(int x0, int y0, int x1, int y1, List<List<TerraTile>> map, TileTipe tipe = TileTipe.Road)
         {
             {
                 int dx = x1 - x0;
@@ -55,57 +55,57 @@ namespace FirGamesTileHelper
             }
         }
 
-        public static void BookATerritory(Tile a, int radius, List<List<Tile>> map, TileTipe tipe = TileTipe.Wood)
+        public static void BookATerritory(TerraTile a, int radius, List<List<TerraTile>> map, TileTipe tipe = TileTipe.Wood)
         {
 
         }
 
-        public static void BookATerritory(Tile a, int radius, List<List<Tile>> map, bool stufferStatus = true)
+        public static void BookATerritory(TerraTile a, int radius, List<List<TerraTile>> map, bool stufferStatus = true)
         {
 
         }
 
-        public static void BookATerritory(Tile tile, int radius, List<Tile> tiles, bool stufferStatus = true)
+        public static void BookATerritory(TerraTile tile, int radius, List<TerraTile> tiles, bool stufferStatus = true)
         {
-            BookATerritory(new Vector2Int(tile.x, tile.y), radius, tiles, stufferStatus);
+            //BookATerritory(new Vector2Int(tile.x, tile.y), radius, tiles, stufferStatus);
         }
 
-        public static void BookATerritory(Vector2Int point, int radius, List<Tile> tiles, bool stufferStatus = true)
+        public static void BookATerritory(Vector2Int point, int radius, List<TerraTile> tiles, bool stufferStatus = true)
         {
-            List<Tile> tempTileList = new List<Tile>();
+            List<TerraTile> tempTileList = new List<TerraTile>();
 
-            foreach (Tile tile in tiles)
+            foreach (TerraTile tile in tiles)
             {
                 if(tile == null)
                     continue;
-                if(tile.x <= point.x + radius && tile.x >= point.x - radius
-                    && tile.y <= point.y + radius && tile.y >= point.y - radius)
-                {
-                    tile.value = 4;
-                    tile.stuffed = true;
-                    tempTileList.Add(tile);
-                }
-                if(tile.x == point.x && tile.y == point.y)
-                {
-                    tile.mapSector.stuffed = stufferStatus;
-                    tile.mapZone.stuffed = stufferStatus;
-                    tile.value = 1;
-                }
+                //if(tile.x <= point.x + radius && tile.x >= point.x - radius
+                //    && tile.y <= point.y + radius && tile.y >= point.y - radius)
+                //{
+                //    tile.value = 4;
+                //    tile.stuffed = true;
+                //    tempTileList.Add(tile);
+                //}
+                //if(tile.x == point.x && tile.y == point.y)
+                //{
+                //    tile.mapSector.stuffed = stufferStatus;
+                //    tile.mapZone.stuffed = stufferStatus;
+                //    tile.value = 1;
+                //}
             }
 
-            foreach (Tile tile in tempTileList)
+            foreach (TerraTile tile in tempTileList)
             {
                 tiles.Remove(tile);
             }
         }
 
-        internal static List<Tile> GetAllowedTiles(List<List<Tile>> mapCode)
+        internal static List<TerraTile> GetAllowedTiles(List<List<TerraTile>> mapCode)
         {
-            List<Tile> tiles = new List<Tile>();
+            List<TerraTile> tiles = new List<TerraTile>();
 
-            foreach (List<Tile> listTile in mapCode)
+            foreach (List<TerraTile> listTile in mapCode)
             {
-                foreach (Tile tile in listTile)
+                foreach (TerraTile tile in listTile)
                 {
                     if(tile.mapZone != null && !tile.mapZone.stuffed && !tile.stuffed)
                     {

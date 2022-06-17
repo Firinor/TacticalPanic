@@ -9,8 +9,8 @@ public class TileMapOperator : MonoBehaviour
     private GameObject tileGroup;
     [SerializeField]
     private GameObject[] tilePrefabs;
-    [Range(1, 50)]
-    public static int level = 1;
+    //[Range(1, 50)]
+    //public static int level = 1;
     [SerializeField]
     private int tileSize;
     [SerializeField]
@@ -18,7 +18,7 @@ public class TileMapOperator : MonoBehaviour
 
     private List<Transform> transforms = new List<Transform>();
 
-    public void GenerateMap()
+    public void GenerateMap(int level = 1)
     {
         if (transforms.Count > 0)
         {
@@ -30,11 +30,11 @@ public class TileMapOperator : MonoBehaviour
         }
 
         //List<List<Tile>> intMap = TileMapGenerator.GenerateNewMap(mapSize.x, mapSize.y);
-        List<List<Tile>> intMap = TileMapGenerator.LoadLevel(level);
+        List<List<TerraTile>> intMap = TileMapGenerator.LoadLevel(level);
         Instantiate(intMap);
     }
 
-    private void Instantiate(List<List<Tile>> intMap)
+    private void Instantiate(List<List<TerraTile>> intMap)
     {
         float offset = tileSize / 2;
         
