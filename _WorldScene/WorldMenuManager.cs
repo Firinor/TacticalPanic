@@ -19,6 +19,7 @@ public class WorldMenuManager : SinglBehaviour<WorldMenuManager>, IScenePanel
 
     private SquadCanvasOperator squadCanvasOperator;
     private BriefingCanvasOperator briefingCanvasOperator;
+    private BriefingMapOperator briefingMapOperator;
 
     public void SetAllInstance()
     {
@@ -32,8 +33,10 @@ public class WorldMenuManager : SinglBehaviour<WorldMenuManager>, IScenePanel
         squadCanvasOperator.SetParentToAllUnits();
 
         briefingCanvasOperator = briefing.GetComponent<BriefingCanvasOperator>();
-        //squadCanvasOperator is disabled. Awake & Start procedures are not suitable
         briefingCanvasOperator.SingletoneCheck(briefingCanvasOperator);//Singltone
+
+        briefingMapOperator = briefing.GetComponentInChildren<BriefingMapOperator>();
+        briefingMapOperator.SingletoneCheck(briefingMapOperator);//Singltone
     }
 
     public void SwitchPanels(WorldMarks mark)

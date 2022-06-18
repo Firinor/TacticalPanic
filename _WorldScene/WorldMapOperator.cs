@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class WorldMapOperator : MonoBehaviour
 {
-    public Level[] levels;
     public void Return()
     {
         SceneManager.LoadScene("MainMenu");
     }
 
-    public void ToBriefing(int level)
+    public void ToBriefing(int levelCode)
     {
         WorldMenuManager.instance.SwitchPanels(WorldMarks.briefing);
         UnitsCardManager.CardsToParent(CardHolder.BriefingCanvas);
+        BriefingCanvasOperator.SetLevelInfo(DB.ReadLevel(levelCode));
     }
 
-    public void ToBattle(int level)
+    public void ToBattle()
     {
         SceneManager.LoadScene("BattleScene");
     }
