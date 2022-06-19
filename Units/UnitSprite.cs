@@ -4,7 +4,7 @@ using UnityEngine;
 public class UnitSprite : ScriptableObject
 {
     private UnitBasis unit;
-    public UnitBasis Unit
+    public UnitBasis unitBasis
     {
         get
         {

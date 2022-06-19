@@ -7,31 +7,31 @@ public static partial class S // Top-Manager
 {
     public static void OnLoad()
     {
-        party = new List<UnitBasis>();
-        account = SaveManager.Data.Account;
+        Party = new List<UnitBasis>();
+        Account = SaveManager.Data.Account;
     }
 
     public static void AddUnitToParty(UnitBasis unit)
     {
-        if(unit != null && !party.Contains(unit))
-            party.Add(unit);
+        if(unit != null && !Party.Contains(unit))
+            Party.Add(unit);
     }
 
     public static void RemoveUnitToParty(UnitBasis unit)
     {
-        party.Remove(unit);
+        Party.Remove(unit);
     }
 
     public static void ClearParty()
     {
-        party.Clear();
+        Party.Clear();
     }
 
     public static int[] GetPartyAsInts()
     {
-        int[] result = new int[party.Count];
+        int[] result = new int[Party.Count];
         for (int i = 0; i < result.Length; i++)
-            result[i] = party[i].id;
+            result[i] = Party[i].id;
         return result;
     }
 

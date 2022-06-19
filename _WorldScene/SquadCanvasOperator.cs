@@ -62,7 +62,7 @@ public class SquadCanvasOperator : SinglBehaviour<SquadCanvasOperator>
         if (instance == null)
             return;
         UnitsCardManager.SetParty(instance.partyPanel.GetComponentsInChildren<UnitTavernCardOperator>());
-        SaveManager.Save(S.account);
+        SaveManager.Save(S.Account);
     }
 
     internal static void CardOnDrop(UnitTavernCardOperator cardOperator, GameObject parent)

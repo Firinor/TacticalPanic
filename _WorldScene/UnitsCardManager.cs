@@ -44,8 +44,8 @@ public class UnitsCardManager : SinglBehaviour<UnitsCardManager>
         {
             case CardHolder.SquadCanvas:
                 CardsToParent(SquadCanvasOperator.GetPartyTransform(),
-                    SquadCanvasOperator.GetTavernTransform(),
-                    DragAndDropEnable: true);
+                    block: true);
+                CardsToParent(SquadCanvasOperator.GetTavernTransform());
                 break;
             case CardHolder.BriefingCanvas:
                 CardsToParent(BriefingCanvasOperator.GetPartyTransform());
@@ -54,7 +54,7 @@ public class UnitsCardManager : SinglBehaviour<UnitsCardManager>
     }
     public static void CardsToParent(Transform inPartyTransform = null,
         Transform inTawernTransform = null,
-        bool DragAndDropEnable = false)
+        bool block = true)
     {
         foreach(UnitBasis unit in unitCards.Keys)
         {
@@ -64,13 +64,13 @@ public class UnitsCardManager : SinglBehaviour<UnitsCardManager>
             {
                 unitCard.transform.SetParent(inPartyTransform);
                 unitCard.SetActive(true);
-                cardOperator.BlockRaycasts(DragAndDropEnable);
+                cardOperator.BlockRaycasts(block);
             }
             else if (!unit.inParty && inTawernTransform != null)
             {
                 unitCard.transform.SetParent(inTawernTransform);
                 unitCard.SetActive(true);
-                cardOperator.BlockRaycasts(DragAndDropEnable);
+                cardOperator.BlockRaycasts(block);
             }
             else
             {
@@ -78,6 +78,20 @@ public class UnitsCardManager : SinglBehaviour<UnitsCardManager>
             }
         }
     }
+
+    public static void CardsToParent(List<UnitBasis> units, Transform inTransform = null,
+        bool DragAndDropEnable = false)
+    {
+        foreach (UnitBasis unit in units)
+        {
+            GameObject unitCard = unitCards[unit];
+            UnitTavernCardOperator cardOperator = unitCard.GetComponent<UnitTavernCardOperator>();
+                unitCard.transform.SetParent(inTransform);
+                unitCard.SetActive(true);
+                cardOperator.BlockRaycasts(DragAndDropEnable);
+        }
+    }
+
 
     private static bool ComplianceRequirement(UnitBasis unit)
     {

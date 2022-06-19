@@ -11,7 +11,7 @@ public class CSVOperator : MonoBehaviour
 
         string[] AllText = File.ReadAllLines(path);
 
-        var UnitBasisList = new List<UnitBasis>();
+        List<UnitBasis> UnitBasisList = new List<UnitBasis>();
 
         //string titleString = AllText[0].Replace("\"", "");
         //string[] titles = titleString.Split(';');

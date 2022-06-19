@@ -12,8 +12,8 @@ public static partial class SideColor
 
 public static partial class S // Top-Manager
 {
-    public static int account { get; private set; }
-    public static List<UnitBasis> party { get; private set; }
+    public static int Account { get; private set; }
+    public static List<UnitBasis> Party { get; private set; }
 
     public static int GistsCount { get; } = Enum.GetValues(typeof(Gist)).Length;
     private static TimeManager battleTimer;

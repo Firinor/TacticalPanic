@@ -24,8 +24,10 @@ public class DB : SinglBehaviour<DB>//Top-manager
         foreach (UnitBasis unit in Units)
         {
             UnitSprite unitSprite = GetUnitSpriteByName(unit.unitName);
+            if (unitSprite == null)
+                continue;
             unit.SetUnitSprite(unitSprite);
-            unitSprite.Unit = unit;
+            unitSprite.unitBasis = unit;
         }
 
         //Levels[0].Map.GetTile( new Vector3Int(1,1,0));

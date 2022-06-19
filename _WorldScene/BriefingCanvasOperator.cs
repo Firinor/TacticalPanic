@@ -12,7 +12,7 @@ public class BriefingCanvasOperator : SinglBehaviour<BriefingCanvasOperator>
     [SerializeField]
     private BriefingMapOperator briefingMapOperator;
 
-    private int levelToLoad;
+    private Level level;
 
     internal static Transform GetPartyTransform()
     {
@@ -21,7 +21,11 @@ public class BriefingCanvasOperator : SinglBehaviour<BriefingCanvasOperator>
 
     internal static void SetLevelInfo(Level level)
     {
-        instance.briefingMapOperator.SetLevelInfo(level);
+        if(instance.level != level)
+        {
+            instance.briefingMapOperator.SetLevelInfo(level);
+            UnitsCardManager.CardsToParent(level.GetEnemies(), instance.enemyPanel.transform);
+        }
     }
 
     public void LoadLevelInfo(int levelCode)

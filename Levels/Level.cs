@@ -23,6 +23,16 @@ public class Level: ScriptableObject
     public Coroutine Conductor { get; private set; }
     public string DescriptionText { get { return descriptionText; } }
 
+    internal List<UnitBasis> GetEnemies()
+    {
+        List<UnitBasis> result = new List<UnitBasis>();
+        foreach (Enemies enemy in enemies)
+        {
+            result.Add(enemy.UnitBasis);
+        }
+        return result;
+    }
+
     [System.Serializable]
     public class Enemies
     {
@@ -30,6 +40,14 @@ public class Level: ScriptableObject
         private UnitSprite Unit;
         [SerializeField]
         public int Count;
+
+        public UnitBasis UnitBasis
+        {
+            get
+            {
+                return Unit.unitBasis;
+            }
+        }
     }
 
     public List<List<int>> GetMap()
