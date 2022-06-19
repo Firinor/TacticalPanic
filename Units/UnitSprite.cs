@@ -3,6 +3,20 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Unit/Unit sprite", fileName = "Usprite")]
 public class UnitSprite : ScriptableObject
 {
+    private UnitBasis unit;
+    public UnitBasis Unit
+    {
+        get
+        {
+            return unit;
+        }
+        set
+        {
+            if (unit == null)
+                unit = value;
+        }
+    }
+
     [Tooltip("Name of unit")]
     [SerializeField]
     private string unitName;
