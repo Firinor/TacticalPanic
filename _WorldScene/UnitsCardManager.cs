@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum CardDirectionView { Left = - 1, Right = 1 }
 public enum CardHolder { SquadCanvas, BriefingCanvas}
 
 public class UnitsCardManager : SinglBehaviour<UnitsCardManager>
@@ -32,85 +33,90 @@ public class UnitsCardManager : SinglBehaviour<UnitsCardManager>
                     continue;
 
                 GameObject mercenaryCard = Instantiate(instance.mercenaryCardPrefab, instance.defaultParent);
-                mercenaryCard.GetComponent<UnitTavernCardOperator>().SetUnit(unit);
-                unit.SetUnitParty(Array.Exists(SaveManager.Data.Party, x => x == unit.id));
+                mercenaryCard.GetComponent<UnitCardOperator>().SetUnit(unit);
                 unitCards.Add(unit, mercenaryCard);
             }
         }
     }
+
+    internal static void DirectionOfCards(List<UnitBasis> enemies, CardDirectionView direction)
+    {
+        foreach (UnitBasis unit in enemies)
+        {
+            unitCards[unit].transform.localScale = new Vector3((float)direction, 1, 1);
+        }
+    }
+
     public static void CardsToParent(CardHolder holder)
     {
         switch (holder)
         {
             case CardHolder.SquadCanvas:
-                CardsToParent(SquadCanvasOperator.GetPartyTransform(),
-                    block: true);
-                CardsToParent(SquadCanvasOperator.GetTavernTransform());
+                CardsToParent(PlayerManager.Party, SquadCanvasOperator.GetPartyTransform(), blockRaycasts: true);
+                CardsToParent(UnitsNotInParty(), SquadCanvasOperator.GetTavernTransform(), blockRaycasts: true);
                 break;
             case CardHolder.BriefingCanvas:
-                CardsToParent(BriefingCanvasOperator.GetPartyTransform());
+                CardsToParent(PlayerManager.Party, BriefingCanvasOperator.GetPartyTransform());
                 break;
-        }
-    }
-    public static void CardsToParent(Transform inPartyTransform = null,
-        Transform inTawernTransform = null,
-        bool block = true)
-    {
-        foreach(UnitBasis unit in unitCards.Keys)
-        {
-            GameObject unitCard = unitCards[unit];
-            UnitTavernCardOperator cardOperator = unitCard.GetComponent<UnitTavernCardOperator>();
-            if (unit.inParty && inPartyTransform != null)
-            {
-                unitCard.transform.SetParent(inPartyTransform);
-                unitCard.SetActive(true);
-                cardOperator.BlockRaycasts(block);
-            }
-            else if (!unit.inParty && inTawernTransform != null)
-            {
-                unitCard.transform.SetParent(inTawernTransform);
-                unitCard.SetActive(true);
-                cardOperator.BlockRaycasts(block);
-            }
-            else
-            {
-                unitCard.SetActive(false);
-            }
         }
     }
 
-    public static void CardsToParent(List<UnitBasis> units, Transform inTransform = null,
-        bool DragAndDropEnable = false)
+    private static List<UnitBasis> UnitsNotInParty()
     {
+        List<UnitBasis> result = new List<UnitBasis>();
+
+        foreach(UnitBasis unit in DB.Units)
+        {
+            if(unit != null && unit.unitInformator != null && unit.unitInformator.Playable && !PlayerManager.UnitInParty(unit))
+            {
+                result.Add(unit);
+            }
+        }
+
+        return result;
+    }
+
+    public static void CardsToParent(List<UnitBasis> units, Transform parentTransform,
+        bool blockRaycasts = false)
+    {
+        DisabledAllCards(parentTransform);
+
         foreach (UnitBasis unit in units)
         {
             GameObject unitCard = unitCards[unit];
-            UnitTavernCardOperator cardOperator = unitCard.GetComponent<UnitTavernCardOperator>();
-                unitCard.transform.SetParent(inTransform);
+            UnitCardOperator cardOperator = unitCard.GetComponent<UnitCardOperator>();
+                unitCard.transform.SetParent(parentTransform);
                 unitCard.SetActive(true);
-                cardOperator.BlockRaycasts(DragAndDropEnable);
+                cardOperator.BlockRaycasts(blockRaycasts);
         }
     }
 
+    private static void DisabledAllCards(Transform transform)
+    {
+        foreach (UnitCardOperator cardOperator in transform.gameObject.GetComponentsInChildren<UnitCardOperator>())
+        {
+            cardOperator.gameObject.SetActive(false);
+        }
+    }
 
     private static bool ComplianceRequirement(UnitBasis unit)
     {
-        UnitSprite unitSprite = unit.GetUnitSprite();
+        UnitInformator unitInformator = unit.unitInformator;
 
-        if (unitSprite == null) return false;
-        if (unitSprite.unitFace == null) return false;
+        if (unitInformator == null) return false;
+        if (unitInformator.unitFace == null) return false;
 
         return true;
     }
 
-    public static void SetParty(UnitTavernCardOperator[] partyPanel)
+    public static void SetParty(UnitCardOperator[] partyPanel)
     {
         unitCards.Clear();
-        S.ClearParty();
-        foreach (UnitTavernCardOperator unitCard in partyPanel)
+        PlayerManager.ClearParty();
+        foreach (UnitCardOperator unitCard in partyPanel)
         {
             unitCards.Add(unitCard.GetUnit(), unitCard.gameObject);
-            S.AddUnitToParty(unitCard.GetUnit());
+            PlayerManager.AddUnitToParty(unitCard.GetUnit());
         }
     }
 }

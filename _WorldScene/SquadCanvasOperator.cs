@@ -15,15 +15,15 @@ public class SquadCanvasOperator : SinglBehaviour<SquadCanvasOperator>
     [SerializeField]
     private GameObject partyPanel;
     [SerializeField]
-    private UnitTavernCardOperator tawernUnitCardShadow;
+    private UnitCardOperator tawernUnitCardShadow;
     [SerializeField]
-    private UnitTavernCardOperator partyUnitCardShadow;
+    private UnitCardOperator partyUnitCardShadow;
 
     public void SetParentToAllUnits()
     {
         foreach(UnitBasis unitCard in UnitsCardManager.unitCards.Keys)
         {
-            GameObject parent = unitCard.inParty ? partyPanel: tavernPanel;
+            GameObject parent = PlayerManager.UnitInParty(unitCard) ? partyPanel: tavernPanel;
             UnitsCardManager.unitCards[unitCard].transform.SetParent(parent.transform);
         }
     }
@@ -61,11 +61,11 @@ public class SquadCanvasOperator : SinglBehaviour<SquadCanvasOperator>
         instance.partyUnitCardShadow.gameObject.SetActive(false);
         if (instance == null)
             return;
-        UnitsCardManager.SetParty(instance.partyPanel.GetComponentsInChildren<UnitTavernCardOperator>());
-        SaveManager.Save(S.Account);
+        UnitsCardManager.SetParty(instance.partyPanel.GetComponentsInChildren<UnitCardOperator>());
+        SaveManager.Save(PlayerManager.Account);
     }
 
-    internal static void CardOnDrop(UnitTavernCardOperator cardOperator, GameObject parent)
+    internal static void CardOnDrop(UnitCardOperator cardOperator, GameObject parent)
     {
         cardOperator.SetParent(parent.transform);
     }

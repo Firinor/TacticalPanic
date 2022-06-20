@@ -38,7 +38,7 @@ public class SaveManager : MonoBehaviour
     public static void Save(int account)
     {
         Data.Account = account;
-        Data.Party = S.GetPartyAsInts();
+        Data.Party = PlayerManager.GetPartyAsInts();
 
         Save(GetPath(account), Data);
     }

@@ -37,7 +37,7 @@ public class Level: ScriptableObject
     public class Enemies
     {
         [SerializeField]
-        private UnitSprite Unit;
+        private UnitInformator Unit;
         [SerializeField]
         public int Count;
 

@@ -23,8 +23,10 @@ public class BriefingCanvasOperator : SinglBehaviour<BriefingCanvasOperator>
     {
         if(instance.level != level)
         {
+            List<UnitBasis> enemies = level.GetEnemies();
             instance.briefingMapOperator.SetLevelInfo(level);
-            UnitsCardManager.CardsToParent(level.GetEnemies(), instance.enemyPanel.transform);
+            UnitsCardManager.CardsToParent(enemies, instance.enemyPanel.transform);
+            UnitsCardManager.DirectionOfCards(enemies, CardDirectionView.Left);
         }
     }
 

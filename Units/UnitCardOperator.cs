@@ -2,12 +2,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UnitTavernCardOperator : MonoBehaviour,
+public class UnitCardOperator : MonoBehaviour,
     IBeginDragHandler, IDragHandler, IEndDragHandler,
     IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
     private UnitBasis unit;
-    private UnitSprite unitSprite;
+    private UnitInformator unitInformator;
     [SerializeField]
     private Image highlighting;
     [SerializeField]
@@ -80,8 +80,8 @@ public class UnitTavernCardOperator : MonoBehaviour,
         transform.SetSiblingIndex(unit.id);
 
         this.unit = unit;
-        unitSprite = unit.GetUnitSprite();
-        image.sprite = unitSprite.unitFace;
+        unitInformator = unit.unitInformator;
+        image.sprite = unitInformator.unitFace;
         image.color = Color.white;
     }
 

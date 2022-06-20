@@ -13,7 +13,7 @@ public class LoadDebuger : MonoBehaviour
         if(SaveManager.PlayerAccount() == -1)
         {
             SaveManager.Load(Account);
-            S.OnLoad();
+            PlayerManager.OnLoad();
         }
         Destroy(gameObject);
     }

@@ -6,11 +6,9 @@ public class UnitBasis: IInfoble
 {
     public int id { get; private set; }
     public string unitName { get; private set; }
-    public bool inParty { get; private set; }
     public float mspeed { get; private set; }
-
-    private UnitSprite unitSprite;
-    public Sprite SpriteInfo => unitSprite.unitSprite;
+    public UnitInformator unitInformator { get; set; }
+    public Sprite SpriteInfo => unitInformator.unitSprite;
 
     public BodyElement[] bodyElements => new BodyElement[0];
 
@@ -27,20 +25,5 @@ public class UnitBasis: IInfoble
     public string GetTextInfo()
     {
         return unitName;
-    }
-
-    public void SetUnitSprite(UnitSprite unitSprite)
-    {
-        this.unitSprite = unitSprite;
-    }
-
-    public UnitSprite GetUnitSprite()
-    {
-        return unitSprite;
-    }
-
-    public void SetUnitParty(bool inParty)
-    {
-        this.inParty = inParty;
     }
 }
