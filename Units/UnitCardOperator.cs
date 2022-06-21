@@ -16,12 +16,15 @@ public class UnitCardOperator : MonoBehaviour,
     private Transform parent;
     [SerializeField]
     private CanvasGroup canvasGroup;
+    [SerializeField]
+    private Text textComponent;
 
     private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
         parent = transform.parent;
+        textComponent.text = "";
     }
 
     public void SetParent(Transform parent)
@@ -88,5 +91,10 @@ public class UnitCardOperator : MonoBehaviour,
     public UnitBasis GetUnit()
     {
         return unit;
+    }
+
+    public void SetText(string text)
+    {
+        textComponent.text = text;
     }
 }

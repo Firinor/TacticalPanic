@@ -10,7 +10,7 @@ public static partial class SideColor
     public static readonly Color peaceful = new Color(0f, 1f, 0f, 1f);
 }
 
-public static partial class S // Top-Manager
+public static partial class PlayerOperator
 {
     public static int GistsCount { get; } = Enum.GetValues(typeof(Gist)).Length;
     private static TimeManager battleTimer;

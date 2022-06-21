@@ -6,7 +6,7 @@ public class LoadDebuger : MonoBehaviour
 {
     [Range(0, 2)]
     public int Account = 0;
-    public UnitsCardManager squadManager;
+    public Level level;
 
     void Awake()
     {
@@ -14,6 +14,10 @@ public class LoadDebuger : MonoBehaviour
         {
             SaveManager.Load(Account);
             PlayerManager.OnLoad();
+        }
+        if(level != null)
+        {
+            PlayerManager.PickedLevel = level;
         }
         Destroy(gameObject);
     }

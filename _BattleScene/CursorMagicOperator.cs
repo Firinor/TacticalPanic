@@ -15,7 +15,7 @@ public class CursorMagicOperator : MonoBehaviour
     public void Start()
     {
         mainCamera = GetComponent<Camera>();
-        S.GetCursorMagic(out passiveDamage, out passiveHeal);
+        PlayerOperator.GetCursorMagic(out passiveDamage, out passiveHeal);
     }
 
     void FixedUpdate()

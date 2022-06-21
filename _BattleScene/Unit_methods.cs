@@ -31,7 +31,7 @@ public partial class Unit : MonoBehaviour, IInfoble
 
         if (CheckTerms())
         {
-            S.DrawMana(GetManaPrice());
+            PlayerOperator.DrawMana(GetManaPrice());
             Landing = true;
             Deploy();
         }
@@ -43,9 +43,9 @@ public partial class Unit : MonoBehaviour, IInfoble
     {
         bool Check = true;
 
-        for (int i = 0; i < S.GistsCount; i++)
+        for (int i = 0; i < PlayerOperator.GistsCount; i++)
         {
-            if (Elements[i].manaPrice > 0 && S.GetCurrentMana(i) < Elements[i].manaPrice)
+            if (Elements[i].manaPrice > 0 && PlayerOperator.GetCurrentMana(i) < Elements[i].manaPrice)
             {
                 Check = false;
                 break;
@@ -61,7 +61,7 @@ public partial class Unit : MonoBehaviour, IInfoble
     }
     public string GetElementColorString(Gist gist)
     {
-        return GetElementColorString(S.GetIndexByGist(gist));
+        return GetElementColorString(PlayerOperator.GetIndexByGist(gist));
     }
     public int GetElementManaPrice(int index)
     {
@@ -69,7 +69,7 @@ public partial class Unit : MonoBehaviour, IInfoble
     }
     public int GetElementManaPrice(Gist gist)
     {
-        return GetElementManaPrice(S.GetIndexByGist(gist));
+        return GetElementManaPrice(PlayerOperator.GetIndexByGist(gist));
     }
     public int[] GetManaPrice()
     {
@@ -94,7 +94,7 @@ public partial class Unit : MonoBehaviour, IInfoble
 
     public void Damage( float[] damage)
     {
-        for (int i = 0; i < damage.Length && i < S.GistsCount; i++)
+        for (int i = 0; i < damage.Length && i < PlayerOperator.GistsCount; i++)
         {
             if (damage[i] != 0 && Elements[i].slider != null)
             {
@@ -107,7 +107,7 @@ public partial class Unit : MonoBehaviour, IInfoble
         if (damage == 0)
             return;
 
-        Damage(damage, Elements[S.GetIndexByGist(gist)]);
+        Damage(damage, Elements[PlayerOperator.GetIndexByGist(gist)]);
     }
     private void Damage(float damage, BodyElement element)
     {
@@ -131,7 +131,7 @@ public partial class Unit : MonoBehaviour, IInfoble
     }
     public void Heal(float[] cure)
     {
-        for (int i = 0; i < cure.Length && i < S.GistsCount; i++)
+        for (int i = 0; i < cure.Length && i < PlayerOperator.GistsCount; i++)
         {
             if (cure[i] != 0 && Elements[i].slider != null)
             {
@@ -144,12 +144,12 @@ public partial class Unit : MonoBehaviour, IInfoble
         if (cure == 0)
             return;
 
-        Damage(- cure, Elements[S.GetIndexByGist(gist)]);
+        Damage(- cure, Elements[PlayerOperator.GetIndexByGist(gist)]);
     }
 
     private void RefreshBar()
     {
-        for (int i = 0; i < S.GistsCount; i++)
+        for (int i = 0; i < PlayerOperator.GistsCount; i++)
         {
             if (Elements[i].slider != null)
                 Elements[i].slider.value = Elements[i].Current;

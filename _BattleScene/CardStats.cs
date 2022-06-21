@@ -11,7 +11,7 @@ public class CardStats : MonoBehaviour
     private Image cardImage;
 
     [SerializeField]
-    private Text[] ManaText = new Text[S.GistsCount];
+    private Text[] ManaText = new Text[PlayerOperator.GistsCount];
 
     //Возможно когда-то у карт будут разные уровни спавна на поле
     //private int DeployLevel = 1;
@@ -27,7 +27,7 @@ public class CardStats : MonoBehaviour
 
         cardImage.sprite = stats.GetCardSprite();
 
-        for (int i = 0; i < S.GistsCount; i++)
+        for (int i = 0; i < PlayerOperator.GistsCount; i++)
         {
             if (ManaText[i] != null && stats.GetElementManaPrice(i) != 0)
             {

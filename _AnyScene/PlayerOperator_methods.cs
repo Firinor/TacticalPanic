@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public static partial class S // Top-Manager
+public static partial class PlayerOperator
 {
     public static int GetIndexByGist(Gist gist)
     {

@@ -13,7 +13,7 @@ public partial class Unit : MonoBehaviour, IInfoble
     public string Name { get => unitName; }
 
     [SerializeField]
-    private Slider[] sliders = new Slider[S.GistsCount];
+    private Slider[] sliders = new Slider[PlayerOperator.GistsCount];
 
     private BodyElement HP;
     private BodyElement MP;

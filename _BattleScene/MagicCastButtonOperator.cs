@@ -8,7 +8,7 @@ public class MagicCastButtonOperator : MonoBehaviour, IPointerEnterHandler, IPoi
 {
     [SerializeField]
     private MagicInformator magic;
-    private int[] manaCost = new int[S.GistsCount];
+    private int[] manaCost = new int[PlayerOperator.GistsCount];
 
     [SerializeField]
     private Image reloadImage;
@@ -19,8 +19,8 @@ public class MagicCastButtonOperator : MonoBehaviour, IPointerEnterHandler, IPoi
     [SerializeField]
     private GameObject manaCostInfoGroup;
     [SerializeField]
-    private GameObject[] manaCostInfo = new GameObject[S.GistsCount];
-    private Text[] manaCostInfoText = new Text[S.GistsCount];
+    private GameObject[] manaCostInfo = new GameObject[PlayerOperator.GistsCount];
+    private Text[] manaCostInfoText = new Text[PlayerOperator.GistsCount];
 
     void Awake()
     {
@@ -30,7 +30,7 @@ public class MagicCastButtonOperator : MonoBehaviour, IPointerEnterHandler, IPoi
     
     private void GetManaCostInfoText()
     {
-        for (int i = 0; i < S.GistsCount; i++)
+        for (int i = 0; i < PlayerOperator.GistsCount; i++)
         {
             if (manaCost[i] == 0) 
             {
@@ -45,7 +45,7 @@ public class MagicCastButtonOperator : MonoBehaviour, IPointerEnterHandler, IPoi
     }
     private void GetManaCostOfMagic()
     {
-        for (int i = 0; i < S.GistsCount; i++)
+        for (int i = 0; i < PlayerOperator.GistsCount; i++)
         {
             manaCost[i] = MagicInformator.GetManaCostInfo(i);
         }
@@ -53,18 +53,18 @@ public class MagicCastButtonOperator : MonoBehaviour, IPointerEnterHandler, IPoi
 
     public void ButtomClick()
     {
-        if(S.GetCurrentMana(Gist.Magic) >= 5)
+        if(PlayerOperator.GetCurrentMana(Gist.Magic) >= 5)
         {
-            S.DrawMana(new int[] { 0, 5, 0, 0 });
+            PlayerOperator.DrawMana(new int[] { 0, 5, 0, 0 });
         }
     }
 
     public void Update()
     {
-        float[] mana = S.GetAllCurrentMana();
+        float[] mana = PlayerOperator.GetAllCurrentMana();
         int mostNeeded = 0;
         float mostPercentage = 0;
-        for (int i = 0; i < S.GistsCount; i++)
+        for (int i = 0; i < PlayerOperator.GistsCount; i++)
         {
             float percentage = 1 - mana[i] / manaCost[i];
             if(percentage > mostPercentage)
@@ -77,7 +77,7 @@ public class MagicCastButtonOperator : MonoBehaviour, IPointerEnterHandler, IPoi
         manaCostText.enabled = !EnoughMana;
         if (!EnoughMana)
         {
-            reloadImage.color = S.GetManaColor(mostNeeded);
+            reloadImage.color = PlayerOperator.GetManaColor(mostNeeded);
             reloadImage.fillAmount = mostPercentage;
             manaCostText.text = manaCost[mostNeeded].ToString();
         }

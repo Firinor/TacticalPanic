@@ -26,11 +26,11 @@ public class MouseLayerInformator : MonoBehaviour, IPointerEnterHandler, IPointe
     public void OnMouseEnter()
     {
         if (cursorType != CursorType.Arrow)
-            S.GetCursorManager().CursorOverlap(cursorType);
+            PlayerOperator.GetCursorManager().CursorOverlap(cursorType);
     }
     public void OnMouseExit()
     {
         if (cursorType != CursorType.Arrow)
-            S.GetCursorManager().CursorRemove(cursorType);
+            PlayerOperator.GetCursorManager().CursorRemove(cursorType);
     }
 }

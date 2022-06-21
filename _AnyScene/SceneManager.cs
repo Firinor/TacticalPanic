@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnitySceneManagement = UnityEngine.SceneManagement.SceneManager;
+using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 
 public enum SceneDirection { basic, exit, options, changeScene, saves, off }
 
@@ -39,7 +39,7 @@ public class SceneManager : SinglBehaviour<SceneManager>
 
     public static int GetScene()
     {
-        return UnitySceneManagement.GetActiveScene().buildIndex;
+        return UnitySceneManager.GetActiveScene().buildIndex;
     }
 
     public static bool MenuScene()
@@ -49,7 +49,7 @@ public class SceneManager : SinglBehaviour<SceneManager>
 
     public static void LoadScene(string sceneName)
     {
-        instance.operation = UnitySceneManagement.LoadSceneAsync(sceneName);
+        instance.operation = UnitySceneManager.LoadSceneAsync(sceneName);
         SetAllowSceneActivation(false);
         instance.loadingTransitionOperator.LoadScene();
     }

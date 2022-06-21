@@ -43,11 +43,11 @@ public class DB : SinglBehaviour<DB>//Top-manager
         return Units.Find(x => x.id == id);
     }
 
-
     public static Level ReadLevel(int level)
     {
         //1 - first level
         //2 - second level
-        return instance.Levels[level-1];
+        PlayerManager.PickedLevel = instance.Levels[level - 1];
+        return PlayerManager.PickedLevel;
     }
 }
