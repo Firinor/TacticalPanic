@@ -9,6 +9,8 @@ public class WorldMapInformator : SinglBehaviour<WorldMapInformator>
     private List<Tile> tiles;
     [SerializeField]
     private List<GameObject> spriteTiles;
+    [SerializeField]
+    private List<GameObject> inBattleTiles;
 
     private Dictionary<Tile, GameObject> tileSpritePairs;
 
@@ -34,5 +36,10 @@ public class WorldMapInformator : SinglBehaviour<WorldMapInformator>
     public static int GetTileIndex(Tile tile)
     {
         return instance.tiles.IndexOf(tile);
+    }
+
+    public static GameObject GetInBattleTile(Tile tile)
+    {
+        return instance.inBattleTiles[GetTileIndex(tile)];
     }
 }

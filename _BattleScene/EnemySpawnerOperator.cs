@@ -8,6 +8,7 @@ public class EnemySpawnerOperator : MonoBehaviour
     private GameObject enemy;
     [SerializeField]
     private float spawnCooldown = 2f;
+    public Level level { private get; set; }
 
     void Start()
     {

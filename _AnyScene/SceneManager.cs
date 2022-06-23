@@ -109,7 +109,7 @@ public class SceneManager : SinglBehaviour<SceneManager>
         int SceneIndex = GetScene();
         if (SceneIndex == 2)//"BattleScene"
         {
-            //FindObjectOfType<BattleSceneManager>().SetAllInstance();
+            FindObjectOfType<BattleSceneManager>().SetAllInstance();
             instance.optionsOperator.SetAcriveOfExitButton(true);
         }
         else if (SceneIndex == 1)//"WorldMap"
