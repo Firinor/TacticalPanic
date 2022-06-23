@@ -38,7 +38,7 @@ public class BriefingMapOperator : SinglBehaviour<BriefingMapOperator>
         {
             for(int y = 0; y < intMap[x].Count; y++)
             {
-                GameObject newSprite = Instantiate(WorldMapInformator.SpriteTiles[intMap[x][y]], GridOfMap.transform);
+                GameObject newSprite = Instantiate(TileInformator.SpriteTiles[intMap[x][y]], GridOfMap.transform);
                 spriteTiles.Add(newSprite);
             }
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class WorldMapInformator : SinglBehaviour<WorldMapInformator>
+public class TileInformator : SinglBehaviour<TileInformator>
 {
     [SerializeField]
     private List<Tile> tiles;
@@ -16,7 +16,7 @@ public class WorldMapInformator : SinglBehaviour<WorldMapInformator>
 
     void Awake()
     {
-        SingletoneCheck<WorldMapInformator>(this);
+        SingletoneCheck<TileInformator>(this);
         tileSpritePairs = new Dictionary<Tile, GameObject>();
         for(int i = 0; i < tiles.Count; i++)
         {
@@ -27,6 +27,7 @@ public class WorldMapInformator : SinglBehaviour<WorldMapInformator>
     public static List<Tile> Tiles { get { return instance.tiles; } }
 
     public static List<GameObject> SpriteTiles { get { return instance.spriteTiles; } }
+    public static List<GameObject> BattleTiles { get { return instance.inBattleTiles; } }
 
     public static GameObject GetTileAsSprite(Tile tile)
     {

@@ -24,7 +24,7 @@ public class CardDragAndDropOperator : MonoBehaviour,
 
     public void Start()
     {
-        cardUnit = GetComponent<CardStats>().cardUnit;
+        cardUnit = GetComponent<CardStats>().GetUnitPrefab();
         statsUnit = cardUnit.GetComponent<Unit>();
         camera = Camera.main;
         gameObject.transform.Find("Name").GetComponent<Text>().text = statsUnit.GetName();

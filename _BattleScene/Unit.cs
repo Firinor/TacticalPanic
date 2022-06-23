@@ -12,6 +12,8 @@ public partial class Unit : MonoBehaviour, IInfoble
     private string unitName = "!NO NAME!";
     public string Name { get => unitName; }
 
+    public UnitBasis unitBasis { private get; set; }
+
     [SerializeField]
     private Slider[] sliders = new Slider[PlayerOperator.GistsCount];
 
@@ -37,6 +39,11 @@ public partial class Unit : MonoBehaviour, IInfoble
     [SerializeField]
     private Sounds sounds;
     private AudioSourceOperator audioOperator;
+
+    public Unit(UnitBasis unitBasis)
+    {
+        this.unitBasis = unitBasis;
+    }
 
     private void Awake()
     {

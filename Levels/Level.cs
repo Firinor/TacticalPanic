@@ -61,7 +61,7 @@ public class Level: ScriptableObject
                 for(int y = 0; y<height; y++)
                 {
                     Tile levelTile = Map.GetTile<Tile>(new Vector3Int(x, y, 0));
-                    intMap[x].Add(WorldMapInformator.GetTileIndex(levelTile));
+                    intMap[x].Add(TileInformator.GetTileIndex(levelTile));
                 }
             }
         }

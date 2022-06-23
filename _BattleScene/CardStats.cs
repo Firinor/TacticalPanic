@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class CardStats : MonoBehaviour
 {
     private Unit stats;
-    public GameObject cardUnit;
+    [SerializeField]
+    private GameObject unitPrefab;
     [SerializeField]
     private Image cardImage;
 
@@ -18,8 +19,8 @@ public class CardStats : MonoBehaviour
 
     public void Start()
     {
-        cardUnit = Instantiate(cardUnit);
-        stats = cardUnit.GetComponent<Unit>();
+        unitPrefab = Instantiate(unitPrefab);
+        stats = unitPrefab.GetComponent<Unit>();
         
         stats.SetUnitActivity(false);
         stats.SetConflictSide(ConflictSide.Player);
@@ -40,8 +41,13 @@ public class CardStats : MonoBehaviour
         }
     }
 
-    public void SetCardUnit(GameObject unit)
+    public void SetCardUnit(UnitBasis unit)
     {
-        cardUnit = unit;
+        //DB.Units.
+    }
+
+    public GameObject GetUnitPrefab()
+    {
+        return unitPrefab;
     }
 }
