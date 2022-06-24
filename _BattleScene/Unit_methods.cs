@@ -217,7 +217,7 @@ public partial class Unit : MonoBehaviour, IInfoble
     }
     public Sprite GetCardSprite()
     {
-        return sprite;
+        return unitBasis.unitInformator.unitSprite;
     }
 
     public void Pick()

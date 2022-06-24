@@ -5,34 +5,28 @@ using UnityEngine.UI;
 
 public class CardStats : MonoBehaviour
 {
-    private Unit stats;
-    [SerializeField]
-    private GameObject unitPrefab;
+    private Unit unit;
     [SerializeField]
     private Image cardImage;
+    [SerializeField]
+    private GameObject unitPrefab;
 
     [SerializeField]
     private Text[] ManaText = new Text[PlayerOperator.GistsCount];
 
-    //Возможно когда-то у карт будут разные уровни спавна на поле
-    //private int DeployLevel = 1;
-
     public void Start()
     {
-        unitPrefab = Instantiate(unitPrefab);
-        stats = unitPrefab.GetComponent<Unit>();
-        
-        stats.SetUnitActivity(false);
-        stats.SetConflictSide(ConflictSide.Player);
-        stats.SetVisualState(VisualOfUnit.Off);
+        unit.SetUnitActivity(false);
+        unit.SetConflictSide(ConflictSide.Player);
+        unit.SetVisualState(VisualOfUnit.Off);
 
-        cardImage.sprite = stats.GetCardSprite();
+        cardImage.sprite = unit.GetCardSprite();
 
         for (int i = 0; i < PlayerOperator.GistsCount; i++)
         {
-            if (ManaText[i] != null && stats.GetElementManaPrice(i) != 0)
+            if (ManaText[i] != null && unit.GetElementManaPrice(i) != 0)
             {
-                ManaText[i].text = $"<color={stats.GetElementColorString(i)}>{stats.GetElementManaPrice(i)}</color>";
+                ManaText[i].text = $"<color={unit.GetElementColorString(i)}>{unit.GetElementManaPrice(i)}</color>";
             }
             else
             {
@@ -41,9 +35,10 @@ public class CardStats : MonoBehaviour
         }
     }
 
-    public void SetCardUnit(UnitBasis unit)
+    public void SetCardUnit(Unit unit)
     {
-        //DB.Units.
+        this.unit = unit;
+        unitPrefab = unit.gameObject;
     }
 
     public GameObject GetUnitPrefab()

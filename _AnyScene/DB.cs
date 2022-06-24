@@ -29,8 +29,6 @@ public class DB : SinglBehaviour<DB>//Top-manager
             unit.unitInformator = unitInformator;
             unitInformator.unitBasis = unit;
         }
-
-        //Levels[0].Map.GetTile( new Vector3Int(1,1,0));
     }
 
     private UnitInformator GetUnitInformatorByName(string name)
