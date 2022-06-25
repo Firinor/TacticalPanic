@@ -25,7 +25,7 @@ public class GistInfoOperator : MonoBehaviour
         SetActive(false);
     }
 
-    public void SetNumerical(BodyGist gist)
+    public void SetNumerical(GistBasis gist)
     {
         SetActive(true);
         attackText.text = gist.attack == 0 ? "": gist.attack.ToString();

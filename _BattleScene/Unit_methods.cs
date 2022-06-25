@@ -45,7 +45,7 @@ public partial class Unit : MonoBehaviour, IInfoble
 
         for (int i = 0; i < PlayerOperator.GistsCount; i++)
         {
-            if (Elements[i].manaPrice > 0 && PlayerOperator.GetCurrentMana(i) < Elements[i].manaPrice)
+            if (GistBasis[i].manaPrice > 0 && PlayerOperator.GetCurrentMana(i) < GistBasis[i].manaPrice)
             {
                 Check = false;
                 break;
@@ -57,7 +57,7 @@ public partial class Unit : MonoBehaviour, IInfoble
 
     public string GetElementColorString(int index)
     {
-        return Elements[index].colorString;
+        return GistColorInformator.ColorByIndex(index).TextColor;
     }
     public string GetElementColorString(Gist gist)
     {
@@ -65,7 +65,7 @@ public partial class Unit : MonoBehaviour, IInfoble
     }
     public int GetElementManaPrice(int index)
     {
-        return Elements[index].manaPrice;
+        return GistBasis[index].manaPrice;
     }
     public int GetElementManaPrice(Gist gist)
     {
@@ -73,32 +73,18 @@ public partial class Unit : MonoBehaviour, IInfoble
     }
     public int[] GetManaPrice()
     {
-        int[] price = new int[Elements.Length];
-        for (int i = 0; i < Elements.Length; i++)
-            price[i] = Elements[i].manaPrice;
+        int[] price = new int[GistBasis.Length];
+        for (int i = 0; i < GistBasis.Length; i++)
+            price[i] = GistBasis[i].manaPrice;
         return price;
     }
-    public BodyElement.PointsValue[] GetPointInfo()
-    {
-        BodyElement.PointsValue[] result = new BodyElement.PointsValue[Elements.Length];
-        for(int i = 0; i < Elements.Length; i++)
-        {
-            if(Elements[i] != null || Elements[i].slider != null)
-            {
-                result[i].max = Elements[i].Value.max;
-                result[i].current = Elements[i].Value.current;
-            }
-        }
-        return result;
-    }
-
-    public void Damage( float[] damage)
+    public void Damage(float[] damage)
     {
         for (int i = 0; i < damage.Length && i < PlayerOperator.GistsCount; i++)
         {
-            if (damage[i] != 0 && Elements[i].slider != null)
+            if (damage[i] != 0 && GistsOfUnit[i].slider != null)
             {
-                Damage(damage[i], Elements[i]);
+                Damage(damage[i], GistsOfUnit[i]);
             }
         }
     }
@@ -107,18 +93,18 @@ public partial class Unit : MonoBehaviour, IInfoble
         if (damage == 0)
             return;
 
-        Damage(damage, Elements[PlayerOperator.GetIndexByGist(gist)]);
+        Damage(damage, GistBasis[PlayerOperator.GetIndexByGist(gist)].gist);
     }
-    private void Damage(float damage, BodyElement element)
+    private void Damage(float damage, GistOfUnit element)
     {
-        if (!IsAlive || damage == 0 ||element.slider == null || element.Current <= 0)
+        if (!IsAlive || damage == 0 ||element.slider == null || element.points <= 0)
             return;
 
-        element.Current -= damage;
-        element.Current = math.clamp(element.Current, 0, element.Max);
-        element.slider.value = element.Current;
+        element.points -= (int)damage;
+        element.points = math.clamp(element.points, 0, element.gist.points);
+        element.slider.value = element.points;
 
-        if (element.Current <= 0 && DeathElement == element)
+        if (element.points <= 0 && unitBasis.GistOfDeath == element.gist.gist)
         {
             IsAlive = false;
             Death();
@@ -133,9 +119,9 @@ public partial class Unit : MonoBehaviour, IInfoble
     {
         for (int i = 0; i < cure.Length && i < PlayerOperator.GistsCount; i++)
         {
-            if (cure[i] != 0 && Elements[i].slider != null)
+            if (cure[i] != 0 && GistsOfUnit[i].slider != null)
             {
-                Damage( - cure[i], Elements[i]);
+                Damage( - cure[i], GistsOfUnit[i]);
             }
         }
     }
@@ -144,15 +130,15 @@ public partial class Unit : MonoBehaviour, IInfoble
         if (cure == 0)
             return;
 
-        Damage(- cure, Elements[PlayerOperator.GetIndexByGist(gist)]);
+        Damage(- cure, GistBasis[PlayerOperator.GetIndexByGist(gist)].gist);
     }
 
     private void RefreshBar()
     {
         for (int i = 0; i < PlayerOperator.GistsCount; i++)
         {
-            if (Elements[i].slider != null)
-                Elements[i].slider.value = Elements[i].Current;
+            if (GistsOfUnit[i].slider != null)
+                GistsOfUnit[i].slider.value = GistsOfUnit[i].points;
         }
     }
     public void SetUnitActivity(bool flag)

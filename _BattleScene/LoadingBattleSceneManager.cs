@@ -55,16 +55,20 @@ public class LoadingBattleSceneManager : MonoBehaviour
         List<Unit> playerParty = new List<Unit>();
         for (int i = 0; i < PlayerManager.Party.Count; i++)
         {
-            playerParty.Add(new Unit(PlayerManager.Party[i]));
+            playerParty.Add(Instantiate(unitPrefab).GetComponent<Unit>());
+            playerParty[i].unitBasis = PlayerManager.Party[i];
         }
 
-        Unit unit = Instantiate(unitPrefab).GetComponent<Unit>();
-
         Transform handTransform = playerHand.transform;
+        List<GameObject> childToDestroy = new List<GameObject>();
         if (handTransform.childCount > 0)
         {
             for (int i = 0; i < handTransform.childCount; i++)
-                Destroy(handTransform.GetChild(i).gameObject);
+                childToDestroy.Add(handTransform.GetChild(i).gameObject);
+        }
+        foreach (GameObject child in childToDestroy)
+        {
+                Destroy(child);
         }
 
         for (int i = 0; i < playerParty.Count; i++)

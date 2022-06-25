@@ -28,14 +28,15 @@ public class CSVOperator : MonoBehaviour
             string name = elements[1];
             float mspeed = Convert.ToSingle(elements[2]);
             int gistCount = Convert.ToInt32(elements[3]);
+            Gist DeathGist = (Gist)Enum.Parse(typeof(GistColors), elements[4]);
 
-            BodyGist[] bodyGists = new BodyGist[gistCount];
+            GistBasis[] bodyGists = new GistBasis[gistCount];
 
-            int index = 3;
+            int index = 4;
             for (int j = 0; j < gistCount; j++)
             {
                 index++;
-                BodyGist resultBodyGist = new BodyGist();
+                GistBasis resultBodyGist = new GistBasis();
                 resultBodyGist.gist = (Gist)Enum.Parse(typeof(GistColors), elements[index]);
                 resultBodyGist.attack = Convert.ToInt32(elements[index + gistCount]);
                 resultBodyGist.reattack = Convert.ToInt32(elements[index + gistCount * 2]);
@@ -46,7 +47,7 @@ public class CSVOperator : MonoBehaviour
                 bodyGists[j] = resultBodyGist;
             }
 
-            UnitBasisList.Add(new UnitBasis(id, name, mspeed, bodyGists));
+            UnitBasisList.Add(new UnitBasis(id, name, mspeed, DeathGist, bodyGists));
         }
 
         return UnitBasisList;

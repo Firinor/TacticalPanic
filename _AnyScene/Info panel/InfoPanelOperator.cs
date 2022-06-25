@@ -67,9 +67,9 @@ public class InfoPanelOperator : MonoBehaviour
     private void SetNumerical(IInfoble picedObject)
     {
         DisableAllCollum();
-        foreach (BodyGist element in picedObject.Elements)
+        foreach (GistBasis gist in picedObject.GistBasis)
         {
-            parameters[(int)element.gist].SetNumerical(element);
+            parameters[(int)gist.gist].SetNumerical(gist);
         }
     }
 
