@@ -12,7 +12,8 @@ public static partial class SideColor
 
 public static partial class PlayerOperator
 {
-    public static int GistsCount { get; } = Enum.GetValues(typeof(Gist)).Length;
+    //public static int GistsCount { get; } = Enum.GetValues(typeof(Gist)).Length;
+    public static int GistsCount { get; } = 4;
     private static TimeManager battleTimer;
     private static CursorOperator cursorManager;
 

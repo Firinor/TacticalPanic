@@ -19,9 +19,11 @@ public partial class Unit : MonoBehaviour, IInfoble
     private Slider[] sliders = new Slider[PlayerOperator.GistsCount];
     public GistOfUnit[] GistsOfUnit { get; }
     public GistBasis[] GistBasis => throw new NotImplementedException();
+    
 
     private bool IsAlive;
-
+    [SerializeField]
+    private SpriteRenderer pedestal;
     [SerializeField]
     private SpriteRenderer unitSpriteRenderer;
     [SerializeField]
@@ -43,7 +45,7 @@ public partial class Unit : MonoBehaviour, IInfoble
         //SP = new GistOfUnit("Special points", "lime", Gist.Spectrum, 25, 25, 0, sliders[3], 1, 0);
         //elements = new GistOfUnit[]{ HP, MP, EP, SP };
 
-        RefreshBar();
+        //RefreshBar();
 
         sounds.SetSounds(SoundInformator.GetUnitSounds(sounds.GetMaterials()));
         audioOperator = GetComponentInChildren<AudioSourceOperator>();

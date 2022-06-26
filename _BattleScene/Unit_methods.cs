@@ -162,15 +162,15 @@ public partial class Unit : MonoBehaviour, IInfoble
         {
             case ConflictSide.Player:
                 gameObject.tag = "Player";
-                gameObject.GetComponent<SpriteRenderer>().color = SideColor.player;
+                pedestal.color = SideColor.player;
                 break;
             case ConflictSide.Neutral:
                 gameObject.tag = "Untagget";
-                gameObject.GetComponent<SpriteRenderer>().color = SideColor.neutral;
+                pedestal.color = SideColor.neutral;
                 break;
             default: //ConflictSide.Enemy
                 gameObject.tag = "Enemy";
-                gameObject.GetComponent<SpriteRenderer>().color = SideColor.enemy;
+                pedestal.color = SideColor.enemy;
                 break;
         }
     }
@@ -201,21 +201,14 @@ public partial class Unit : MonoBehaviour, IInfoble
     {
         return name;
     }
-    public Sprite GetCardSprite()
-    {
-        return unitBasis.unitInformator.unitSprite;
-    }
-
     public void Pick()
     {
         unitSpriteRenderer.material = InputOperator.PickMaterial;
     }
-
     public void UnPick()
     {
         unitSpriteRenderer.material = InputOperator.DefaultMaterial;
     }
-
     public AudioClip GetDeathSound()
     {
         return sounds.Death;
@@ -228,7 +221,6 @@ public partial class Unit : MonoBehaviour, IInfoble
     {
         return sounds.Attack;
     }
-
     public string GetTextInfo()
     {
         return GetName();

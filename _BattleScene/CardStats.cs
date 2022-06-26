@@ -20,7 +20,7 @@ public class CardStats : MonoBehaviour
         unit.SetConflictSide(ConflictSide.Player);
         unit.SetVisualState(VisualOfUnit.Off);
 
-        cardImage.sprite = unit.GetCardSprite();
+        cardImage.sprite = unit.SpriteInfo;
 
         for (int i = 0; i < PlayerOperator.GistsCount; i++)
         {
