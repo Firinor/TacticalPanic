@@ -14,6 +14,8 @@ public class LoadingBattleSceneManager : MonoBehaviour
     private GameObject flor;
     private List<GameObject> battleTiles = new List<GameObject>();
 
+    public static UnitBasis LastLoadingUnit { get; internal set; }
+
     void Awake()
     {
         SelectedUnitsInformator.Start();
@@ -55,8 +57,8 @@ public class LoadingBattleSceneManager : MonoBehaviour
         List<Unit> playerParty = new List<Unit>();
         for (int i = 0; i < PlayerManager.Party.Count; i++)
         {
+            LastLoadingUnit = PlayerManager.Party[i];
             playerParty.Add(Instantiate(unitPrefab).GetComponent<Unit>());
-            playerParty[i].unitBasis = PlayerManager.Party[i];
         }
 
         Transform handTransform = playerHand.transform;
