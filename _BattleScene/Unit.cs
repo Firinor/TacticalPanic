@@ -18,7 +18,7 @@ public partial class Unit : MonoBehaviour, IInfoble
     [SerializeField]
     private Slider[] sliders = new Slider[PlayerOperator.GistsCount];
     public GistOfUnit[] GistsOfUnit { get; }
-    public GistBasis[] GistBasis => throw new NotImplementedException();
+    public GistBasis[] GistBasis => unitBasis.GistBasis;
     
 
     private bool IsAlive;

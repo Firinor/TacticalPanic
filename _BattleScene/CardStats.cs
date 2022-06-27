@@ -21,16 +21,19 @@ public class CardStats : MonoBehaviour
         unit.SetVisualState(VisualOfUnit.Off);
 
         cardImage.sprite = unit.SpriteInfo;
+        GetManaPriseText();
+    }
 
-        for (int i = 0; i < PlayerOperator.GistsCount; i++)
+    private void GetManaPriseText()
+    {
+        for (int i = 0; i < unit.GistBasis.Length; i++)
         {
-            if (ManaText[i] != null && unit.GetElementManaPrice(i) != 0)
+            GistBasis basis = unit.GistBasis[i];
+            int manaPrise = unit.GetElementManaPrice(i);
+            if (ManaText[i] != null && manaPrise != 0)
             {
-                ManaText[i].text = $"<color={unit.GetElementColorString(i)}>{unit.GetElementManaPrice(i)}</color>";
-            }
-            else
-            {
-                ManaText[i].gameObject.SetActive(false);
+                ManaText[i].gameObject.SetActive(true);
+                ManaText[i].text = $"<color={unit.GetElementColorString(basis.gist)}>{manaPrise}</color>";
             }
         }
     }

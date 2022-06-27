@@ -29,8 +29,8 @@ public static class GistColorInformator
 
     public static readonly Facts Red = new Facts("red", Color.red);
     public static readonly Facts Blue = new Facts("blue", Color.blue);
-    public static readonly Facts Yellow = new Facts("green", Color.green);
-    public static readonly Facts Green = new Facts("yellow", Color.yellow);
+    public static readonly Facts Yellow = new Facts("yellow", Color.yellow);
+    public static readonly Facts Green = new Facts("green", Color.green);
     public static readonly Facts Orange = new Facts("orange", new Color(1, 0.5f, 0f, 1));
     public static readonly Facts Purple = new Facts("purple", Color.magenta);
     public static readonly Facts Gray = new Facts("gray", Color.gray);
