@@ -10,6 +10,8 @@ public class CardStats : MonoBehaviour
     private Image cardImage;
     [SerializeField]
     private GameObject unitPrefab;
+    [SerializeField]
+    private Text nameOfUnit;
 
     [SerializeField]
     private Text[] ManaText = new Text[PlayerOperator.GistsCount];
@@ -22,6 +24,7 @@ public class CardStats : MonoBehaviour
 
         cardImage.sprite = unit.SpriteInfo;
         GetManaPriseText();
+        nameOfUnit.text = unit.GetTextInfo();
     }
 
     private void GetManaPriseText()

@@ -199,7 +199,7 @@ public partial class Unit : MonoBehaviour, IInfoble
     }
     public string GetName()
     {
-        return name;
+        return unitBasis.GetTextInfo();
     }
     public void Pick()
     {
