@@ -43,9 +43,10 @@ public partial class Unit : MonoBehaviour, IInfoble
     {
         bool Check = true;
 
-        for (int i = 0; i < PlayerOperator.GistsCount; i++)
+        for (int i = 0; i < GistBasis.Length; i++)
         {
-            if (GistBasis[i].manaPrice > 0 && PlayerOperator.GetCurrentMana(i) < GistBasis[i].manaPrice)
+            int gistManaPrise = GistBasis[i].manaPrice;
+            if (gistManaPrise > 0 && PlayerOperator.GetCurrentMana(GistBasis[i].gist) < gistManaPrise)
             {
                 Check = false;
                 break;

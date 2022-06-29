@@ -36,7 +36,7 @@ public class CardDragAndDropOperator : MonoBehaviour,
         if (Input.GetMouseButtonDown(1) && dragCard)
         {
             dragCard = false;
-            WontToDeploy(false);
+            WantToDeploy(false);
         }
     }
 
@@ -85,14 +85,14 @@ public class CardDragAndDropOperator : MonoBehaviour,
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        WontToDeploy(InputMouseInformator.MouseLayer == 0);
+        WantToDeploy(InputMouseInformator.MouseLayer == 0);
     }
     
-    public void WontToDeploy(bool wontToDeploy = false)
+    public void WantToDeploy(bool wantToDeploy = false)
     {
         dragCard = false;
 
-        if (wontToDeploy)
+        if (wantToDeploy)
         {
             if (statsUnit.CheckTermsAndDeploy())
             {
