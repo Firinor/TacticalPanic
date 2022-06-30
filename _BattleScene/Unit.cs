@@ -37,6 +37,7 @@ public partial class Unit : MonoBehaviour, IInfoble
     private void Awake()
     {
         unitBasis = LoadingBattleSceneManager.LastLoadingUnit;
+        gameObject.name = "Unit-" + unitBasis.unitName;
         unitSpriteRenderer.sprite = SpriteInfo;
 
         //HP = new GistOfUnit("Health points", "red", Gist.Life, 100, 100, 1, sliders[0], 1, 10);

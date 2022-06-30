@@ -67,9 +67,16 @@ public class CardDragAndDropOperator : MonoBehaviour,
             if (transform.position.y != cardPositionOffset)
                 transform.position = new Vector3(transform.position.x, cardPositionOffset, transform.position.z);
 
-            //Vector3 pos = _camera.ScreenToWorldPoint(eventData.position);
-            Vector3 pos = camera.ScreenToWorldPoint(Input.mousePosition);
-            pos.z = 0;
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            Debug.DrawLine(camera.transform.position, Vector3.forward);
+
+            RaycastHit hit;
+            Physics.Raycast(ray, out hit);
+
+            //if (hit.point )
+            Vector3 pos = hit.point;
+            //Vector3 pos = camera.ScreenToWorldPoint(Input.mousePosition);
+            //pos.z = 0;
             cardUnit.transform.localPosition = pos;
             if (statsUnit.CheckTerms())
             {
