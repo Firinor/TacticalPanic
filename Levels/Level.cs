@@ -20,7 +20,11 @@ public class Level: ScriptableObject
     private List<List<int>> intMap;
     public List<Enemies> enemies;
     [SerializeField]
-    private List<SpawnPoint> enemySpawnPoints;
+    private List<Vector2Int> enemySpawnPoints;
+    public List<Vector2Int> EnemySpawnPoints { get { return enemySpawnPoints; } }
+    [SerializeField]
+    private List<Vector2Int> playerHealthPoints;
+    public List<Vector2Int> PlayerHealthPoints { get { return playerHealthPoints; } }
     public Coroutine Conductor { get; private set; }
     public string DescriptionText { get { return descriptionText; } }
 
@@ -78,23 +82,19 @@ public class Level: ScriptableObject
 
         return intMap;
     }
-
-    public IEnumerator LevelConductor()
-    {
-        yield return new WaitForSeconds(1);
-    }
-}
-
-[System.Serializable]
-public class SpawnPoint
-{
-    public Vector2Int point;
 }
 
 [CreateAssetMenu(menuName = "Level/New path", fileName = "Path")]
 public class Path : ScriptableObject
 {
     public Level level;
-    public SpawnPoint spawn;
-    public Vector2Int[] points;
+    public Vector2Int spawn;
+    public wayPoint[] points;
+
+    [System.Serializable]
+    public class wayPoint
+    {
+        public Vector2Int Point;
+        public float delay;
+    }
 }

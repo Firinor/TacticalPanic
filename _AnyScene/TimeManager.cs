@@ -41,7 +41,10 @@ public class TimeManager : MonoBehaviour
 
         gameSpeedSlider = GameObject.Find("GameSpeedSlider").GetComponent<Slider>();
 
-        //StartCoroutine(PlayerManager.PickedLevel.Conductor);
+        foreach (Level.Enemies enemy in PlayerManager.PickedLevel.enemies)
+        {
+            StartCoroutine(enemy.Start());
+        }
     }
 
     public void FixedUpdate()

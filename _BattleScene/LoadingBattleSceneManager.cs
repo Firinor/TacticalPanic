@@ -21,17 +21,14 @@ public class LoadingBattleSceneManager : MonoBehaviour
         SelectedUnitsInformator.Start();
         UnitInfoPanelOperator.InfoEvent += UnitInfoPanelOperator.RefreshPointsInfo;
         CreatePlayerUnits();
-        CreatrBattleField();
+        CreateBattleField();
     }
 
-    private void CreatrBattleField()
+    private void CreateBattleField()
     {
         Level level = PlayerManager.PickedLevel;
-        GenerateMap(level.GetMap());
-    }
-
-    private void GenerateMap(List<List<int>> intMap)
-    {
+        List<List<int>> intMap = level.GetMap();
+    
         if (battleTiles.Count > 0)
         {
             foreach (GameObject sprite in battleTiles)
@@ -48,8 +45,25 @@ public class LoadingBattleSceneManager : MonoBehaviour
                 GameObject newTile = Instantiate(TileInformator.BattleTiles[intMap[x][y]], flor.transform);
                 battleTiles.Add(newTile);
                 newTile.transform.SetPositionAndRotation(new Vector3(x,0,y), Quaternion.identity);
+                #if UNITY_EDITOR
+                newTile.GetComponent<inBattleTileOperator>().text.text = $"{x}-{y}";
+                #endif
             }
         }
+
+        foreach (Vector2Int point in level.EnemySpawnPoints)
+        {
+            GameObject newTile = Instantiate(TileInformator.BattleTiles[2], flor.transform);
+            battleTiles.Add(newTile);
+            newTile.transform.SetPositionAndRotation(new Vector3(point.x, 0, point.y), Quaternion.identity);
+        }
+        foreach (Vector2Int point in level.PlayerHealthPoints)
+        {
+            GameObject newTile = Instantiate(TileInformator.BattleTiles[1], flor.transform);
+            battleTiles.Add(newTile);
+            newTile.transform.SetPositionAndRotation(new Vector3(point.x, 0, point.y), Quaternion.identity);
+        }
+
     }
 
     private void CreatePlayerUnits()
