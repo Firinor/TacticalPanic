@@ -40,6 +40,8 @@ public class TimeManager : MonoBehaviour
         missionObjectivesText.text = "" + PlayerOperator.CurrentSityHealth + " / " + PlayerOperator.MaxSityHealth;
 
         gameSpeedSlider = GameObject.Find("GameSpeedSlider").GetComponent<Slider>();
+
+        //StartCoroutine(PlayerManager.PickedLevel.Conductor);
     }
 
     public void FixedUpdate()

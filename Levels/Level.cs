@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -9,10 +10,8 @@ using UnityEngine.Tilemaps;
 public class Level: ScriptableObject
 {
     public int Code;
-    [SerializeField]
-    private int width;
-    [SerializeField]
-    private int height;
+    private int width = 30;
+    private int height = 20;
     [SerializeField]
     [Multiline]
     private string descriptionText;
@@ -20,6 +19,8 @@ public class Level: ScriptableObject
     public Tilemap Map;
     private List<List<int>> intMap;
     public List<Enemies> enemies;
+    [SerializeField]
+    private List<SpawnPoint> enemySpawnPoints;
     public Coroutine Conductor { get; private set; }
     public string DescriptionText { get { return descriptionText; } }
 
@@ -37,9 +38,13 @@ public class Level: ScriptableObject
     public class Enemies
     {
         [SerializeField]
+        private float spawnTime;
+        [SerializeField]
         private UnitInformator Unit;
         [SerializeField]
         public int Count;
+        [SerializeField]
+        public Path enemyPath;
 
         public UnitBasis UnitBasis
         {
@@ -47,6 +52,11 @@ public class Level: ScriptableObject
             {
                 return Unit.unitBasis;
             }
+        }
+
+        public IEnumerator Start()
+        {
+            yield return this;
         }
     }
 
@@ -69,6 +79,22 @@ public class Level: ScriptableObject
         return intMap;
     }
 
+    public IEnumerator LevelConductor()
+    {
+        yield return new WaitForSeconds(1);
+    }
 }
 
+[System.Serializable]
+public class SpawnPoint
+{
+    public Vector2Int point;
+}
 
+[CreateAssetMenu(menuName = "Level/New path", fileName = "Path")]
+public class Path : ScriptableObject
+{
+    public Level level;
+    public SpawnPoint spawn;
+    public Vector2Int[] points;
+}
