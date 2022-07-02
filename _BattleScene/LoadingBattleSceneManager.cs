@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class LoadingBattleSceneManager : MonoBehaviour
@@ -24,11 +25,21 @@ public class LoadingBattleSceneManager : MonoBehaviour
         CreateBattleField();
     }
 
+    [ContextMenu("CreateBattleField")]
+    private void CreateBattleFieldByContextMenu()
+    {
+        TileInformator tileInformator = GameObject.Find("BigDataBase").GetComponent<TileInformator>();
+        tileInformator.SingletoneCheck<TileInformator>(tileInformator);
+        CreateBattleField(GameObject.Find("LoadDebuger").GetComponent<LoadDebuger>().level);
+    }
     private void CreateBattleField()
     {
-        Level level = PlayerManager.PickedLevel;
+        CreateBattleField(PlayerManager.PickedLevel);
+    }
+    private void CreateBattleField(Level level)
+    {
         List<List<int>> intMap = level.GetMap();
-    
+
         if (battleTiles.Count > 0)
         {
             foreach (GameObject sprite in battleTiles)
@@ -45,9 +56,11 @@ public class LoadingBattleSceneManager : MonoBehaviour
                 GameObject newTile = Instantiate(TileInformator.BattleTiles[intMap[x][y]], flor.transform);
                 battleTiles.Add(newTile);
                 newTile.transform.SetPositionAndRotation(new Vector3(x,0,y), Quaternion.identity);
-                #if UNITY_EDITOR
-                newTile.GetComponent<inBattleTileOperator>().text.text = $"{x}-{y}";
-                #endif
+#if UNITY_EDITOR
+                newTile.GetComponent<inBattleTileOperator>().text = $"{x}-{y}";
+#else
+                newTile.GetComponent<inBattleTileOperator>().Switch.SetActive(false);
+#endif
             }
         }
 
@@ -63,7 +76,6 @@ public class LoadingBattleSceneManager : MonoBehaviour
             battleTiles.Add(newTile);
             newTile.transform.SetPositionAndRotation(new Vector3(point.x, 0, point.y), Quaternion.identity);
         }
-
     }
 
     private void CreatePlayerUnits()

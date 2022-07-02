@@ -6,5 +6,8 @@ using UnityEngine;
 public class inBattleTileOperator : MonoBehaviour
 {
     [SerializeField]
-    public TextMeshPro text;
+    private TextMeshPro textMeshPro;
+    public string text { get { return textMeshPro.text; } set { textMeshPro.text = value; } }
+    [SerializeField]
+    public GameObject Switch;
 }

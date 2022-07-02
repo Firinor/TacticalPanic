@@ -48,7 +48,7 @@ public class Level: ScriptableObject
         [SerializeField]
         public int Count;
         [SerializeField]
-        public Path enemyPath;
+        public UnitOnLevelPath enemyPath;
 
         public UnitBasis UnitBasis
         {
@@ -60,6 +60,7 @@ public class Level: ScriptableObject
 
         public IEnumerator Start()
         {
+            yield return new WaitForSeconds(spawnTime);
             yield return this;
         }
     }
@@ -81,20 +82,5 @@ public class Level: ScriptableObject
         }
 
         return intMap;
-    }
-}
-
-[CreateAssetMenu(menuName = "Level/New path", fileName = "Path")]
-public class Path : ScriptableObject
-{
-    public Level level;
-    public Vector2Int spawn;
-    public wayPoint[] points;
-
-    [System.Serializable]
-    public class wayPoint
-    {
-        public Vector2Int Point;
-        public float delay;
     }
 }
