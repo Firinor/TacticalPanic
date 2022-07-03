@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
 //public enum TileTipe { Grass, EnemySpawner, ProtectedPoint, Road, Wood, Rock, River }
 
 [CreateAssetMenu(menuName = "Level/New level", fileName = "Level")]
-public class Level: ScriptableObject
+public class LevelInformator: ScriptableObject
 {
     public int Code;
     private int width = 30;
@@ -18,7 +18,7 @@ public class Level: ScriptableObject
     [SerializeField]
     public Tilemap Map;
     private List<List<int>> intMap;
-    public List<Enemies> enemies;
+    public List<EnemySquadsInformator> enemies;
     [SerializeField]
     private List<Vector2Int> enemySpawnPoints;
     public List<Vector2Int> EnemySpawnPoints { get { return enemySpawnPoints; } }
@@ -28,41 +28,15 @@ public class Level: ScriptableObject
     public Coroutine Conductor { get; private set; }
     public string DescriptionText { get { return descriptionText; } }
 
-    internal List<UnitBasis> GetEnemies()
+    internal List<UnitBasis> GetEnemyBases()
     {
         List<UnitBasis> result = new List<UnitBasis>();
-        foreach (Enemies enemy in enemies)
+        foreach (EnemySquadsInformator enemy in enemies)
         {
-            result.Add(enemy.UnitBasis);
+            if(!result.Equals(enemy))
+                result.Add(enemy.UnitBasis);
         }
         return result;
-    }
-
-    [System.Serializable]
-    public class Enemies
-    {
-        [SerializeField]
-        private float spawnTime;
-        [SerializeField]
-        private UnitInformator Unit;
-        [SerializeField]
-        public int Count;
-        [SerializeField]
-        public UnitOnLevelPath enemyPath;
-
-        public UnitBasis UnitBasis
-        {
-            get
-            {
-                return Unit.unitBasis;
-            }
-        }
-
-        public IEnumerator Start()
-        {
-            yield return new WaitForSeconds(spawnTime);
-            yield return this;
-        }
     }
 
     public List<List<int>> GetMap()

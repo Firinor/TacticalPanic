@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Level/New path", fileName = "Path")]
-public class UnitOnLevelPath : ScriptableObject
+public class UnitOnLevelPathInformator : ScriptableObject
 {
-    public Level level;
+    public LevelInformator level;
     [Range(0, 5)]
     public int start;
     [Range(0, 5)]

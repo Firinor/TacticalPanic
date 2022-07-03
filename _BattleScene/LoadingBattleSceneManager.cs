@@ -22,9 +22,16 @@ public class LoadingBattleSceneManager : MonoBehaviour
         SelectedUnitsInformator.Start();
         UnitInfoPanelOperator.InfoEvent += UnitInfoPanelOperator.RefreshPointsInfo;
         CreatePlayerUnits();
+        CreateEnemyUnits();
         CreateBattleField();
     }
 
+    private void CreateEnemyUnits()
+    {
+        EnemyManager.CreateEnemies();
+    }
+
+#if UNITY_EDITOR
     [ContextMenu("CreateBattleField")]
     private void CreateBattleFieldByContextMenu()
     {
@@ -32,11 +39,12 @@ public class LoadingBattleSceneManager : MonoBehaviour
         tileInformator.SingletoneCheck<TileInformator>(tileInformator);
         CreateBattleField(GameObject.Find("LoadDebuger").GetComponent<LoadDebuger>().level);
     }
+#endif
     private void CreateBattleField()
     {
         CreateBattleField(PlayerManager.PickedLevel);
     }
-    private void CreateBattleField(Level level)
+    private void CreateBattleField(LevelInformator level)
     {
         List<List<int>> intMap = level.GetMap();
 
@@ -77,7 +85,6 @@ public class LoadingBattleSceneManager : MonoBehaviour
             newTile.transform.SetPositionAndRotation(new Vector3(point.x, 0, point.y), Quaternion.identity);
         }
     }
-
     private void CreatePlayerUnits()
     {
         List<Unit> playerParty = new List<Unit>();

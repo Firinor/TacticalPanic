@@ -16,7 +16,7 @@ public class BriefingMapOperator : SinglBehaviour<BriefingMapOperator>
 
     private List<GameObject> spriteTiles = new List<GameObject>();
 
-    internal void SetLevelInfo(Level level)
+    internal void SetLevelInfo(LevelInformator level)
     {
         headerText.text = level.name;
         descriptionText.text = level.DescriptionText;

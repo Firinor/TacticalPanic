@@ -7,7 +7,7 @@ public static class PlayerManager
 {
     public static int Account { get; private set; }
     public static List<UnitBasis> Party { get; set; } = new List<UnitBasis>();
-    public static Level PickedLevel { get; set; }
+    public static LevelInformator PickedLevel { get; set; }
 
     public static void OnLoad()
     {

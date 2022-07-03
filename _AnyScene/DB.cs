@@ -13,7 +13,7 @@ public class DB : SinglBehaviour<DB>//Top-manager
     public static List<UnitBasis> Units { get; private set; }
 
     [SerializeField]
-    public List<Level> Levels;
+    public List<LevelInformator> Levels;
 
     void Awake()
     {
@@ -41,7 +41,7 @@ public class DB : SinglBehaviour<DB>//Top-manager
         return Units.Find(x => x.id == id);
     }
 
-    public static Level ReadLevel(int level)
+    public static LevelInformator ReadLevel(int level)
     {
         //1 - first level
         //2 - second level

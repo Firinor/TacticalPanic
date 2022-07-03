@@ -6,7 +6,7 @@ public class LoadDebuger : MonoBehaviour
 {
     [Range(0, 2)]
     public int Account = 0;
-    public Level level;
+    public LevelInformator level;
 
     void Awake()
     {
