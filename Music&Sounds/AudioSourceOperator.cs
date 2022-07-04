@@ -114,7 +114,7 @@ public class AudioSourceOperator : MonoBehaviour, IPointerEnterHandler, IPointer
                 GetSource().PlayOneShot(audioClips[SoundNumber]);
     }
 
-    public void PlaySound(UnitSounds unitSounds, Unit unit)
+    public void PlaySound(UnitSounds unitSounds, UnitOperator unit)
     {
         switch (unitSounds)
         {

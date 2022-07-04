@@ -86,7 +86,7 @@ public static class SelectedUnitsInformator
 {
     private static bool debugLoadCompleted = false;
 
-    public static ObservableCollection<Unit> SelectedUnits { get; set; } = new ObservableCollection<Unit>();
+    public static ObservableCollection<UnitOperator> SelectedUnits { get; set; } = new ObservableCollection<UnitOperator>();
 
     public static void Start()
     {

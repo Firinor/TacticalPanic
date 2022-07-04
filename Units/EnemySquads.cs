@@ -9,6 +9,7 @@ public class EnemySquadsInformator
     private float spawnTime;
     [SerializeField]
     private UnitInformator Unit;
+    private List<UnitOperator> units = new List<UnitOperator>();
     [SerializeField]
     public int Count;
     [SerializeField]
@@ -22,10 +23,20 @@ public class EnemySquadsInformator
         }
     }
 
+    public void AddUnitOperatorToSquad(UnitOperator unit)
+    {
+        if (!units.Contains(unit))
+        {
+            units.Add(unit);
+        }
+    }
+
     public IEnumerator Start()
     {
         yield return new WaitForSeconds(spawnTime);
-        //Instantiate();
-        yield return this;
+        for(int i = 0; i < units.Count; i++)
+        {
+            units[i].SpawnToPoint(enemyPath);
+        }
     }
 }

@@ -12,7 +12,7 @@ public class FightOperator : MonoBehaviour
     private bool readyToAttack = true;
     private bool attackAction = false;
 
-    private Unit unit;
+    private UnitOperator unit;
 
     private Collider2D attackArea;
     private Collider2D[] arrayColliders = new Collider2D[16];
@@ -28,7 +28,7 @@ public class FightOperator : MonoBehaviour
 
     public void Start()
     {
-        unit = GetComponent<Unit>();
+        unit = GetComponent<UnitOperator>();
         attackArea = GetComponents<Collider2D>()[1];
         audioOperator = GetComponentInChildren<AudioSourceOperator>();
 
@@ -95,7 +95,7 @@ public class FightOperator : MonoBehaviour
             {
                 if (enemy != null && enemy.gameObject.CompareTag(compareTag))
                 {
-                    enemy.GetComponent<Unit>().Damage(1, Gist.Life);//Strenght to damage
+                    enemy.GetComponent<UnitOperator>().Damage(1, Gist.Life);//Strenght to damage
                     unit.Damage(7, Gist.Energy);
                     audioOperator.PlaySound(UnitSounds.Attack, unit);
                 }

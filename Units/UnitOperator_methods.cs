@@ -1,8 +1,9 @@
 using UnityEngine;
 using Unity.Mathematics;
 using System.Text;
+using System;
 
-public partial class Unit : MonoBehaviour, IInfoble
+public partial class UnitOperator : MonoBehaviour, IInfoble
 { 
     private void Death()
     {
@@ -17,6 +18,12 @@ public partial class Unit : MonoBehaviour, IInfoble
     public void DeathAnimationEnds()
     {
         Destroy(gameObject);
+    }
+    public void Prepare(ConflictSide side)
+    {
+        SetUnitActivity(false);
+        SetConflictSide(side);
+        SetVisualState(VisualOfUnit.Off);
     }
 
     public void Deploy()
@@ -37,6 +44,12 @@ public partial class Unit : MonoBehaviour, IInfoble
         }
 
         return Landing;
+    }
+
+    public void SpawnToPoint(UnitOnLevelPathInformator enemyPath)
+    {
+        Deploy();
+        MoveOperator.SpawnToPoint(enemyPath);
     }
 
     public bool CheckTerms()
@@ -114,7 +127,7 @@ public partial class Unit : MonoBehaviour, IInfoble
         {
             audioOperator.PlaySound(UnitSounds.Hit, this);
         }
-        UnitInfoPanelOperator.RefreshPointsInfo(gameObject.GetComponent<Unit>());
+        UnitInfoPanelOperator.RefreshPointsInfo(gameObject.GetComponent<UnitOperator>());
     }
     public void Heal(float[] cure)
     {

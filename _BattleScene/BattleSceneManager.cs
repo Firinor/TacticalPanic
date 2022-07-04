@@ -7,11 +7,18 @@ public enum BattleMarks { options, off }
 
 public class BattleSceneManager : SinglBehaviour<WorldMenuManager>, IScenePanel
 {
+    [SerializeField]
+    private GameObject unitsTank;
+    private UnitsManager unitsManager;
+
     public void SetAllInstance()
     {
         if (instance == null)
             SingletoneCheck(this);
         SceneManager.ScenePanel = this;
+
+        unitsManager = unitsTank.GetComponent<UnitsManager>();
+        unitsManager.SingletoneCheck(unitsManager);//Singltone
     }
 
     public void SwitchPanels(BattleMarks mark)

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,5 +18,11 @@ public class UnitOnLevelPathInformator : ScriptableObject
     {
         public Vector2Int Point;
         public float delay;
+    }
+
+    internal Vector3 GetSpawnPoint()
+    {
+        Vector2Int point = level.EnemySpawnPoints[start];
+        return new Vector3(point.x, 0, point.y);
     }
 }

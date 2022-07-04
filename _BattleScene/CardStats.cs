@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class CardStats : MonoBehaviour
 {
-    private Unit unit;
+    private UnitOperator unit;
     [SerializeField]
     private Image cardImage;
     [SerializeField]
@@ -18,9 +18,7 @@ public class CardStats : MonoBehaviour
 
     public void Start()
     {
-        unit.SetUnitActivity(false);
-        unit.SetConflictSide(ConflictSide.Player);
-        unit.SetVisualState(VisualOfUnit.Off);
+        unit.Prepare(ConflictSide.Player);
 
         cardImage.sprite = unit.SpriteInfo;
         GetManaPriseText();
@@ -41,7 +39,7 @@ public class CardStats : MonoBehaviour
         }
     }
 
-    public void SetCardUnit(Unit unit)
+    public void SetCardUnit(UnitOperator unit)
     {
         this.unit = unit;
         unitPrefab = unit.gameObject;

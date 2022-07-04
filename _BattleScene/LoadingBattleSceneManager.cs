@@ -28,10 +28,18 @@ public class LoadingBattleSceneManager : MonoBehaviour
 
     private void CreateEnemyUnits()
     {
-        EnemyManager.CreateEnemies();
+        foreach (EnemySquadsInformator squad in PlayerManager.PickedLevel.enemies)
+        {
+            LastLoadingUnit = squad.UnitBasis;
+            for(int i = 0; i < squad.Count; i++)
+            {
+                UnitOperator unit = Instantiate(unitPrefab, UnitsManager.EnemyUnitsParent.transform).GetComponent<UnitOperator>();
+                unit.Prepare(ConflictSide.Enemy);
+                EnemyManager.AddEnemyToDictionary(unit, squad);
+            }
+        }
     }
 
-#if UNITY_EDITOR
     [ContextMenu("CreateBattleField")]
     private void CreateBattleFieldByContextMenu()
     {
@@ -39,7 +47,6 @@ public class LoadingBattleSceneManager : MonoBehaviour
         tileInformator.SingletoneCheck<TileInformator>(tileInformator);
         CreateBattleField(GameObject.Find("LoadDebuger").GetComponent<LoadDebuger>().level);
     }
-#endif
     private void CreateBattleField()
     {
         CreateBattleField(PlayerManager.PickedLevel);
@@ -87,11 +94,11 @@ public class LoadingBattleSceneManager : MonoBehaviour
     }
     private void CreatePlayerUnits()
     {
-        List<Unit> playerParty = new List<Unit>();
+        List<UnitOperator> playerParty = new List<UnitOperator>();
         for (int i = 0; i < PlayerManager.Party.Count; i++)
         {
             LastLoadingUnit = PlayerManager.Party[i];
-            playerParty.Add(Instantiate(unitPrefab).GetComponent<Unit>());
+            playerParty.Add(Instantiate(unitPrefab, UnitsManager.PlayerUnitsParent.transform).GetComponent<UnitOperator>());
         }
 
         Transform handTransform = playerHand.transform;

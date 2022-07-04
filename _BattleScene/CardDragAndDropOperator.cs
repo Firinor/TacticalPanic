@@ -17,7 +17,7 @@ public class CardDragAndDropOperator : MonoBehaviour,
     private float smoothness = 0.25f;
 
     private GameObject cardUnit;
-    private Unit statsUnit;
+    private UnitOperator statsUnit;
 
     private bool dragCard = false;
     private bool cursorOnCard = false;
@@ -25,7 +25,7 @@ public class CardDragAndDropOperator : MonoBehaviour,
     public void Start()
     {
         cardUnit = GetComponent<CardStats>().GetUnitPrefab();
-        statsUnit = cardUnit.GetComponent<Unit>();
+        statsUnit = cardUnit.GetComponent<UnitOperator>();
         camera = Camera.main;
         gameObject.transform.Find("Name").GetComponent<Text>().text = statsUnit.GetName();
         cardSiblingOffset = -(gameObject.GetComponent<RectTransform>().rect.width 

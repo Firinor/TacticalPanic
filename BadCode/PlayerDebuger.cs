@@ -9,7 +9,7 @@ public class PlayerDebuger : MonoBehaviour
     private Vector3 moveInput;
 
     [SerializeField]
-    private Unit stats;
+    private UnitOperator stats;
 
     public void Start()
     {

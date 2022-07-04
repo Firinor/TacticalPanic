@@ -11,7 +11,7 @@ public enum VisualOfUnit { Normal, Haziness, Grayness, Off };
 //            Unit -> UnitCard
 //
 // Gist -> GistBasis -> GistOfUnit
-public partial class Unit : MonoBehaviour, IInfoble
+public partial class UnitOperator : MonoBehaviour, IInfoble
 {
     public UnitBasis unitBasis { private get; set; }
 
@@ -29,6 +29,33 @@ public partial class Unit : MonoBehaviour, IInfoble
     [SerializeField]
     private Animator unitAnimator;
     public Sprite SpriteInfo { get => unitBasis.unitInformator.unitSprite; }
+
+    [SerializeField]
+    private MoveOperator moveOperator;
+    public MoveOperator MoveOperator
+    {
+        get
+        {
+            if (moveOperator == null)
+            {
+                moveOperator = gameObject.GetComponent<MoveOperator>();
+            }
+            return moveOperator;
+        }
+    }
+    [SerializeField]
+    private FightOperator fightOperator;
+    public FightOperator FightOperator
+    {
+        get
+        {
+            if (fightOperator == null)
+            {
+                fightOperator = gameObject.GetComponent<FightOperator>();
+            }
+            return fightOperator;
+        }
+    }
 
     [SerializeField]
     private Sounds sounds;

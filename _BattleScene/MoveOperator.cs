@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class MoveOperator : MonoBehaviour
@@ -9,12 +10,9 @@ public class MoveOperator : MonoBehaviour
     private GameObject target;
 
     [SerializeField]
-    private Unit stats;
+    private UnitOperator unitOperator;
+    private UnitOnLevelPathInformator path;
 
-    public void Start()
-    {
-        target = GameObject.FindGameObjectWithTag("Player");
-    }
     public void Update()
     {
         float deltaTime = Time.deltaTime;
@@ -25,5 +23,11 @@ public class MoveOperator : MonoBehaviour
     public void Deactivate()
     {
         enabled = false;
+    }
+
+    internal void SpawnToPoint(UnitOnLevelPathInformator enemyPath)
+    {
+        gameObject.transform.position = enemyPath.GetSpawnPoint();
+        unitOperator.Deploy();
     }
 }

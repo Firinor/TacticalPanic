@@ -4,17 +4,12 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour// SinglBehaviour<EnemyManager>
 {
-    public static Dictionary<UnitBasis, GameObject> enemies { get; private set; }
+    public static Dictionary<UnitOperator, EnemySquadsInformator> enemies { get; private set; } 
+        = new Dictionary<UnitOperator, EnemySquadsInformator>();
 
-    public static void CreateEnemies()
+    public static void AddEnemyToDictionary(UnitOperator unit, EnemySquadsInformator squad)
     {
-        List<EnemySquadsInformator> enemies = PlayerManager.PickedLevel.enemies;
-
-    }
-
-    Vector3 GetSpawnPosition(int i)
-    {
-        return new Vector3(0f, Random.Range(-4f, 4f), 0f);
-        
+        enemies.Add(unit, squad);
+        squad.AddUnitOperatorToSquad(unit);
     }
 }

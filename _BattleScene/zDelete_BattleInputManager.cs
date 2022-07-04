@@ -65,9 +65,9 @@ public class BattleInputManager : MonoBehaviour
                 if (rayCollision > 0)
                 {
                     if (SelectedUnitsInformator.SelectedUnits.Count > 0)
-                        SelectedUnitsInformator.SelectedUnits[0] = results[0].transform.gameObject.GetComponent<Unit>();
+                        SelectedUnitsInformator.SelectedUnits[0] = results[0].transform.gameObject.GetComponent<UnitOperator>();
                     else
-                        SelectedUnitsInformator.SelectedUnits.Add(results[0].transform.gameObject.GetComponent<Unit>());
+                        SelectedUnitsInformator.SelectedUnits.Add(results[0].transform.gameObject.GetComponent<UnitOperator>());
                 }
             }
         }

@@ -36,10 +36,10 @@ public class CursorMagicOperator : MonoBehaviour
                     switch (results[i].transform.tag)
                     {
                         case "Enemy":
-                            MouseDamage(results[i].transform.GetComponent<Unit>());
+                            MouseDamage(results[i].transform.GetComponent<UnitOperator>());
                             break;
                         case "Player":
-                            MouseHeal(results[i].transform.GetComponent<Unit>());
+                            MouseHeal(results[i].transform.GetComponent<UnitOperator>());
                             break;
                     }
                 }
@@ -47,7 +47,7 @@ public class CursorMagicOperator : MonoBehaviour
         }
     }
 
-    private void MouseDamage(Unit stats, bool heal = false)
+    private void MouseDamage(UnitOperator stats, bool heal = false)
     {
         if (heal)
         {
@@ -59,7 +59,7 @@ public class CursorMagicOperator : MonoBehaviour
         }
     }
 
-    private void MouseHeal(Unit stats)
+    private void MouseHeal(UnitOperator stats)
     {
         MouseDamage(stats, true);
     }
