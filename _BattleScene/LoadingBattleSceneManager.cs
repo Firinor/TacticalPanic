@@ -30,6 +30,7 @@ public class LoadingBattleSceneManager : MonoBehaviour
     {
         foreach (EnemySquadsInformator squad in PlayerManager.PickedLevel.enemies)
         {
+            squad.CleareUnitList();
             LastLoadingUnit = squad.UnitBasis;
             for(int i = 0; i < squad.Count; i++)
             {

@@ -5,7 +5,6 @@ public class FightOperator : MonoBehaviour
     public float Cooldown = 1f;
     public float TimeToSwing = 0.15f;
     public float TimeToArcOff = 0.3f;
-    public SpriteRenderer KickSide;
 
     private float currentCooldown = 0f;
     private float currentArcCooldown = 0f;
@@ -14,13 +13,8 @@ public class FightOperator : MonoBehaviour
 
     private UnitOperator unit;
 
-    private Collider2D attackArea;
-    private Collider2D[] arrayColliders = new Collider2D[16];
     private enum AttackStages { swing, arc, rollback };
     private AttackStages attackStage = AttackStages.rollback;
-
-    [SerializeField]
-    private ContactFilter2D filter2D;
 
     private string compareTag = "";
 
@@ -29,7 +23,7 @@ public class FightOperator : MonoBehaviour
     public void Start()
     {
         unit = GetComponent<UnitOperator>();
-        attackArea = GetComponents<Collider2D>()[1];
+        //attackArea = GetComponents<Collider2D>()[1];
         audioOperator = GetComponentInChildren<AudioSourceOperator>();
 
         switch (gameObject.tag)
@@ -89,18 +83,12 @@ public class FightOperator : MonoBehaviour
 
     private void AreaDamage()
     {
-        if (attackArea.OverlapCollider(filter2D, arrayColliders) > 0)
-        {
-            foreach (Collider2D enemy in arrayColliders)
-            {
-                if (enemy != null && enemy.gameObject.CompareTag(compareTag))
-                {
-                    enemy.GetComponent<UnitOperator>().Damage(1, Gist.Life);//Strenght to damage
-                    unit.Damage(7, Gist.Energy);
-                    audioOperator.PlaySound(UnitSounds.Attack, unit);
-                }
-            }
-        }
+                //if (enemy != null && enemy.gameObject.CompareTag(compareTag))
+                //{
+                //    enemy.GetComponent<UnitOperator>().Damage(1, Gist.Life);//Strenght to damage
+                //    unit.Damage(7, Gist.Energy);
+                //    audioOperator.PlaySound(UnitSounds.Attack, unit);
+                //}
     }
 
     public void OnTriggerStay2D(Collider2D collision)

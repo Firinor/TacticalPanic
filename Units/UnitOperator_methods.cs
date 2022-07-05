@@ -21,14 +21,14 @@ public partial class UnitOperator : MonoBehaviour, IInfoble
     }
     public void Prepare(ConflictSide side)
     {
-        SetUnitActivity(false);
+        //SetUnitActivity(false);
         SetConflictSide(side);
         SetVisualState(VisualOfUnit.Off);
     }
 
     public void Deploy()
     {
-        SetUnitActivity(true);
+        //SetUnitActivity(true);
         SetVisualState(VisualOfUnit.Normal);
     }
 
@@ -193,21 +193,16 @@ public partial class UnitOperator : MonoBehaviour, IInfoble
         switch (visual)
         {
             case VisualOfUnit.Haziness:
-                gameObject.SetActive(true);
-                unitAnimator.enabled = false;
                 unitSpriteRenderer.color = new Color(.25f, 1f, .25f, .8f);
                 break;
             case VisualOfUnit.Grayness:
-                gameObject.SetActive(true);
-                unitAnimator.enabled = false;
                 unitSpriteRenderer.color = new Color(1f, .25f, .25f, .8f);
                 break;
             case VisualOfUnit.Off:
-                gameObject.SetActive(false);
+                unitSpriteRenderer.color = new Color(1f, 1f, 1f, 0f);
                 break;
             default: //Visual.Normal
-                gameObject.SetActive(true);
-                unitAnimator.enabled = true;
+                unitSpriteRenderer.color = Color.white;
                 break;
         }
     }

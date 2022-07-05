@@ -9,7 +9,7 @@ public class EnemySquadsInformator
     private float spawnTime;
     [SerializeField]
     private UnitInformator Unit;
-    private List<UnitOperator> units = new List<UnitOperator>();
+    private List<UnitOperator> units;
     [SerializeField]
     public int Count;
     [SerializeField]
@@ -22,9 +22,19 @@ public class EnemySquadsInformator
             return Unit.unitBasis;
         }
     }
-
+    public void CleareUnitList()
+    {
+        if (units == null || units.Count == 0 || units[0] == null)
+        {
+            units = new List<UnitOperator>();
+        }
+    }
     public void AddUnitOperatorToSquad(UnitOperator unit)
     {
+        if (units == null)
+        {
+            units = new List<UnitOperator>();
+        }
         if (!units.Contains(unit))
         {
             units.Add(unit);

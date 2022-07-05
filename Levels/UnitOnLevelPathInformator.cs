@@ -23,6 +23,6 @@ public class UnitOnLevelPathInformator : ScriptableObject
     internal Vector3 GetSpawnPoint()
     {
         Vector2Int point = level.EnemySpawnPoints[start];
-        return new Vector3(point.x, 0, point.y);
+        return new Vector3(point.x, 0.5f, point.y);
     }
 }
