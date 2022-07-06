@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class MoveOperator : MonoBehaviour
@@ -7,7 +8,8 @@ public class MoveOperator : MonoBehaviour
     private float speed = 1f;
 
     [SerializeField]
-    private GameObject target;
+    private Vector3 target;
+    private bool moveOn;
 
     [SerializeField]
     private UnitOperator unitOperator;
@@ -16,8 +18,20 @@ public class MoveOperator : MonoBehaviour
     public void Update()
     {
         float deltaTime = Time.deltaTime;
-        if (target != null)
-            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * deltaTime);
+        if (moveOn)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, target, speed * deltaTime);
+            if (UnitOnTarget())
+            {
+                moveOn = false;
+            }
+        }
+    }
+
+    private bool UnitOnTarget()
+    {
+        return (int)transform.position.x == (int)target.x
+            && (int)transform.position.z == (int)target.z;//y
     }
 
     public void Deactivate()
@@ -25,9 +39,29 @@ public class MoveOperator : MonoBehaviour
         enabled = false;
     }
 
-    internal void SpawnToPoint(UnitOnLevelPathInformator enemyPath)
+    internal void SpawnToPoint(Vector3 point)
     {
-        gameObject.transform.position = enemyPath.GetSpawnPoint();
-        unitOperator.Deploy();
+        gameObject.transform.position = point;
+    }
+
+    internal IEnumerator FollowThPath(UnitOnLevelPathInformator enemyPath)
+    {
+        path = enemyPath;
+        SpawnToPoint(path.GetSpawnPoint());
+        yield return new WaitForSeconds(0.5f);
+        if(path.points.Length > 0)
+        {
+            target = path.GetPoint(0);
+            moveOn = true;
+            for (int i = 1; i < path.points.Length; i++)
+            {
+                yield return !moveOn;
+                target = path.GetPoint(i);
+                moveOn = true;
+            }
+        }
+        target = path.GetExitPoint();
+        moveOn = true;
+        StopCoroutine("FollowThPath");
     }
 }

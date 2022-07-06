@@ -11,10 +11,10 @@ public class UnitOnLevelPathInformator : ScriptableObject
     public int start;
     [Range(0, 5)]
     public int finish;
-    public wayPoint[] points;
+    public WayPoint[] points;
 
     [System.Serializable]
-    public class wayPoint
+    public class WayPoint
     {
         public Vector2Int Point;
         public float delay;
@@ -23,6 +23,22 @@ public class UnitOnLevelPathInformator : ScriptableObject
     internal Vector3 GetSpawnPoint()
     {
         Vector2Int point = level.EnemySpawnPoints[start];
+        return new Vector3(point.x, 0.5f, point.y);
+    }
+
+    internal Vector3 GetPoint(int i)
+    {
+        Vector3 vector3 = new Vector3();
+        if(points.Length > i)
+        {
+            vector3 = new Vector3(points[i].Point.x + 0.5f, 0.5f, points[i].Point.y + 0.5f);
+        }
+        return vector3; 
+    }
+
+    internal Vector3 GetExitPoint()
+    {
+        Vector2Int point = level.PlayerHealthPoints[finish];
         return new Vector3(point.x, 0.5f, point.y);
     }
 }

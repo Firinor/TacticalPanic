@@ -49,7 +49,7 @@ public partial class UnitOperator : MonoBehaviour, IInfoble
     public void SpawnToPoint(UnitOnLevelPathInformator enemyPath)
     {
         Deploy();
-        MoveOperator.SpawnToPoint(enemyPath);
+        StartCoroutine(MoveOperator.FollowThPath(enemyPath));
     }
 
     public bool CheckTerms()
@@ -190,6 +190,7 @@ public partial class UnitOperator : MonoBehaviour, IInfoble
     }
     public void SetVisualState(VisualOfUnit visual = VisualOfUnit.Normal)
     {
+        unitSpriteRenderer.enabled = true;
         switch (visual)
         {
             case VisualOfUnit.Haziness:
@@ -199,7 +200,7 @@ public partial class UnitOperator : MonoBehaviour, IInfoble
                 unitSpriteRenderer.color = new Color(1f, .25f, .25f, .8f);
                 break;
             case VisualOfUnit.Off:
-                unitSpriteRenderer.color = new Color(1f, 1f, 1f, 0f);
+                unitSpriteRenderer.enabled = false;
                 break;
             default: //Visual.Normal
                 unitSpriteRenderer.color = Color.white;
