@@ -5,7 +5,7 @@ using UnityEngine;
 public class MoveOperator : MonoBehaviour
 {
     [SerializeField]
-    private float speed = 1f;
+    private float speed = 3f;
 
     [SerializeField]
     private Vector3 target;
@@ -30,8 +30,8 @@ public class MoveOperator : MonoBehaviour
 
     private bool UnitOnTarget()
     {
-        return (int)transform.position.x == (int)target.x
-            && (int)transform.position.z == (int)target.z;//y
+        return (int)(transform.position.x + 0.5f) == (int)target.x
+            && (int)(transform.position.z + 0.5f) == (int)target.z;//y
     }
 
     public void Deactivate()
@@ -49,15 +49,16 @@ public class MoveOperator : MonoBehaviour
         path = enemyPath;
         SpawnToPoint(path.GetSpawnPoint());
         yield return new WaitForSeconds(0.5f);
-        if(path.points.Length > 0)
+        int length = path.points.Length;
+        if (length > 0)
         {
-            target = path.GetPoint(0);
-            moveOn = true;
-            for (int i = 1; i < path.points.Length; i++)
+            for (int i = 0; i < length; i++)
             {
-                yield return !moveOn;
                 target = path.GetPoint(i);
                 moveOn = true;
+                while(moveOn)
+                    yield return null;
+                yield return new WaitForSeconds(path.points[i].delay);
             }
         }
         target = path.GetExitPoint();

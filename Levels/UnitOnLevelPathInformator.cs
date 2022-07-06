@@ -31,7 +31,7 @@ public class UnitOnLevelPathInformator : ScriptableObject
         Vector3 vector3 = new Vector3();
         if(points.Length > i)
         {
-            vector3 = new Vector3(points[i].Point.x + 0.5f, 0.5f, points[i].Point.y + 0.5f);
+            vector3 = new Vector3(points[i].Point.x, 0.5f, points[i].Point.y);
         }
         return vector3; 
     }
