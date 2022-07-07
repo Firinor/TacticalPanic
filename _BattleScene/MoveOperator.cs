@@ -4,23 +4,35 @@ using UnityEngine;
 
 public class MoveOperator : MonoBehaviour
 {
-    [SerializeField]
     private float speed = 3f;
-
-    [SerializeField]
+    private float turningSpeed = 3;
     private Vector3 target;
+    private float directionOfMovement;
+    private float DirectionOfMovement
+    {
+        get
+        {
+            return directionOfMovement;
+        }
+        set
+        {
+            directionOfMovement = value % 360;
+            while (directionOfMovement < 0)
+            {
+                directionOfMovement += 360;
+            }
+        }
+    }
     private bool moveOn;
-
-    [SerializeField]
-    private UnitOperator unitOperator;
     private UnitOnLevelPathInformator path;
 
-    public void Update()
+    public void FixedUpdate()
     {
-        float deltaTime = Time.deltaTime;
+        DirectionOfMovement = 360;
         if (moveOn)
         {
-            transform.position = Vector3.MoveTowards(transform.position, target, speed * deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.fixedDeltaTime);
+                //,target;
             if (UnitOnTarget())
             {
                 moveOn = false;
@@ -30,8 +42,8 @@ public class MoveOperator : MonoBehaviour
 
     private bool UnitOnTarget()
     {
-        return (int)(transform.position.x + 0.5f) == (int)target.x
-            && (int)(transform.position.z + 0.5f) == (int)target.z;//y
+        return (int)(transform.position.x*2 + 0.5f) == (int)(target.x*2)
+            && (int)(transform.position.z*2 + 0.5f) == (int)(target.z*2);//y
     }
 
     public void Deactivate()
