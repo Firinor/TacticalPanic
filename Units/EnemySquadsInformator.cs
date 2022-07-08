@@ -13,6 +13,8 @@ public class EnemySquadsInformator
     [SerializeField]
     public int Count;
     [SerializeField]
+    public float DelaySpawnTime;
+    [SerializeField]
     public UnitOnLevelPathInformator enemyPath;
 
     public UnitBasis UnitBasis
@@ -47,6 +49,7 @@ public class EnemySquadsInformator
         for(int i = 0; i < units.Count; i++)
         {
             units[i].SpawnToPoint(enemyPath);
+            yield return new WaitForSeconds(DelaySpawnTime);
         }
     }
 }

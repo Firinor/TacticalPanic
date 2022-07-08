@@ -8,27 +8,21 @@ public class MoveOperator : MonoBehaviour
     private float turningSpeed = 3;
     private Vector3 target;
     private float directionOfMovement;
-    private float DirectionOfMovement
-    {
-        get
-        {
-            return directionOfMovement;
-        }
-        set
-        {
-            directionOfMovement = value % 360;
-            while (directionOfMovement < 0)
-            {
-                directionOfMovement += 360;
-            }
-        }
-    }
+    [SerializeField]
     private bool moveOn;
     private UnitOnLevelPathInformator path;
 
+    [SerializeField]
+    private Rigidbody rigidbody;
+    [SerializeField]
+    private Transform skinRoot;
+    [SerializeField]
+    private UnitOnLevelPathInformator.WayPoint targetPoint;
+
     public void FixedUpdate()
     {
-        DirectionOfMovement = 360;
+        skinRoot.localRotation = Quaternion.Euler(0f, -gameObject.transform.rotation.eulerAngles.y, 0f);
+
         if (moveOn)
         {
             transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.fixedDeltaTime);
@@ -66,6 +60,7 @@ public class MoveOperator : MonoBehaviour
         {
             for (int i = 0; i < length; i++)
             {
+                targetPoint = path.points[i];
                 target = path.GetPoint(i);
                 moveOn = true;
                 while(moveOn)
@@ -73,6 +68,7 @@ public class MoveOperator : MonoBehaviour
                 yield return new WaitForSeconds(path.points[i].delay);
             }
         }
+        targetPoint = new UnitOnLevelPathInformator.WayPoint();
         target = path.GetExitPoint();
         moveOn = true;
         StopCoroutine("FollowThPath");

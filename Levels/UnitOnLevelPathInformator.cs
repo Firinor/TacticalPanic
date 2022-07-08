@@ -41,4 +41,6 @@ public class UnitOnLevelPathInformator : ScriptableObject
         Vector2Int point = level.PlayerHealthPoints[finish];
         return new Vector3(point.x, 0.5f, point.y);
     }
+
+
 }
