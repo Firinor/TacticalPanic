@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MoveOperator : MonoBehaviour
 {
+    [SerializeField]
     private float speed = 3f;
     private float turningSpeed = 3;
     private Vector3 target;
@@ -25,7 +26,8 @@ public class MoveOperator : MonoBehaviour
 
         if (moveOn)
         {
-            transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.fixedDeltaTime);
+            transform.LookAt(target);
+            rigidbody.AddRelativeForce(Vector3.forward*speed, ForceMode.Impulse);
                 //,target;
             if (UnitOnTarget())
             {
