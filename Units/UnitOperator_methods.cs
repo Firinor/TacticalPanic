@@ -28,7 +28,7 @@ public partial class UnitOperator : MonoBehaviour, IInfoble
 
     public void Deploy()
     {
-        //SetUnitActivity(true);
+        unitAnimator.enabled = true;
         SetVisualState(VisualOfUnit.Normal);
     }
 
@@ -190,7 +190,6 @@ public partial class UnitOperator : MonoBehaviour, IInfoble
     }
     public void SetVisualState(VisualOfUnit visual = VisualOfUnit.Normal)
     {
-        unitSpriteRenderer.enabled = true;
         switch (visual)
         {
             case VisualOfUnit.Haziness:
@@ -200,7 +199,7 @@ public partial class UnitOperator : MonoBehaviour, IInfoble
                 unitSpriteRenderer.color = new Color(1f, .25f, .25f, .8f);
                 break;
             case VisualOfUnit.Off:
-                unitSpriteRenderer.enabled = false;
+                unitSpriteRenderer.color = new Color(1f, 1f, 1f, 0f);
                 break;
             default: //Visual.Normal
                 unitSpriteRenderer.color = Color.white;

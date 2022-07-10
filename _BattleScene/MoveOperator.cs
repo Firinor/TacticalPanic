@@ -9,21 +9,24 @@ public class MoveOperator : MonoBehaviour
     private float turningSpeed = 3;
     private Vector3 target;
     private float directionOfMovement;
-    [SerializeField]
-    private bool moveOn;
     private UnitOnLevelPathInformator path;
 
     [SerializeField]
     private Rigidbody rigidbody;
     [SerializeField]
     private Transform skinRoot;
+
+    [SerializeField]
+    private bool moveOn;
     [SerializeField]
     private UnitOnLevelPathInformator.WayPoint targetPoint;
 
-    public void FixedUpdate()
+    void Update()
     {
         skinRoot.localRotation = Quaternion.Euler(0f, -gameObject.transform.rotation.eulerAngles.y, 0f);
-
+    }
+    public void FixedUpdate()
+    {
         if (moveOn)
         {
             transform.LookAt(target);

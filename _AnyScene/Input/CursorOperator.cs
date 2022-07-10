@@ -36,7 +36,7 @@ public class CursorOperator : MonoBehaviour
             {
                 timer += cursorType.rate;
                 frame = (frame + 1) % cursorType.textureArray.Length;
-                Cursor.SetCursor(cursorType.textureArray[frame], cursorType.offset, CursorMode.Auto);
+                //Cursor.SetCursor(cursorType.textureArray[frame], cursorType.offset, CursorMode.Auto);
             }
         }
     }

@@ -68,8 +68,6 @@ public class CardDragAndDropOperator : MonoBehaviour,
                 transform.position = new Vector3(transform.position.x, cardPositionOffset, transform.position.z);
 
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            Debug.DrawLine(camera.transform.position, Vector3.forward);
-
             RaycastHit hit;
             Physics.Raycast(ray, out hit);
 

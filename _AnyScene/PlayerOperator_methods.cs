@@ -112,7 +112,7 @@ public static partial class PlayerOperator
     {
         if (cursorManager == null)
         {
-            cursorManager = GameObject.Find("GameController").GetComponent<CursorOperator>();
+            cursorManager = GameObject.Find("PlayerInputController").GetComponent<CursorOperator>();
         }
 
         return cursorManager;
