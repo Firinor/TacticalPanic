@@ -6,6 +6,12 @@ using UnityEngine;
 public class DialogInformator : ScriptableObject
 {
     public List<SpeakersPhrase> Dialog;
+    public int Length { get { return Dialog == null ? 0: Dialog.Count; } }
+    
+    public SpeakersPhrase this[int index]
+    {
+        get => Dialog[index];
+    }
 
     [System.Serializable]
     public class SpeakersPhrase
