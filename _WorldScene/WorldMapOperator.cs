@@ -36,4 +36,24 @@ public class WorldMapOperator : MonoBehaviour
     {
         WorldMenuManager.instance.SwitchPanels(WorldMarks.map);
     }
+
+    public void ToHome()
+    {
+        WorldMenuManager.instance.SwitchPanels(WorldMarks.home);
+    }
+
+    public void ToMagic()
+    {
+        WorldMenuManager.instance.SwitchPanels(WorldMarks.magic);
+    }
+
+    public void ToBlacksmith()
+    {
+        WorldMenuManager.instance.SwitchPanels(WorldMarks.blacksmith);
+    }
+
+    public void ToSocial()
+    {
+        WorldMenuManager.instance.SwitchPanels(WorldMarks.social);
+    }
 }

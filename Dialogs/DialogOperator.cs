@@ -46,7 +46,8 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     void Awake()
     {
         SingletoneCheck<DialogOperator>(this);
-        StartCoroutineDialog(dialog);
+        if(dialog != null)
+            StartCoroutineDialog(dialog);
     }
 
     public void StartCoroutineDialog(DialogInformator dialog)

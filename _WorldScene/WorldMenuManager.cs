@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public enum WorldMarks { options, squad, magic, blacksmith, map, briefing }
+public enum WorldMarks { options, map, briefing, home, magic, squad, blacksmith, social }
 
 public class WorldMenuManager : SinglBehaviour<WorldMenuManager>, IScenePanel
 {
@@ -16,6 +16,10 @@ public class WorldMenuManager : SinglBehaviour<WorldMenuManager>, IScenePanel
     private GameObject blacksmith;
     [SerializeField]
     private GameObject briefing;
+    [SerializeField]
+    private GameObject home;
+    [SerializeField]
+    private GameObject social;
 
     private SquadCanvasOperator squadCanvasOperator;
     private BriefingCanvasOperator briefingCanvasOperator;
@@ -47,6 +51,9 @@ public class WorldMenuManager : SinglBehaviour<WorldMenuManager>, IScenePanel
             case WorldMarks.squad:
                 squad.SetActive(true);
                 break;
+            case WorldMarks.home:
+                home.SetActive(true);
+                break;
             case WorldMarks.magic:
                 magic.SetActive(true);
                 break;
@@ -61,6 +68,9 @@ public class WorldMenuManager : SinglBehaviour<WorldMenuManager>, IScenePanel
                 break;
             case WorldMarks.briefing:
                 briefing.SetActive(true);
+                break;
+            case WorldMarks.social:
+                social.SetActive(true);
                 break;
             default:
                 new Exception("Unrealized bookmark!");
@@ -78,8 +88,10 @@ public class WorldMenuManager : SinglBehaviour<WorldMenuManager>, IScenePanel
         squad.SetActive(false);
         levels.SetActive(false);
         briefing.SetActive(false);
-        //magic.SetActive(false);
-        //blacksmith.SetActive(false);
+        magic.SetActive(false);
+        blacksmith.SetActive(false);
+        home.SetActive(false);
+        social.SetActive(false);
         SceneManager.DiactiveAllPanels();
     }
 
