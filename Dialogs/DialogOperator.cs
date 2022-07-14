@@ -26,6 +26,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     private TextMeshPro text;
     [SerializeField]
     private float lettersDelay;
+    private WaitForSeconds delay;
     [SerializeField]
     private Image nextArrow;
 
@@ -36,6 +37,12 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 
     private Dictionary<UnitInformator, SpeakerOperator> speakers = new Dictionary<UnitInformator, SpeakerOperator>();
     private SpeakerOperator activeSpeaker = null;
+
+    private static bool nextInput;
+    public static void NextInput()
+    {
+        nextInput = true;
+    }
 
     public static GameObject Left { get { return instance.leftSpeaker; } }
     public static GameObject Center { get { return instance.centerSpeaker; } }
@@ -48,6 +55,12 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         SingletoneCheck<DialogOperator>(this);
         if(dialog != null)
             StartCoroutineDialog(dialog);
+        SetDelay(lettersDelay);
+    }
+
+    public void SetDelay(float time)
+    {
+        delay = new WaitForSeconds(time);
     }
 
     public void StartCoroutineDialog(DialogInformator dialog)
@@ -58,7 +71,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     public IEnumerator StartDialog(DialogInformator dialog)
     {
         ClearAllSpeakers();
-        bool NextInput = false;
+        nextInput = false;
         for (int i = 0; i < dialog.Length; i++)
         {
             DialogInformator.SpeakersPhrase speakersPhrase = dialog[i];
@@ -71,7 +84,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 
             strindBuilder.Clear();
             nextArrow.enabled = false;
-            NextInput = false;
+            nextInput = false;
             text.text = strindBuilder.ToString();
             
             SetBackground(speakersPhrase.background);
@@ -82,11 +95,17 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
             {
                 strindBuilder.Append(speakersPhrase.text[j]);
                 text.text = strindBuilder.ToString();
-                yield return new WaitForSeconds(lettersDelay);
+                if (nextInput)
+                {
+                    j = phrase.Length;
+                    text.text = speakersPhrase.text;
+                    nextInput = false;
+                }
+                yield return delay;
             }
-            while (!NextInput)
+            nextArrow.enabled = true;
+            while (!nextInput)
             {
-                if (Input.anyKeyDown) { NextInput = true; }
                 yield return null;
             }
         }
@@ -161,10 +180,10 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 
     private void SetActiveSpeaker(UnitInformator speaker)
     {
-        if ( activeSpeaker != null 
-            && activeSpeaker == speakers[speaker])
+        if (speaker == null)
             return;
-
+        if (activeSpeaker == speakers[speaker])
+            return;
         if (activeSpeaker != null)
             activeSpeaker.ToTheBackground();
 
@@ -178,6 +197,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         {
             StagePosition.Left => leftSpeaker.transform,
             StagePosition.Right => rightSpeaker.transform,
+            StagePosition.Center => centerSpeaker.transform,
             _ => centerSpeaker.transform,
         };
     }
