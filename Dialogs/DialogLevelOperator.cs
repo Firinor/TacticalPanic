@@ -2,14 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DialogButtonOperator : MonoBehaviour, IDialog
+public class DialogLevelOperator : MonoBehaviour, IDialog
 {
-    [SerializeField]
-    private DialogInformator dialog;
-
     public DialogInformator Dialog
     {
-        get => dialog;
+        get => PlayerManager.PickedLevel.BriefingDialog;
         set { }
     }
 }

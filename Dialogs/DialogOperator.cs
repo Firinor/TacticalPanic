@@ -175,7 +175,8 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 
     private void SetBackground(Sprite background)
     {
-        this.background.sprite = background;
+        if(background != null)
+            this.background.sprite = background;
     }
 
     private void SetActiveSpeaker(UnitInformator speaker)

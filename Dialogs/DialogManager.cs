@@ -14,9 +14,18 @@ public class DialogManager : SinglBehaviour<DialogManager>
         SingletoneCheck<DialogManager>(this);
     }
 
-    public static void StartDialog(DialogButtonOperator button)
+    public void StartDialog(DialogLevelOperator dialog)
+    {
+        StartCoroutineDialog(dialog);
+    }
+    public void StartDialog(DialogButtonOperator dialog)
+    {
+        StartCoroutineDialog(dialog);
+    }
+
+    public void StartCoroutineDialog(IDialog dialog)
     {
         instance.dialog.SetActive(true);
-        instance.dialogOperator.StartCoroutineDialog(button.Dialog);
+        instance.dialogOperator.StartCoroutineDialog(dialog.Dialog);
     }
 }

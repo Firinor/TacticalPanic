@@ -16,6 +16,8 @@ public class LevelInformator: ScriptableObject
     [Multiline]
     private string descriptionText;
     [SerializeField]
+    public DialogInformator BriefingDialog;
+    [SerializeField]
     public Tilemap Map;
     private List<List<int>> intMap;
     public List<EnemySquadsInformator> enemies;
@@ -25,7 +27,6 @@ public class LevelInformator: ScriptableObject
     [SerializeField]
     private List<Vector2Int> playerHealthPoints;
     public List<Vector2Int> PlayerHealthPoints { get { return playerHealthPoints; } }
-    public Coroutine Conductor { get; private set; }
     public string DescriptionText { get { return descriptionText; } }
 
     internal List<UnitBasis> GetEnemyBases()
