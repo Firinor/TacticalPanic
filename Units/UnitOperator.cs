@@ -58,6 +58,20 @@ public partial class UnitOperator : MonoBehaviour, IInfoble
     }
 
     [SerializeField]
+    private AnimationOperator animationOperator;
+    public AnimationOperator AnimationOperator
+    {
+        get
+        {
+            if (animationOperator == null)
+            {
+                animationOperator = gameObject.GetComponent<AnimationOperator>();
+            }
+            return animationOperator;
+        }
+    }
+
+    [SerializeField]
     private Sounds sounds;
     private AudioSourceOperator audioOperator;
 
