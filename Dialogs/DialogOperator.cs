@@ -30,9 +30,6 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     [SerializeField]
     private Image nextArrow;
 
-    [SerializeField]
-    private DialogInformator dialog;
-
     private StringBuilder strindBuilder = new StringBuilder();
 
     private Dictionary<UnitInformator, SpeakerOperator> speakers = new Dictionary<UnitInformator, SpeakerOperator>();
@@ -44,6 +41,12 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         nextInput = true;
     }
 
+    private static bool skipText;
+    public static void SkipText()
+    {
+        skipText = true;
+    }
+
     public static GameObject Left { get { return instance.leftSpeaker; } }
     public static GameObject Center { get { return instance.centerSpeaker; } }
     public static GameObject Right { get { return instance.rightSpeaker; } }
@@ -53,8 +56,6 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     void Awake()
     {
         SingletoneCheck<DialogOperator>(this);
-        if(dialog != null)
-            StartCoroutineDialog(dialog);
         SetDelay(lettersDelay);
     }
 
@@ -72,6 +73,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     {
         ClearAllSpeakers();
         nextInput = false;
+        skipText = false;
         for (int i = 0; i < dialog.Length; i++)
         {
             DialogInformator.SpeakersPhrase speakersPhrase = dialog[i];
@@ -95,6 +97,10 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
             {
                 strindBuilder.Append(speakersPhrase.text[j]);
                 text.text = strindBuilder.ToString();
+                if (skipText)
+                {
+                    break;
+                }
                 if (nextInput)
                 {
                     j = phrase.Length;
@@ -106,7 +112,15 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
             nextArrow.enabled = true;
             while (!nextInput)
             {
+                if (skipText)
+                {
+                    break;
+                }
                 yield return null;
+            }
+            if (skipText)
+            {
+                break;
             }
         }
         EndOfDialog();
