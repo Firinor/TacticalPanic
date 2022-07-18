@@ -15,12 +15,11 @@ public partial class UnitOperator : MonoBehaviour, IInfoble
 {
     public UnitBasis unitBasis { private get; set; }
 
+    [Header("Main")]
     [SerializeField]
     private Slider[] sliders = new Slider[PlayerOperator.GistsCount];
     public GistOfUnit[] GistsOfUnit { get; }
     public GistBasis[] GistBasis => unitBasis.GistBasis;
-    
-
     private bool IsAlive;
     [SerializeField]
     private SpriteRenderer pedestal;
@@ -30,6 +29,7 @@ public partial class UnitOperator : MonoBehaviour, IInfoble
     private Animator unitAnimator;
     public Sprite SpriteInfo { get => unitBasis.unitInformator.unitSprite; }
 
+    [Header("Minions")]
     [SerializeField]
     private MoveOperator moveOperator;
     public MoveOperator MoveOperator
@@ -71,6 +71,7 @@ public partial class UnitOperator : MonoBehaviour, IInfoble
         }
     }
 
+    [Header("Sounds")]
     [SerializeField]
     private Sounds sounds;
     private AudioSourceOperator audioOperator;

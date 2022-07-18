@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class FightOperator : MonoBehaviour
 {
+    [SerializeField]
+    private Collider agroRadiusTriggerCollider;
+    [SerializeField]
+    private ParticleSystem SwordSlashParticalSystem;
+
     public float Cooldown = 1f;
     public float TimeToSwing = 0.15f;
     public float TimeToArcOff = 0.3f;
@@ -18,13 +23,9 @@ public class FightOperator : MonoBehaviour
 
     private string compareTag = "";
 
-    private AudioSourceOperator audioOperator;
-
     public void Start()
     {
         unit = GetComponent<UnitOperator>();
-        //attackArea = GetComponents<Collider2D>()[1];
-        audioOperator = GetComponentInChildren<AudioSourceOperator>();
 
         switch (gameObject.tag)
         {

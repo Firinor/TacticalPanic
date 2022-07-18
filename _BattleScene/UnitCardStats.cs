@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardStats : MonoBehaviour
+public class UnitCardStats : MonoBehaviour
 {
     private UnitOperator unit;
+    private GameObject unitPrefab;
     [SerializeField]
     private Image cardImage;
-    [SerializeField]
-    private GameObject unitPrefab;
+
     [SerializeField]
     private Text nameOfUnit;
 

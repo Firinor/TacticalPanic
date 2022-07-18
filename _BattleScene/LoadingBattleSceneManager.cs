@@ -20,7 +20,7 @@ public class LoadingBattleSceneManager : MonoBehaviour
     void Awake()
     {
         SelectedUnitsInformator.Start();
-        UnitInfoPanelOperator.InfoEvent += UnitInfoPanelOperator.RefreshPointsInfo;
+        //UnitInfoPanelOperator.InfoEvent += UnitInfoPanelOperator.RefreshPointsInfo;
         CreatePlayerUnits();
         CreateEnemyUnits();
         CreateBattleField();
@@ -117,7 +117,7 @@ public class LoadingBattleSceneManager : MonoBehaviour
         for (int i = 0; i < playerParty.Count; i++)
         {
             GameObject Card = Instantiate(playerCardPrefab, playerHand.transform);
-            CardStats cardStats = Card.GetComponent<CardStats>();
+            UnitCardStats cardStats = Card.GetComponent<UnitCardStats>();
             cardStats.SetCardUnit(playerParty[i]);
         }
     }

@@ -9,8 +9,6 @@ public class TimeManager : MonoBehaviour
 
     [SerializeField]
     private GameObject missionObjectives;
-    [SerializeField]
-    private GameObject goldCoins;
 
     private Slider[] slider = new Slider[PlayerOperator.GistsCount];
     [SerializeField]
@@ -18,7 +16,6 @@ public class TimeManager : MonoBehaviour
 
     private Text[] sliderText = new Text[PlayerOperator.GistsCount];
 
-    private Text goldCoinsText;
     private Text missionObjectivesText;
 
     public void Start()
@@ -34,10 +31,7 @@ public class TimeManager : MonoBehaviour
             }
         }
 
-        goldCoinsText = goldCoins.GetComponentInChildren<Text>();
         missionObjectivesText = missionObjectives.GetComponentInChildren<Text>();
-
-        goldCoinsText.text = "" + PlayerOperator.CurrentGold;
         missionObjectivesText.text = "" + PlayerOperator.CurrentSityHealth + " / " + PlayerOperator.MaxSityHealth;
 
         gameSpeedSlider = GameObject.Find("GameSpeedSlider").GetComponent<Slider>();

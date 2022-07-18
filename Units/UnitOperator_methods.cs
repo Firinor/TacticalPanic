@@ -127,7 +127,7 @@ public partial class UnitOperator : MonoBehaviour, IInfoble
         {
             audioOperator.PlaySound(UnitSounds.Hit, this);
         }
-        UnitInfoPanelOperator.RefreshPointsInfo(gameObject.GetComponent<UnitOperator>());
+        //UnitInfoPanelOperator.RefreshPointsInfo(gameObject.GetComponent<UnitOperator>());
     }
     public void Heal(float[] cure)
     {
