@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class CSVOperator : MonoBehaviour
 {
+    private static string pathToFile = "/Units/_UnitData.csv";
+
     public static List<UnitBasis> GetUnits()
     {
-        string path = Application.dataPath + "/Database/UnitData.csv";
+        string path = Application.dataPath + pathToFile;
 
         string[] AllText = File.ReadAllLines(path);
 

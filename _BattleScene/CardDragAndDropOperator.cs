@@ -84,7 +84,7 @@ public class CardDragAndDropOperator : MonoBehaviour,
             {
                 statsUnit.SetVisualState(VisualOfUnit.Grayness);
             }
-            CheckPosition(eventData.position.x);
+            //CheckPosition(eventData.position.x);
         }
     }
 
