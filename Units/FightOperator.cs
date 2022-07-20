@@ -11,6 +11,9 @@ public class FightOperator : MonoBehaviour
     public float TimeToSwing = 0.15f;
     public float TimeToArcOff = 0.3f;
 
+    private GameObject UnitTarget;
+    private Vector2Int TerraTarget;
+
     private float currentCooldown = 0f;
     private float currentArcCooldown = 0f;
     private bool readyToAttack = true;
@@ -92,7 +95,7 @@ public class FightOperator : MonoBehaviour
                 //}
     }
 
-    public void OnTriggerStay2D(Collider2D collision)
+    public void OnTriggerStay(Collider collision)
     {
         if (!readyToAttack)
             return;
