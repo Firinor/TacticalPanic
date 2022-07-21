@@ -105,6 +105,7 @@ public class FightOperator : MonoBehaviour
             if (!collision.isTrigger)
             {
                 attackAction = true;
+                collision.gameObject.GetComponent<MoveOperator>().InBattle();
             }
         }
     }
