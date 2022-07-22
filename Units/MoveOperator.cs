@@ -21,6 +21,14 @@ public class MoveOperator : MonoBehaviour
     [SerializeField]
     private UnitOnLevelPathInformator.WayPoint targetPoint;
 
+    [HideInInspector]
+    private new Transform transform;
+
+    void Awake()
+    {
+        transform = base.transform;
+    }
+
     void Update()
     {
         skinRoot.localRotation = Quaternion.Euler(0f, -gameObject.transform.rotation.eulerAngles.y, 0f);
