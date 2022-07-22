@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UniRx;
+using UniRx.Triggers;
 
 public class MoveOperator : MonoBehaviour
 {
@@ -23,21 +25,35 @@ public class MoveOperator : MonoBehaviour
 
     [HideInInspector]
     private new Transform transform;
+    
+    private ReactiveProperty<Quaternion> quaternionReactiveProperty = new ReactiveProperty<Quaternion>();
+    private CompositeDisposable disposables = new CompositeDisposable();
 
     void Awake()
     {
         transform = base.transform;
+
+        IObservable<Unit> stream = this.FixedUpdateAsObservable()
+            .Where(_ => moveOn);
+        stream.Subscribe(_ => ForseToPoint()).AddTo(disposables);
     }
 
-    void Update()
+    private void OnDisposable()
     {
-        skinRoot.localRotation = Quaternion.Euler(0f, -gameObject.transform.rotation.eulerAngles.y, 0f);
+        disposables.Clear();
     }
-    public void FixedUpdate()
+
+    private void CorrectSkinRootRotation()
+    {
+        skinRoot.localRotation = Quaternion.Euler(0f, -transform.rotation.eulerAngles.y, 0f);
+    }
+
+    private void ForseToPoint()
     {
         if (moveOn)
         {
             transform.LookAt(target);
+            CorrectSkinRootRotation();
             rigidbody.AddRelativeForce(Vector3.forward*speed, ForceMode.Impulse);
                 //,target;
             if (UnitOnTarget())

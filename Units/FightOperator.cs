@@ -1,7 +1,11 @@
+//using System.Reactive.Disposables;
+//using System.Reactive;
 using UnityEngine;
+//using Uni;
 
 public class FightOperator : MonoBehaviour
 {
+    
     [SerializeField]
     private Collider agroRadiusTriggerCollider;
     [SerializeField]
@@ -28,6 +32,9 @@ public class FightOperator : MonoBehaviour
 
     public void Start()
     {
+        //var count = new ReactiveProperty<int>(0);
+        //var disposables = new CompositeDisposable();
+
         unit = GetComponent<UnitOperator>();
 
         switch (gameObject.tag)
@@ -41,6 +48,9 @@ public class FightOperator : MonoBehaviour
             default:
                 return;
         }
+
+        
+        //this.OnTriggerStayAs
     }
 
     public void FixedUpdate()
