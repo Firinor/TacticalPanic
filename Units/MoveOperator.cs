@@ -33,14 +33,20 @@ public class MoveOperator : MonoBehaviour
     {
         transform = base.transform;
 
-        IObservable<Unit> stream = this.FixedUpdateAsObservable()
-            .Where(_ => moveOn);
-        stream.Subscribe(_ => ForseToPoint()).AddTo(disposables);
+        IObservable<Unit> streamToForse = this.FixedUpdateAsObservable().Where(_ => moveOn);
+        streamToForse.Subscribe(_ => ForseToPoint()).AddTo(disposables);
+        IObservable<Unit> streamToCorrectSkinRoot = this.UpdateAsObservable().Where(_ => CheckSkinRootRotation());
+        streamToCorrectSkinRoot.Subscribe(_ => CorrectSkinRootRotation()).AddTo(disposables);
     }
 
     private void OnDisposable()
     {
         disposables.Clear();
+    }
+
+    private bool CheckSkinRootRotation()
+    {
+        return skinRoot.localRotation.y != -transform.rotation.eulerAngles.y;
     }
 
     private void CorrectSkinRootRotation()
