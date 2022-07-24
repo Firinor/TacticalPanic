@@ -8,9 +8,7 @@ public class MoveOperator : MonoBehaviour
 {
     [SerializeField]
     private float speed = 3f;
-    private float turningSpeed = 3;
     private Vector3 target;
-    private float directionOfMovement;
     private UnitOnLevelPathInformator path;
 
     [SerializeField]
