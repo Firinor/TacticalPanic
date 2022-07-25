@@ -37,7 +37,7 @@ public class MoveOperator : MonoBehaviour
         streamToCorrectSkinRoot.Subscribe(_ => CorrectSkinRootRotation()).AddTo(disposables);
     }
 
-    private void OnDisposable()
+    ~MoveOperator()
     {
         disposables.Clear();
     }
