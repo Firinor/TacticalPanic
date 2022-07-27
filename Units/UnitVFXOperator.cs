@@ -5,6 +5,7 @@ using UnityEngine.VFX;
 
 namespace TacticalPanicCode
 {
+    [RequireComponent(typeof(UnitOperator))]
     public class UnitVFXOperator : MonoBehaviour
     {
         [SerializeField]
