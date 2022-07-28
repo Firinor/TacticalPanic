@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,32 +15,63 @@ namespace TacticalPanicCode
         [Range (0, 359)]
         private int loocAtAngle;
         [SerializeField]
-        private float slashSpeed = 10;
+        private float lifeTime;
+        [SerializeField]
+        private bool clockwise;
+        [SerializeField]
+        private Color slashColor;
+
+        private Dictionary<string, int> indexes; 
 
         void Awake()
         {
-            SetAngle();
-            SetSpeed();
+            indexes = GetIndexes();
+            SetValue(indexes[nameof(loocAtAngle)], loocAtAngle);
+            SetValue(indexes[nameof(lifeTime)], lifeTime);
+            SetValue(indexes[nameof(clockwise)], clockwise);
+            SetValue(indexes[nameof(slashColor)], slashColor);
         }
 
-        private void SetAngle(int loocAtAngle)
+        private Dictionary<string, int> GetIndexes()
         {
-            this.loocAtAngle = loocAtAngle;
-            SetAngle();
-        }
-        private void SetAngle()
-        {
-            visualEffect.SetFloat("SlashSpeed", loocAtAngle);
+            Dictionary<string, int> result = new Dictionary<string, int>();
+
+            result.Add(nameof(loocAtAngle), Shader.PropertyToID(nameof(loocAtAngle)));
+            result.Add(nameof(lifeTime), Shader.PropertyToID(nameof(lifeTime)));
+            result.Add(nameof(clockwise), Shader.PropertyToID(nameof(clockwise)));
+            result.Add(nameof(slashColor), Shader.PropertyToID(nameof(slashColor)));
+
+            return result;
         }
 
-        private void SetSpeed(float slashSpeed)
+        [ExecuteAlways]
+        private void SetValue<T>(int index, in T value)
         {
-            this.slashSpeed = slashSpeed;
-            SetSpeed();
-        }
-        private void SetSpeed()
+            string nameOfType = typeof(T).Name;
+
+            switch (nameOfType)
             {
-                visualEffect.SetFloat("SlashSpeed", slashSpeed);
+                case "Int32":
+                    if(value is int newIntValue)
+                    {
+                        visualEffect.SetInt(index, newIntValue); 
+                    }
+                    break;
+                case "Single":
+                    if (value is float newFloatValue)
+                    {
+                        visualEffect.SetFloat(index, newFloatValue);
+                    }
+                    break;
+                case "Boolean":
+                    if (value is bool newBoolValue)
+                    {
+                        visualEffect.SetBool(index, newBoolValue);
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
