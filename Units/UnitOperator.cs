@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public enum MaterialSoundType { Flesh, Wood, Metal, Stone, Spirit };
 public enum UnitSounds { Death, Hit, Attack }
 public enum VisualOfUnit { Normal, Haziness, Grayness, Off };
+public enum UnitBehaviour { Death, Idle, Move, Attack, Off };
 
 //            UnitInformator
 //UnitBasis <
@@ -21,6 +22,8 @@ public partial class UnitOperator : MonoBehaviour, IInfoble
     public GistOfUnit[] GistsOfUnit { get; }
     public GistBasis[] GistBasis => unitBasis.GistBasis;
     private bool IsAlive;
+
+    private UnitBehaviour unitBehaviour;
     [SerializeField]
     private SpriteRenderer pedestal;
     [SerializeField]
