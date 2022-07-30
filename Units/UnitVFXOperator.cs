@@ -44,7 +44,6 @@ namespace TacticalPanicCode
             return result;
         }
 
-        [ExecuteAlways]
         private void SetValue<T>(int index, in T value)
         {
             string nameOfType = typeof(T).Name;
@@ -67,6 +66,12 @@ namespace TacticalPanicCode
                     if (value is bool newBoolValue)
                     {
                         visualEffect.SetBool(index, newBoolValue);
+                    }
+                    break;
+                case "Color":
+                    if (value is Color newColorValue)
+                    {
+                        visualEffect.SetVector4(index, newColorValue);
                     }
                     break;
                 default:
