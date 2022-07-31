@@ -5,41 +5,44 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
-public class BriefingMapOperator : SinglBehaviour<BriefingMapOperator>
+namespace TacticalPanicCode
 {
-    [SerializeField]
-    private Text headerText;
-    [SerializeField]
-    private Text descriptionText;
-    [SerializeField]
-    private GameObject GridOfMap;
-
-    private List<GameObject> spriteTiles = new List<GameObject>();
-
-    internal void SetLevelInfo(LevelInformator level)
+    public class BriefingMapOperator : SinglBehaviour<BriefingMapOperator>
     {
-        headerText.text = level.name;
-        descriptionText.text = level.DescriptionText;
-        GenerateMiniMap(level.GetMap());
-    }
+        [SerializeField]
+        private Text headerText;
+        [SerializeField]
+        private Text descriptionText;
+        [SerializeField]
+        private GameObject GridOfMap;
 
-    private void GenerateMiniMap(List<List<int>> intMap)
-    {
-        if (spriteTiles.Count > 0)
+        private List<GameObject> spriteTiles = new List<GameObject>();
+
+        internal void SetLevelInfo(LevelInformator level)
         {
-            foreach (GameObject sprite in spriteTiles)
-            {
-                Destroy(sprite);
-            }
-            spriteTiles.Clear();
+            headerText.text = level.name;
+            descriptionText.text = level.DescriptionText;
+            GenerateMiniMap(level.GetMap());
         }
 
-        for (int x = 0; x < intMap.Count; x++)
+        private void GenerateMiniMap(List<List<int>> intMap)
         {
-            for(int y = 0; y < intMap[x].Count; y++)
+            if (spriteTiles.Count > 0)
             {
-                GameObject newSprite = Instantiate(TileInformator.SpriteTiles[intMap[x][y]], GridOfMap.transform);
-                spriteTiles.Add(newSprite);
+                foreach (GameObject sprite in spriteTiles)
+                {
+                    Destroy(sprite);
+                }
+                spriteTiles.Clear();
+            }
+
+            for (int x = 0; x < intMap.Count; x++)
+            {
+                for (int y = 0; y < intMap[x].Count; y++)
+                {
+                    GameObject newSprite = Instantiate(TileInformator.SpriteTiles[intMap[x][y]], GridOfMap.transform);
+                    spriteTiles.Add(newSprite);
+                }
             }
         }
     }

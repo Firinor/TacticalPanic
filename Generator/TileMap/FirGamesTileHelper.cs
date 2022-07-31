@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FirGamesTileHelper
+namespace TacticalPanicCode
 {
     public static class TileMath
     {

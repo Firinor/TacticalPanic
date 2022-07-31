@@ -3,80 +3,83 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SquadCanvasOperator : SinglBehaviour<SquadCanvasOperator>
+namespace TacticalPanicCode
 {
-    [Header("Main")]
-    [SerializeField]
-    private InfoPanelOperator infoPanel;
-
-    [Header("Drag & Drop settings")]
-    [SerializeField]
-    private GameObject tavernPanel;
-    [SerializeField]
-    private GameObject partyPanel;
-    [SerializeField]
-    private UnitCardOperator tawernUnitCardShadow;
-    [SerializeField]
-    private UnitCardOperator partyUnitCardShadow;
-
-    public void SetParentToAllUnits()
+    public class SquadCanvasOperator : SinglBehaviour<SquadCanvasOperator>
     {
-        foreach(UnitBasis unitCard in UnitsCardManager.unitCards.Keys)
+        [Header("Main")]
+        [SerializeField]
+        private InfoPanelOperator infoPanel;
+
+        [Header("Drag & Drop settings")]
+        [SerializeField]
+        private GameObject tavernPanel;
+        [SerializeField]
+        private GameObject partyPanel;
+        [SerializeField]
+        private UnitCardOperator tawernUnitCardShadow;
+        [SerializeField]
+        private UnitCardOperator partyUnitCardShadow;
+
+        public void SetParentToAllUnits()
         {
-            GameObject parent = PlayerManager.UnitInParty(unitCard) ? partyPanel: tavernPanel;
-            UnitsCardManager.unitCards[unitCard].transform.SetParent(parent.transform);
+            foreach (UnitBasis unitCard in UnitsCardManager.unitCards.Keys)
+            {
+                GameObject parent = PlayerManager.UnitInParty(unitCard) ? partyPanel : tavernPanel;
+                UnitsCardManager.unitCards[unitCard].transform.SetParent(parent.transform);
+            }
         }
-    }
 
-    public void RefreshPointsInfo(IInfoble unit)
-    {
-        infoPanel.RefreshPointsInfo(unit);
-    }
-
-    public static void CardOnBeginDrag(Transform cardTransform, int index)
-    {
-        GameObject shadowGameObject;
-
-        Transform parent = cardTransform.parent;
-
-        if (parent == instance.tavernPanel.transform)
+        public void RefreshPointsInfo(IInfoble unit)
         {
-            shadowGameObject = instance.tawernUnitCardShadow.gameObject;
+            infoPanel.RefreshPointsInfo(unit);
         }
-        else if (parent == instance.partyPanel.transform)
+
+        public static void CardOnBeginDrag(Transform cardTransform, int index)
         {
-            shadowGameObject = instance.partyUnitCardShadow.gameObject;
+            GameObject shadowGameObject;
+
+            Transform parent = cardTransform.parent;
+
+            if (parent == instance.tavernPanel.transform)
+            {
+                shadowGameObject = instance.tawernUnitCardShadow.gameObject;
+            }
+            else if (parent == instance.partyPanel.transform)
+            {
+                shadowGameObject = instance.partyUnitCardShadow.gameObject;
+            }
+            else { return; }
+
+            shadowGameObject.SetActive(true);
+            shadowGameObject.transform.SetSiblingIndex(index);
+
+            cardTransform.SetParent(instance.gameObject.transform);
         }
-        else { return; }
 
-        shadowGameObject.SetActive(true);
-        shadowGameObject.transform.SetSiblingIndex(index);
+        public static void CardOnEndDrag()
+        {
+            instance.tawernUnitCardShadow.gameObject.SetActive(false);
+            instance.partyUnitCardShadow.gameObject.SetActive(false);
+            if (instance == null)
+                return;
+            UnitsCardManager.SetParty(instance.partyPanel.GetComponentsInChildren<UnitCardOperator>());
+            SaveManager.Save(PlayerManager.Account);
+        }
 
-        cardTransform.SetParent(instance.gameObject.transform);
-    }
+        internal static void CardOnDrop(UnitCardOperator cardOperator, GameObject parent)
+        {
+            cardOperator.SetParent(parent.transform);
+        }
 
-    public static void CardOnEndDrag()
-    {
-        instance.tawernUnitCardShadow.gameObject.SetActive(false);
-        instance.partyUnitCardShadow.gameObject.SetActive(false);
-        if (instance == null)
-            return;
-        UnitsCardManager.SetParty(instance.partyPanel.GetComponentsInChildren<UnitCardOperator>());
-        SaveManager.Save(PlayerManager.Account);
-    }
+        internal static Transform GetTavernTransform()
+        {
+            return instance.tavernPanel.transform;
+        }
 
-    internal static void CardOnDrop(UnitCardOperator cardOperator, GameObject parent)
-    {
-        cardOperator.SetParent(parent.transform);
-    }
-
-    internal static Transform GetTavernTransform()
-    {
-        return instance.tavernPanel.transform;
-    }
-
-    internal static Transform GetPartyTransform()
-    {
-        return instance.partyPanel.transform;
+        internal static Transform GetPartyTransform()
+        {
+            return instance.partyPanel.transform;
+        }
     }
 }

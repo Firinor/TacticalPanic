@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CreditChallengeOperator : MonoBehaviour
+namespace TacticalPanicCode
 {
-    public void Return()
+    public class CreditChallengeOperator : MonoBehaviour
     {
-        MainMenuManager.SwitchPanels(MenuMarks.baner);
+        public void Return()
+        {
+            MainMenuManager.SwitchPanels(MenuMarks.baner);
+        }
     }
 }

@@ -3,24 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public enum DropHandlerSystem { OnTavern, BattleField }
-
-public class OnDropInformator : MonoBehaviour, IDropHandler
+namespace TacticalPanicCode
 {
-    [SerializeField]
-    private DropHandlerSystem system;
-    [SerializeField]
-    private GameObject keyObject;
+    public enum DropHandlerSystem { OnTavern, BattleField }
 
-    public void OnDrop(PointerEventData eventData)
+    public class OnDropInformator : MonoBehaviour, IDropHandler
     {
-        switch (system)
+        [SerializeField]
+        private DropHandlerSystem system;
+        [SerializeField]
+        private GameObject keyObject;
+
+        public void OnDrop(PointerEventData eventData)
         {
-            case DropHandlerSystem.OnTavern:
-                UnitCardOperator pointerDrag = eventData.pointerDrag.GetComponent<UnitCardOperator>();
-                if(pointerDrag != null)
-                    SquadCanvasOperator.CardOnDrop(pointerDrag, keyObject);
-                break;
+            switch (system)
+            {
+                case DropHandlerSystem.OnTavern:
+                    UnitCardOperator pointerDrag = eventData.pointerDrag.GetComponent<UnitCardOperator>();
+                    if (pointerDrag != null)
+                        SquadCanvasOperator.CardOnDrop(pointerDrag, keyObject);
+                    break;
+            }
         }
     }
 }

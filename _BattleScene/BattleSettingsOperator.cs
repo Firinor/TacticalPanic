@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattleSettingsOperator : MonoBehaviour
+namespace TacticalPanicCode
 {
-    public static void SetGameSpeed(float newSpeed)
+    public class BattleSettingsOperator : MonoBehaviour
     {
-        TimeManager.SetGameSpeed(newSpeed);
-    }
+        public static void SetGameSpeed(float newSpeed)
+        {
+            TimeManager.SetGameSpeed(newSpeed);
+        }
 
-    public void Options()
-    {
-        SceneManager.SwitchPanels(SceneDirection.options);
+        public void Options()
+        {
+            SceneManager.SwitchPanels(SceneDirection.options);
+        }
     }
 }

@@ -4,31 +4,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SpeakerOperator : MonoBehaviour
+namespace TacticalPanicCode
 {
-    [SerializeField]
-    private Image image;
-    [SerializeField]
-    private Transform imageTransform;
-    [SerializeField]
-    private Color speakerOnBackgroundColor;
-    [SerializeField]
-    private Vector3 scaleOnBackground;
-
-    internal void SetImage(UnitInformator speaker)
+    public class SpeakerOperator : MonoBehaviour
     {
-        image.sprite = speaker.unitSprite;
-    }
+        [SerializeField]
+        private Image image;
+        [SerializeField]
+        private Transform imageTransform;
+        [SerializeField]
+        private Color speakerOnBackgroundColor;
+        [SerializeField]
+        private Vector3 scaleOnBackground;
 
-    public void ToTheBackground()
-    {
-        image.color = speakerOnBackgroundColor;
-        imageTransform.localScale = scaleOnBackground;
-    }
+        internal void SetImage(UnitInformator speaker)
+        {
+            image.sprite = speaker.unitSprite;
+        }
 
-    public void ToTheForeground()
-    {
-        image.color = Color.white;
-        imageTransform.localScale = Vector3.one;
+        public void ToTheBackground()
+        {
+            image.color = speakerOnBackgroundColor;
+            imageTransform.localScale = scaleOnBackground;
+        }
+
+        public void ToTheForeground()
+        {
+            image.color = Color.white;
+            imageTransform.localScale = Vector3.one;
+        }
     }
 }

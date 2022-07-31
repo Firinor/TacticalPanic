@@ -1,11 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public interface IInfoble
+namespace TacticalPanicCode
 {
-    public Sprite SpriteInfo { get; }
+    public interface IInfoble
+    {
+        public Sprite SpriteInfo { get; }
 
-    public GistBasis[] GistBasis { get; }
+        public GistBasis[] GistBasis { get; }
 
-    public string GetTextInfo();
+        public string GetTextInfo();
+    }
 }

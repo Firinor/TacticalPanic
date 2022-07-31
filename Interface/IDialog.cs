@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IDialog 
+namespace TacticalPanicCode
 {
-    public DialogInformator Dialog { get; set; }
+    public interface IDialog
+    {
+        public DialogInformator Dialog { get; set; }
+    }
 }

@@ -2,83 +2,86 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TimeManager : MonoBehaviour
+namespace TacticalPanicCode
 {
-    [SerializeField]
-    private GameObject[] manaBar = new GameObject[PlayerOperator.GistsCount];
-
-    [SerializeField]
-    private GameObject missionObjectives;
-
-    private Slider[] slider = new Slider[PlayerOperator.GistsCount];
-    [SerializeField]
-    private static Slider gameSpeedSlider;
-
-    private Text[] sliderText = new Text[PlayerOperator.GistsCount];
-
-    private Text missionObjectivesText;
-
-    public void Start()
+    public class TimeManager : MonoBehaviour
     {
-        for (int i = 0; i < PlayerOperator.GistsCount; i++)
+        [SerializeField]
+        private GameObject[] manaBar = new GameObject[PlayerOperator.GistsCount];
+
+        [SerializeField]
+        private GameObject missionObjectives;
+
+        private Slider[] slider = new Slider[PlayerOperator.GistsCount];
+        [SerializeField]
+        private static Slider gameSpeedSlider;
+
+        private Text[] sliderText = new Text[PlayerOperator.GistsCount];
+
+        private Text missionObjectivesText;
+
+        public void Start()
         {
-            if (manaBar[i] != null) 
+            for (int i = 0; i < PlayerOperator.GistsCount; i++)
             {
-                slider[i] = manaBar[i].GetComponent<Slider>();
-                slider[i].maxValue = PlayerOperator.GetMaxMana(i);
-                sliderText[i] = manaBar[i].GetComponentInChildren<Text>();
-                sliderText[i].text = "" + slider[i].value + "/" + slider[i].maxValue + " +" + PlayerOperator.GetRegen(i);
+                if (manaBar[i] != null)
+                {
+                    slider[i] = manaBar[i].GetComponent<Slider>();
+                    slider[i].maxValue = PlayerOperator.GetMaxMana(i);
+                    sliderText[i] = manaBar[i].GetComponentInChildren<Text>();
+                    sliderText[i].text = "" + slider[i].value + "/" + slider[i].maxValue + " +" + PlayerOperator.GetRegen(i);
+                }
+            }
+
+            missionObjectivesText = missionObjectives.GetComponentInChildren<Text>();
+            missionObjectivesText.text = "" + PlayerOperator.CurrentSityHealth + " / " + PlayerOperator.MaxSityHealth;
+
+            gameSpeedSlider = GameObject.Find("GameSpeedSlider").GetComponent<Slider>();
+
+            foreach (EnemySquadsInformator enemy in PlayerManager.PickedLevel.enemies)
+            {
+                StartCoroutine(enemy.Start());
             }
         }
 
-        missionObjectivesText = missionObjectives.GetComponentInChildren<Text>();
-        missionObjectivesText.text = "" + PlayerOperator.CurrentSityHealth + " / " + PlayerOperator.MaxSityHealth;
-
-        gameSpeedSlider = GameObject.Find("GameSpeedSlider").GetComponent<Slider>();
-
-        foreach (EnemySquadsInformator enemy in PlayerManager.PickedLevel.enemies)
+        public void FixedUpdate()
         {
-            StartCoroutine(enemy.Start());
-        }
-    }
 
-    public void FixedUpdate()
-    {
+            float delta = Time.deltaTime;
 
-        float delta = Time.deltaTime;
-
-        for (int i = 0; i < PlayerOperator.GistsCount; i++)
-        {
-            if (slider[i] != null)
+            for (int i = 0; i < PlayerOperator.GistsCount; i++)
             {
-                float NewValue = PlayerOperator.ManaRegeneration(i, delta);
-                if ((int)NewValue != slider[i].value)
+                if (slider[i] != null)
                 {
-                    RefreshBottleBar(i);
+                    float NewValue = PlayerOperator.ManaRegeneration(i, delta);
+                    if ((int)NewValue != slider[i].value)
+                    {
+                        RefreshBottleBar(i);
+                    }
                 }
             }
         }
-    }
 
-    public static void RefreshBottleBar()
-    {
-        for (int i = 0; i < PlayerOperator.GistsCount; i++)
+        public static void RefreshBottleBar()
         {
-            RefreshBottleBar(i);
+            for (int i = 0; i < PlayerOperator.GistsCount; i++)
+            {
+                RefreshBottleBar(i);
+            }
         }
-    }
 
-    public static void RefreshBottleBar(int i)
-    {
-        TimeManager B = PlayerOperator.GetBattleTimer();
-        B.slider[i].value = PlayerOperator.GetCurrentMana(i);
-        B.sliderText[i].text = "" + B.slider[i].value + "/" + PlayerOperator.GetMaxMana(i) + " +" + PlayerOperator.GetRegen(i);
-    }
+        public static void RefreshBottleBar(int i)
+        {
+            TimeManager B = PlayerOperator.GetBattleTimer();
+            B.slider[i].value = PlayerOperator.GetCurrentMana(i);
+            B.sliderText[i].text = "" + B.slider[i].value + "/" + PlayerOperator.GetMaxMana(i) + " +" + PlayerOperator.GetRegen(i);
+        }
 
-    public static void SetGameSpeed(float newSpeed)
-    {
-        Time.timeScale = newSpeed;
+        public static void SetGameSpeed(float newSpeed)
+        {
+            Time.timeScale = newSpeed;
 
-        gameSpeedSlider.value = newSpeed;
+            gameSpeedSlider.value = newSpeed;
+        }
     }
 }

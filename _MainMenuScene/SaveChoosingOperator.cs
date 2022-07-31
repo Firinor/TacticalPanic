@@ -2,43 +2,46 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SaveChoosingOperator : MonoBehaviour
+namespace TacticalPanicCode
 {
-    [SerializeField]
-    private SaveManager saveManager;
-    [SerializeField]
-    private GameObject[] Jar;
-
-    void Start()
+    public class SaveChoosingOperator : MonoBehaviour
     {
-        if (saveManager == null)
+        [SerializeField]
+        private SaveManager saveManager;
+        [SerializeField]
+        private GameObject[] Jar;
+
+        void Start()
         {
-            saveManager = GameObject.FindGameObjectWithTag("AnyScene").GetComponent<SaveManager>();
+            if (saveManager == null)
+            {
+                saveManager = GameObject.FindGameObjectWithTag("AnyScene").GetComponent<SaveManager>();
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                Jar[i].SetActive(saveManager.FileExists(i));
+            }
         }
 
-        for (int i = 0; i < 3; i++)
+        public void Return()
         {
-            Jar[i].SetActive(saveManager.FileExists(i));
+            MainMenuManager.SwitchPanels(MenuMarks.baner);
         }
-    }
 
-    public void Return()
-    {
-        MainMenuManager.SwitchPanels(MenuMarks.baner);
-    }
+        public void LoadSave(int i)
+        {
+            if (Jar[i].activeSelf)
+            {
+                SaveManager.Load(i);
+            }
+            else
+            {
+                SaveManager.CreateNewSave(i);
+            }
 
-    public void LoadSave(int i)
-    {
-        if (Jar[i].activeSelf)
-        {
-            SaveManager.Load(i);
+            MainMenuManager.SwitchPanels(MenuMarks.off);
+            SceneManager.LoadScene("WorldMap");
         }
-        else
-        {
-            SaveManager.CreateNewSave(i);
-        }
-        
-        MainMenuManager.SwitchPanels(MenuMarks.off);
-        SceneManager.LoadScene("WorldMap");
     }
 }

@@ -1,63 +1,66 @@
 using System;
 using UnityEngine;
 
-public enum MenuMarks { baner, credits, saves, options, off };
-
-public class MainMenuManager : SinglBehaviour<MainMenuManager>, IScenePanel
+namespace TacticalPanicCode
 {
-    private static GameObject baner;
-    private static GameObject credits;
-    private static GameObject saves;
+    public enum MenuMarks { baner, credits, saves, options, off };
 
-    public void SetAllInstance()
+    public class MainMenuManager : SinglBehaviour<MainMenuManager>, IScenePanel
     {
-        SingletoneCheck(instance);
-        SceneManager.ScenePanel = this;
-        baner = MainMenuInformator.GetBaner();
-        credits = MainMenuInformator.GetCredits();
-        saves = MainMenuInformator.GetSaves();
-    }
+        private static GameObject baner;
+        private static GameObject credits;
+        private static GameObject saves;
 
-    public static void SwitchPanels(MenuMarks mark)
-    {
-        instance.DiactiveAllPanels();
-        switch (mark)
+        public void SetAllInstance()
         {
-            case MenuMarks.baner:
-                baner.SetActive(true);
-                break;
-            case MenuMarks.credits:
-                credits.SetActive(true);
-                break;
-            case MenuMarks.saves:
-                saves.SetActive(true);
-                break;
-            case MenuMarks.options:
-                SceneManager.SwitchPanels(SceneDirection.options);
-                break;
-            case MenuMarks.off:
-                break;
-            default:
-                new Exception("Unrealized bookmark!");
-                break;
+            SingletoneCheck(this);
+            SceneManager.ScenePanel = this;
+            baner = MainMenuInformator.GetBaner();
+            credits = MainMenuInformator.GetCredits();
+            saves = MainMenuInformator.GetSaves();
         }
-    }
 
-    public void SwitchPanels(int mark)
-    {
-        SwitchPanels((MenuMarks)mark);
-    }
+        public static void SwitchPanels(MenuMarks mark)
+        {
+            instance.DiactiveAllPanels();
+            switch (mark)
+            {
+                case MenuMarks.baner:
+                    baner.SetActive(true);
+                    break;
+                case MenuMarks.credits:
+                    credits.SetActive(true);
+                    break;
+                case MenuMarks.saves:
+                    saves.SetActive(true);
+                    break;
+                case MenuMarks.options:
+                    SceneManager.SwitchPanels(SceneDirection.options);
+                    break;
+                case MenuMarks.off:
+                    break;
+                default:
+                    new Exception("Unrealized bookmark!");
+                    break;
+            }
+        }
 
-    public void DiactiveAllPanels()
-    {
-        baner.SetActive(false);
-        credits.SetActive(false);
-        saves.SetActive(false);
-        SceneManager.DiactiveAllPanels();
-    }
+        public void SwitchPanels(int mark)
+        {
+            SwitchPanels((MenuMarks)mark);
+        }
 
-    public void BasicPanelSettings()
-    {
-        SwitchPanels(MenuMarks.baner);
+        public void DiactiveAllPanels()
+        {
+            baner.SetActive(false);
+            credits.SetActive(false);
+            saves.SetActive(false);
+            SceneManager.DiactiveAllPanels();
+        }
+
+        public void BasicPanelSettings()
+        {
+            SwitchPanels(MenuMarks.baner);
+        }
     }
 }

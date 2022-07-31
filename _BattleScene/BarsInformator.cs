@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BarsInformator : MonoBehaviour
+namespace TacticalPanicCode
 {
-    public GameObject RefFill;
-    public GameObject RefSlider;
+    public class BarsInformator : MonoBehaviour
+    {
+        public GameObject RefFill;
+        public GameObject RefSlider;
+    }
 }

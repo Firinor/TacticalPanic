@@ -2,23 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LoadDebuger : MonoBehaviour
+namespace TacticalPanicCode
 {
-    [Range(0, 2)]
-    public int Account = 0;
-    public LevelInformator level;
-
-    void Awake()
+    public class LoadDebuger : MonoBehaviour
     {
-        if(SaveManager.PlayerAccount() == -1)
+        [Range(0, 2)]
+        public int Account = 0;
+        public LevelInformator level;
+
+        void Awake()
         {
-            SaveManager.Load(Account);
-            PlayerManager.OnLoad();
+            if (SaveManager.PlayerAccount() == -1)
+            {
+                SaveManager.Load(Account);
+                PlayerManager.OnLoad();
+            }
+            if (level != null)
+            {
+                PlayerManager.PickedLevel = level;
+            }
+            Destroy(gameObject);
         }
-        if(level != null)
-        {
-            PlayerManager.PickedLevel = level;
-        }
-        Destroy(gameObject);
     }
 }

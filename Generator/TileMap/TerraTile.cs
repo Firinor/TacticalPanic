@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace FirGamesTileHelper
+namespace TacticalPanicCode
 {
     [CreateAssetMenu(menuName = "Level/New tile", fileName = "TerraTile")]
     public class TerraTile : TileBase

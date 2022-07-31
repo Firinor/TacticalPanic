@@ -1,44 +1,47 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SliderOperator : MonoBehaviour
+namespace TacticalPanicCode
 {
-    [SerializeField]
-    private GameObject textContent;
-    private RectTransform textTransform;
-    private RectTransform parentTransform;
-    
-    public Slider Slider;
-
-    private float viewHeight;
-
-    public void Start()
+    public class SliderOperator : MonoBehaviour
     {
-        textTransform = textContent.GetComponent<RectTransform>();
-        parentTransform = textTransform.parent.GetComponent<RectTransform>();
-        viewHeight = parentTransform.rect.height;
-        Slider.maxValue = textContent.GetComponent<Text>().preferredHeight;
+        [SerializeField]
+        private GameObject textContent;
+        private RectTransform textTransform;
+        private RectTransform parentTransform;
 
-        if(Slider.maxValue > viewHeight)
-            Slider.maxValue -= viewHeight;
+        public Slider Slider;
 
-        Slider.value = 0;
+        private float viewHeight;
 
-    }
-    public void ScrollTextContent(Vector2 vector2)
-    {
-        if (Input.mouseScrollDelta.y != 0)
+        public void Start()
         {
-            Slider.value -= Input.mouseScrollDelta.y * InputMouseInformator.TextScrollSensivity;
-        }
-        else
-        {
-            Slider.value = textTransform.anchoredPosition.y;
-        }
-    }
+            textTransform = textContent.GetComponent<RectTransform>();
+            parentTransform = textTransform.parent.GetComponent<RectTransform>();
+            viewHeight = parentTransform.rect.height;
+            Slider.maxValue = textContent.GetComponent<Text>().preferredHeight;
 
-    public void SlideTextContent()
-    {
-        textTransform.anchoredPosition = new Vector2(0, Slider.value);
+            if (Slider.maxValue > viewHeight)
+                Slider.maxValue -= viewHeight;
+
+            Slider.value = 0;
+
+        }
+        public void ScrollTextContent(Vector2 vector2)
+        {
+            if (Input.mouseScrollDelta.y != 0)
+            {
+                Slider.value -= Input.mouseScrollDelta.y * InputMouseInformator.TextScrollSensivity;
+            }
+            else
+            {
+                Slider.value = textTransform.anchoredPosition.y;
+            }
+        }
+
+        public void SlideTextContent()
+        {
+            textTransform.anchoredPosition = new Vector2(0, Slider.value);
+        }
     }
 }

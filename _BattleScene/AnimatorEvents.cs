@@ -1,9 +1,12 @@
 using UnityEngine;
 
-public partial class AnimatorEvents : MonoBehaviour
+namespace TacticalPanicCode
 {
-    public void Death()
+    public partial class AnimatorEvents : MonoBehaviour
     {
-        gameObject.GetComponentInParent<UnitOperator>().DeathAnimationEnds();
+        public void Death()
+        {
+            gameObject.GetComponentInParent<UnitOperator>().DeathAnimationEnds();
+        }
     }
 }

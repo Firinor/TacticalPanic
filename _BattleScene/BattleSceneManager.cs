@@ -3,52 +3,55 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public enum BattleMarks { options, off }
-
-public class BattleSceneManager : SinglBehaviour<WorldMenuManager>, IScenePanel
+namespace TacticalPanicCode
 {
-    [SerializeField]
-    private GameObject unitsTank;
-    private UnitsManager unitsManager;
+    public enum BattleMarks { options, off }
 
-    public void SetAllInstance()
+    public class BattleSceneManager : SinglBehaviour<WorldMenuManager>, IScenePanel
     {
-        if (instance == null)
-            SingletoneCheck(this);
-        SceneManager.ScenePanel = this;
+        [SerializeField]
+        private GameObject unitsTank;
+        private UnitsManager unitsManager;
 
-        unitsManager = unitsTank.GetComponent<UnitsManager>();
-        unitsManager.SingletoneCheck(unitsManager);//Singltone
-    }
-
-    public void SwitchPanels(BattleMarks mark)
-    {
-        DiactiveAllPanels();
-        switch (mark)
+        public void SetAllInstance()
         {
-            case BattleMarks.off:
-                break;
-            case BattleMarks.options:
-                SceneManager.SwitchPanels(SceneDirection.options);
-                break;
-            default:
-                new Exception("Unrealized bookmark!");
-                break;
+            if (instance == null)
+                SingletoneCheck(this);
+            SceneManager.ScenePanel = this;
+
+            unitsManager = unitsTank.GetComponent<UnitsManager>();
+            unitsManager.SingletoneCheck(unitsManager);//Singltone
         }
-    }
 
-    public void SwitchPanels(int mark)
-    {
-        SwitchPanels((BattleMarks)mark);
-    }
+        public void SwitchPanels(BattleMarks mark)
+        {
+            DiactiveAllPanels();
+            switch (mark)
+            {
+                case BattleMarks.off:
+                    break;
+                case BattleMarks.options:
+                    SceneManager.SwitchPanels(SceneDirection.options);
+                    break;
+                default:
+                    new Exception("Unrealized bookmark!");
+                    break;
+            }
+        }
 
-    public void DiactiveAllPanels()
-    {
-        SceneManager.DiactiveAllPanels();
-    }
+        public void SwitchPanels(int mark)
+        {
+            SwitchPanels((BattleMarks)mark);
+        }
 
-    public void BasicPanelSettings()
-    {
-        SwitchPanels(BattleMarks.off);
+        public void DiactiveAllPanels()
+        {
+            SceneManager.DiactiveAllPanels();
+        }
+
+        public void BasicPanelSettings()
+        {
+            SwitchPanels(BattleMarks.off);
+        }
     }
 }

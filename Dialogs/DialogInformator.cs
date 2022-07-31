@@ -2,27 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Dialog/New dialog", fileName = "Dialog")]
-public class DialogInformator : ScriptableObject
+namespace TacticalPanicCode
 {
-    public List<SpeakersPhrase> Dialog;
-    public int Length { get { return Dialog == null ? 0: Dialog.Count; } }
-    
-    public SpeakersPhrase this[int index]
+    [CreateAssetMenu(menuName = "Dialog/New dialog", fileName = "Dialog")]
+    public class DialogInformator : ScriptableObject
     {
-        get => Dialog[index];
-    }
+        public List<SpeakersPhrase> Dialog;
+        public int Length { get { return Dialog == null ? 0 : Dialog.Count; } }
 
-    [System.Serializable]
-    public class SpeakersPhrase
-    {
-        public enum PositionOnTheStage { Left, Center, Right, Off }
+        public SpeakersPhrase this[int index]
+        {
+            get => Dialog[index];
+        }
 
-        public Sprite background;
-        public UnitInformator Speaker;
-        public PositionOnTheStage Position;
-        [Multiline]
-        public string text;
+        [System.Serializable]
+        public class SpeakersPhrase
+        {
+            public enum PositionOnTheStage { Left, Center, Right, Off }
+
+            public Sprite background;
+            public UnitInformator Speaker;
+            public PositionOnTheStage Position;
+            [Multiline]
+            public string text;
+        }
     }
 }
 

@@ -2,65 +2,68 @@ using UnityEngine;
 using System.Text;
 using System;
 
-public class CursorMagicOperator : MonoBehaviour
+namespace TacticalPanicCode
 {
-    private Camera mainCamera;
-    [SerializeField]
-    private ContactFilter2D contactFilter2D = new ContactFilter2D();
-    private RaycastHit2D[] results = new RaycastHit2D[8];
-
-    private float[] passiveDamage;
-    private float[] passiveHeal;
-
-    public void Start()
+    public class CursorMagicOperator : MonoBehaviour
     {
-        mainCamera = GetComponent<Camera>();
-        PlayerOperator.GetCursorMagic(out passiveDamage, out passiveHeal);
-    }
+        private Camera mainCamera;
+        [SerializeField]
+        private ContactFilter2D contactFilter2D = new ContactFilter2D();
+        private RaycastHit2D[] results = new RaycastHit2D[8];
 
-    void FixedUpdate()
-    {
-        if (InputMouseInformator.MouseLayer != 0)
-            return;
+        private float[] passiveDamage;
+        private float[] passiveHeal;
 
-        Vector2 _cursorPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-
-        //Ray2D ray = new Ray2D(_cursorPosition, new Vector3(0, 0, 1));
-        int rayCollision = Physics2D.Raycast(_cursorPosition, new Vector2(0, 0), contactFilter2D, results, mainCamera.farClipPlane);
-        if (rayCollision > 0)
+        public void Start()
         {
-            for (int i = 0; i < rayCollision; i++)
+            mainCamera = GetComponent<Camera>();
+            PlayerOperator.GetCursorMagic(out passiveDamage, out passiveHeal);
+        }
+
+        void FixedUpdate()
+        {
+            if (InputMouseInformator.MouseLayer != 0)
+                return;
+
+            Vector2 _cursorPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+
+            //Ray2D ray = new Ray2D(_cursorPosition, new Vector3(0, 0, 1));
+            int rayCollision = Physics2D.Raycast(_cursorPosition, new Vector2(0, 0), contactFilter2D, results, mainCamera.farClipPlane);
+            if (rayCollision > 0)
             {
-                if (results[i].transform != null)
+                for (int i = 0; i < rayCollision; i++)
                 {
-                    switch (results[i].transform.tag)
+                    if (results[i].transform != null)
                     {
-                        case "Enemy":
-                            MouseDamage(results[i].transform.GetComponent<UnitOperator>());
-                            break;
-                        case "Player":
-                            MouseHeal(results[i].transform.GetComponent<UnitOperator>());
-                            break;
+                        switch (results[i].transform.tag)
+                        {
+                            case "Enemy":
+                                MouseDamage(results[i].transform.GetComponent<UnitOperator>());
+                                break;
+                            case "Player":
+                                MouseHeal(results[i].transform.GetComponent<UnitOperator>());
+                                break;
+                        }
                     }
                 }
             }
         }
-    }
 
-    private void MouseDamage(UnitOperator stats, bool heal = false)
-    {
-        if (heal)
+        private void MouseDamage(UnitOperator stats, bool heal = false)
         {
-            //stats.Heal(passiveHeal);
+            if (heal)
+            {
+                //stats.Heal(passiveHeal);
+            }
+            else
+            {
+                //stats.Damage(passiveDamage);
+            }
         }
-        else
-        {
-            //stats.Damage(passiveDamage);
-        }
-    }
 
-    private void MouseHeal(UnitOperator stats)
-    {
-        MouseDamage(stats, true);
+        private void MouseHeal(UnitOperator stats)
+        {
+            MouseDamage(stats, true);
+        }
     }
 }

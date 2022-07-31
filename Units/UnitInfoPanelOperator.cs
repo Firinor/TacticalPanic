@@ -1,50 +1,52 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public delegate void UnitInfoDelegate();
-
-public static class UnitInfoPanelOperator
+namespace TacticalPanicCode
 {
-    public static event UnitInfoDelegate InfoEvent;
+    public delegate void UnitInfoDelegate();
 
-    private static GameObject infoPanel = GameObject.Find("HitBarsInfoPanel");
-    private static Image unitSprite = GameObject.Find("ObjectInfoImage").GetComponent<Image>();
-    private static Text infoText = GameObject.Find("ContentTextInfoPanel").GetComponentInChildren<Text>();
-
-    private static Slider[] InfoSliderBar = infoPanel.GetComponentsInChildren<Slider>();
-    private static Text[] InfoTextBar = infoPanel.GetComponentsInChildren<Text>();
-
-    //private static IInfoble unitFromThePoster;
-
-    public static void RefreshInfoPanel()
+    public static class UnitInfoPanelOperator
     {
-        bool Pic = SelectedUnitsInformator.SelectedUnits.Count > 0;
-        if (Pic)
+        public static event UnitInfoDelegate InfoEvent;
+
+        private static GameObject infoPanel = GameObject.Find("HitBarsInfoPanel");
+        private static Image unitSprite = GameObject.Find("ObjectInfoImage").GetComponent<Image>();
+        private static Text infoText = GameObject.Find("ContentTextInfoPanel").GetComponentInChildren<Text>();
+
+        private static Slider[] InfoSliderBar = infoPanel.GetComponentsInChildren<Slider>();
+        private static Text[] InfoTextBar = infoPanel.GetComponentsInChildren<Text>();
+
+        //private static IInfoble unitFromThePoster;
+
+        public static void RefreshInfoPanel()
         {
-            //if(unitFromThePoster == SelectedUnitsInformator.SelectedUnits[0])
-            //{
-            //    return;
-            //}
-            //if(unitFromThePoster != null)
-            //    unitFromThePoster.UnPick();
-            //unitFromThePoster = SelectedUnitsInformator.SelectedUnits[0];
-            //unitFromThePoster.GetComponent<Unit>().Pick();
-            //unitSprite.sprite = unitFromThePoster.GetComponent<Unit>().GetCardSprite();
+            bool Pic = SelectedUnitsInformator.SelectedUnits.Count > 0;
+            if (Pic)
+            {
+                //if(unitFromThePoster == SelectedUnitsInformator.SelectedUnits[0])
+                //{
+                //    return;
+                //}
+                //if(unitFromThePoster != null)
+                //    unitFromThePoster.UnPick();
+                //unitFromThePoster = SelectedUnitsInformator.SelectedUnits[0];
+                //unitFromThePoster.GetComponent<Unit>().Pick();
+                //unitSprite.sprite = unitFromThePoster.GetComponent<Unit>().GetCardSprite();
+            }
+            RefreshPointsInfo();
         }
-        RefreshPointsInfo();
-    }
 
-    public static void RefreshPointsInfo(IInfoble unit)
-    {
-        //if (unit == unitFromThePoster)
-        //{
-        //    RefreshPointsInfo();
-        //}
-    }
-    public static void RefreshPointsInfo()
-    {
-        //if(unitFromThePoster != null)
-        //{
+        public static void RefreshPointsInfo(IInfoble unit)
+        {
+            //if (unit == unitFromThePoster)
+            //{
+            //    RefreshPointsInfo();
+            //}
+        }
+        public static void RefreshPointsInfo()
+        {
+            //if(unitFromThePoster != null)
+            //{
             //BodyElement.PointsValue[] pointInfo = unitFromThePoster.GetComponent<Unit>().GetPointInfo();
 
             //for (int i = 0; i < pointInfo.Length; i++)
@@ -60,11 +62,12 @@ public static class UnitInfoPanelOperator
 
             //    }
             //}
-        //}
-    }
+            //}
+        }
 
-    public static void ClearInfoPanel()
-    {
-        unitSprite.sprite = null;
+        public static void ClearInfoPanel()
+        {
+            unitSprite.sprite = null;
+        }
     }
 }

@@ -2,24 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputOperator : MonoBehaviour
+namespace TacticalPanicCode
 {
-    public float TextScrollSensivity = 1;
-    public float ZoomScrollSensivity = 1;
-
-    [SerializeField]
-    private Material defaultMaterial;
-    [SerializeField]
-    private Material pickMaterial;
-
-    public static Material DefaultMaterial { get; set; }
-    public static Material PickMaterial { get; set; }
-
-    public void Awake()
+    public class InputOperator : MonoBehaviour
     {
-        DefaultMaterial = defaultMaterial;
-        PickMaterial = pickMaterial;
-        InputMouseInformator.TextScrollSensivity = TextScrollSensivity;
-        InputMouseInformator.ZoomScrollSensivity = ZoomScrollSensivity;
+        public float TextScrollSensivity = 1;
+        public float ZoomScrollSensivity = 1;
+
+        [SerializeField]
+        private Material defaultMaterial;
+        [SerializeField]
+        private Material pickMaterial;
+
+        public static Material DefaultMaterial { get; set; }
+        public static Material PickMaterial { get; set; }
+
+        public void Awake()
+        {
+            DefaultMaterial = defaultMaterial;
+            PickMaterial = pickMaterial;
+            InputMouseInformator.TextScrollSensivity = TextScrollSensivity;
+            InputMouseInformator.ZoomScrollSensivity = ZoomScrollSensivity;
+        }
     }
 }

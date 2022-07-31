@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DialogLevelOperator : MonoBehaviour, IDialog
+namespace TacticalPanicCode
 {
-    public DialogInformator Dialog
+    public class DialogLevelOperator : MonoBehaviour, IDialog
     {
-        get => PlayerManager.PickedLevel.BriefingDialog;
-        set { }
+        public DialogInformator Dialog
+        {
+            get => PlayerManager.PickedLevel.BriefingDialog;
+            set { }
+        }
     }
 }

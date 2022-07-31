@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class AudioMixerDebuger : MonoBehaviour
+namespace TacticalPanicCode
 {
-    public AudioMixer mixer;
-    void Update()
+    public class AudioMixerDebuger : MonoBehaviour
     {
-        mixer.SetFloat("MasterVolume", Mathf.Lerp(-80f, 0, OptionsOperator.GetVolume()));
-        Destroy(gameObject);
+        public AudioMixer mixer;
+        void Update()
+        {
+            mixer.SetFloat("MasterVolume", Mathf.Lerp(-80f, 0, OptionsOperator.GetVolume()));
+            Destroy(gameObject);
+        }
     }
 }

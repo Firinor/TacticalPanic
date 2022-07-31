@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DialogButtonOperator : MonoBehaviour, IDialog
+namespace TacticalPanicCode
 {
-    [SerializeField]
-    private DialogInformator dialog;
-
-    public DialogInformator Dialog
+    public class DialogButtonOperator : MonoBehaviour, IDialog
     {
-        get => dialog;
-        set { }
+        [SerializeField]
+        private DialogInformator dialog;
+
+        public DialogInformator Dialog
+        {
+            get => dialog;
+            set { }
+        }
     }
 }
