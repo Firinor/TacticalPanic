@@ -18,6 +18,11 @@ namespace TacticalPanicCode
         [SerializeField]
         private float smoothness = 0.25f;
 
+        [SerializeField]
+        private static float maxRayDistance = 100f;
+        [SerializeField]
+        private static int intGroundLayer = 3;
+
         private GameObject cardUnit;
         private UnitOperator statsUnit;
 
@@ -29,7 +34,7 @@ namespace TacticalPanicCode
             cardUnit = GetComponent<UnitCardStats>().GetUnitPrefab();
             statsUnit = cardUnit.GetComponent<UnitOperator>();
             camera = Camera.main;
-            gameObject.transform.Find("Name").GetComponent<Text>().text = statsUnit.GetName();
+            transform.Find("Name").GetComponent<Text>().text = statsUnit.GetName();
             cardSiblingOffset = -(gameObject.GetComponent<RectTransform>().rect.width
                 + gameObject.GetComponentInParent<HorizontalLayoutGroup>().spacing) / 2;
         }
@@ -71,7 +76,7 @@ namespace TacticalPanicCode
 
                 Ray ray = camera.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
-                Physics.Raycast(ray, out hit);
+                Physics.Raycast(ray, out hit, maxRayDistance, intGroundLayer);
 
                 //if (hit.point )
                 Vector3 pos = hit.point;
@@ -99,21 +104,10 @@ namespace TacticalPanicCode
         {
             dragCard = false;
 
-            if (wantToDeploy)
-            {
-                if (statsUnit.CheckTermsAndDeploy())
-                {
-                    Destroy(gameObject);
-                }
-                else
-                {
-                    UnitOff();
-                }
-            }
-            else
-            {
+            if (!wantToDeploy || !statsUnit.CheckTermsAndDeploy())
                 UnitOff();
-            }
+            else
+                Destroy(gameObject);
         }
 
         private void UnitOff()

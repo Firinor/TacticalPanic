@@ -57,15 +57,7 @@ namespace TacticalPanicCode
         private void CreateBattleField(LevelInformator level)
         {
             List<List<int>> intMap = level.GetMap();
-
-            if (battleTiles.Count > 0)
-            {
-                foreach (GameObject sprite in battleTiles)
-                {
-                    Destroy(sprite);
-                }
-                battleTiles.Clear();
-            }
+            ClearBattleField();
 
             for (int x = 0; x < intMap.Count; x++)
             {
@@ -95,6 +87,27 @@ namespace TacticalPanicCode
                 newTile.transform.SetPositionAndRotation(new Vector3(point.x, 0, point.y), Quaternion.identity);
             }
         }
+
+        private void ClearBattleField()
+        {
+            if (battleTiles.Count > 0)
+            {
+                foreach (GameObject tile in battleTiles)
+                {
+                    Destroy(tile);
+                }
+                battleTiles.Clear();
+            }
+
+            if(flor.transform.childCount > 0)
+            {
+                foreach (inBattleTileOperator tile in flor.transform.GetComponentsInChildren<inBattleTileOperator>())
+                {
+                    Destroy(tile.gameObject);
+                }
+            }
+        }
+
         private void CreatePlayerUnits()
         {
             List<UnitOperator> playerParty = new List<UnitOperator>();
