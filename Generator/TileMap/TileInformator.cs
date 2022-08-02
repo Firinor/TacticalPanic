@@ -18,7 +18,7 @@ namespace TacticalPanicCode
 
         void Awake()
         {
-            SingletoneCheck<TileInformator>(this);
+            SingletoneCheck(this);
             tileSpritePairs = new Dictionary<Tile, GameObject>();
             for (int i = 0; i < tiles.Count; i++)
             {

@@ -32,6 +32,7 @@ namespace TacticalPanicCode
         {
             animationOperator.Deploy();
             SetVisualState(VisualOfUnit.Normal);
+            capculeCollider.enabled = true;
         }
 
         public bool CheckTermsAndDeploy()

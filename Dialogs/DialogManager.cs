@@ -13,7 +13,7 @@ namespace TacticalPanicCode
 
         void Awake()
         {
-            SingletoneCheck<DialogManager>(this);
+            SingletoneCheck(this);
         }
 
         public void StartDialog(DialogLevelOperator dialog)

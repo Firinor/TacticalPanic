@@ -21,10 +21,10 @@ namespace TacticalPanicCode
         [SerializeField]
         private static float maxRayDistance = 100f;
         [SerializeField]
-        private static int intGroundLayer = 3;
+        private LayerMask GroundLayerMask;
 
         private GameObject cardUnit;
-        private UnitOperator statsUnit;
+        private UnitOperator unitOperator;
 
         private bool dragCard = false;
         private bool cursorOnCard = false;
@@ -32,9 +32,9 @@ namespace TacticalPanicCode
         public void Start()
         {
             cardUnit = GetComponent<UnitCardStats>().GetUnitPrefab();
-            statsUnit = cardUnit.GetComponent<UnitOperator>();
+            unitOperator = cardUnit.GetComponent<UnitOperator>();
             camera = Camera.main;
-            transform.Find("Name").GetComponent<Text>().text = statsUnit.GetName();
+            transform.Find("Name").GetComponent<Text>().text = unitOperator.GetName();
             cardSiblingOffset = -(gameObject.GetComponent<RectTransform>().rect.width
                 + gameObject.GetComponentInParent<HorizontalLayoutGroup>().spacing) / 2;
         }
@@ -75,21 +75,20 @@ namespace TacticalPanicCode
                     transform.position = new Vector3(transform.position.x, cardPositionOffset, transform.position.z);
 
                 Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                Physics.Raycast(ray, out hit, maxRayDistance, intGroundLayer);
+                Physics.Raycast(ray, out RaycastHit hit, maxRayDistance, GroundLayerMask);
 
                 //if (hit.point )
                 Vector3 pos = hit.point;
                 //Vector3 pos = camera.ScreenToWorldPoint(Input.mousePosition);
                 //pos.z = 0;
                 cardUnit.transform.localPosition = pos;
-                if (statsUnit.CheckTerms())
+                if (unitOperator.CheckTerms())
                 {
-                    statsUnit.SetVisualState(VisualOfUnit.Haziness);
+                    unitOperator.SetVisualState(VisualOfUnit.Haziness);
                 }
                 else
                 {
-                    statsUnit.SetVisualState(VisualOfUnit.Grayness);
+                    unitOperator.SetVisualState(VisualOfUnit.Grayness);
                 }
                 //CheckPosition(eventData.position.x);
             }
@@ -104,7 +103,7 @@ namespace TacticalPanicCode
         {
             dragCard = false;
 
-            if (!wantToDeploy || !statsUnit.CheckTermsAndDeploy())
+            if (!wantToDeploy || !unitOperator.CheckTermsAndDeploy())
                 UnitOff();
             else
                 Destroy(gameObject);
@@ -112,7 +111,7 @@ namespace TacticalPanicCode
 
         private void UnitOff()
         {
-            statsUnit.SetVisualState(VisualOfUnit.Off);
+            unitOperator.SetVisualState(VisualOfUnit.Off);
         }
 
         public void OnPointerEnter(PointerEventData eventData)

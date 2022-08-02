@@ -7,7 +7,7 @@ namespace TacticalPanicCode
 
     public static class UnitInfoPanelOperator
     {
-        public static event UnitInfoDelegate InfoEvent;
+        //public static event UnitInfoDelegate InfoEvent;
 
         private static GameObject infoPanel = GameObject.Find("HitBarsInfoPanel");
         private static Image unitSprite = GameObject.Find("ObjectInfoImage").GetComponent<Image>();

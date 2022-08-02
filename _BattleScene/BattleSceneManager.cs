@@ -7,7 +7,7 @@ namespace TacticalPanicCode
 {
     public enum BattleMarks { options, off }
 
-    public class BattleSceneManager : SinglBehaviour<WorldMenuManager>, IScenePanel
+    public class BattleSceneManager : SinglBehaviour<BattleSceneManager>, IScenePanel
     {
         [SerializeField]
         private GameObject unitsTank;

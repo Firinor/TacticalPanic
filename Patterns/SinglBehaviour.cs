@@ -6,7 +6,7 @@ namespace TacticalPanicCode
     {
         public static T instance;
 
-        public void SingletoneCheck<T>(T instance)
+        public void SingletoneCheck(T instance)
         {
             if (SinglBehaviour<T>.instance != null)
                 Destroy(gameObject);

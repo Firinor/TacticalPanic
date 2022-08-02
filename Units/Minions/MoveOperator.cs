@@ -14,7 +14,7 @@ namespace TacticalPanicCode
         private UnitOnLevelPathInformator path;
 
         [SerializeField]
-        private Rigidbody rigidbody;
+        private new Rigidbody rigidbody;
         [SerializeField]
         private Transform skinRoot;
 

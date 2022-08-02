@@ -47,7 +47,7 @@ namespace TacticalPanicCode
         private void CreateBattleFieldByContextMenu()
         {
             TileInformator tileInformator = GameObject.Find("BigDataBase").GetComponent<TileInformator>();
-            tileInformator.SingletoneCheck<TileInformator>(tileInformator);
+            tileInformator.SingletoneCheck(tileInformator);
             CreateBattleField(GameObject.Find("LoadDebuger").GetComponent<LoadDebuger>().level);
         }
         private void CreateBattleField()

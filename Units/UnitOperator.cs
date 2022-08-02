@@ -30,6 +30,8 @@ namespace TacticalPanicCode
         private SpriteRenderer pedestal;
         [SerializeField]
         private SpriteRenderer unitSpriteRenderer;
+        [SerializeField]
+        private Collider capculeCollider;
 
         public Sprite SpriteInfo { get => unitBasis.unitInformator.unitSprite; }
 

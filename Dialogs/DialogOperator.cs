@@ -57,7 +57,7 @@ namespace TacticalPanicCode
 
         void Awake()
         {
-            SingletoneCheck<DialogOperator>(this);
+            SingletoneCheck(this);
             SetDelay(lettersDelay);
         }
 
