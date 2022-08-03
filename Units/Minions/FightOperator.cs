@@ -1,7 +1,4 @@
-//using System.Reactive.Disposables;
-//using System.Reactive;
 using UnityEngine;
-//using Uni;
 
 namespace TacticalPanicCode
 {
@@ -10,8 +7,6 @@ namespace TacticalPanicCode
 
         [SerializeField]
         private Collider agroRadiusTriggerCollider;
-        [SerializeField]
-        private ParticleSystem SwordSlashParticalSystem;
 
         public float Cooldown = 1f;
         public float TimeToSwing = 0.15f;
@@ -32,13 +27,9 @@ namespace TacticalPanicCode
 
         private string compareTag = "";
 
-        public void Start()
+        public void Awake()
         {
-            //var count = new ReactiveProperty<int>(0);
-            //var disposables = new CompositeDisposable();
-
             unit = GetComponent<UnitOperator>();
-
             switch (gameObject.tag)
             {
                 case "Player":
@@ -48,11 +39,8 @@ namespace TacticalPanicCode
                     compareTag = "Player";
                     break;
                 default:
-                    return;
+                    break;
             }
-
-
-            //this.OnTriggerStayAs
         }
 
         public void FixedUpdate()
@@ -67,7 +55,7 @@ namespace TacticalPanicCode
                     attackStage = AttackStages.swing;
                 }
 
-                currentCooldown += deltaTime;// * 3/100;//Attack speed
+                currentCooldown += deltaTime;//Attack speed
 
                 if (attackStage == AttackStages.swing)
                 {
