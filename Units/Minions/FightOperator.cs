@@ -105,7 +105,7 @@ namespace TacticalPanicCode
                 if (!collision.isTrigger)
                 {
                     attackAction = true;
-                    collision.gameObject.GetComponent<MoveOperator>().InBattle();
+                    //collision.gameObject.GetComponent<MoveOperator>().InBattle();
                 }
             }
         }

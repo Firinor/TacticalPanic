@@ -27,12 +27,15 @@ namespace TacticalPanicCode
             SetConflictSide(side);
             SetVisualState(VisualOfUnit.Off);
         }
-
+        public void Deploy(Vector3 spawnPoint)
+        {
+            gameObject.transform.position = spawnPoint;
+            Deploy();
+        }
         public void Deploy()
         {
             animationOperator.Deploy();
             SetVisualState(VisualOfUnit.Normal);
-            capculeCollider.enabled = true;
         }
 
         public bool CheckTermsAndDeploy()
@@ -51,8 +54,8 @@ namespace TacticalPanicCode
 
         public void SpawnToPoint(UnitOnLevelPathInformator enemyPath)
         {
-            Deploy();
-            StartCoroutine(MoveOperator.FollowThPath(enemyPath));
+            Deploy(enemyPath.GetSpawnPoint());
+            unitBehaviour.CreateBehaviour(enemyPath);
         }
 
         public bool CheckTerms()

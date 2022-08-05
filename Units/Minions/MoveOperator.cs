@@ -108,10 +108,5 @@ namespace TacticalPanicCode
             moveOn = true;
             StopCoroutine("FollowThPath");
         }
-
-        internal void InBattle()
-        {
-            moveOn = false;
-        }
     }
 }

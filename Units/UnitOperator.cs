@@ -7,7 +7,6 @@ namespace TacticalPanicCode
     public enum MaterialSoundType { Flesh, Wood, Metal, Stone, Spirit };
     public enum UnitSounds { Death, Hit, Attack }
     public enum VisualOfUnit { Normal, Haziness, Grayness, Off };
-    public enum EnumUnitBehaviour { Death, Idle, Move, Attack, Off };
 
     //            UnitInformator
     //UnitBasis <
@@ -25,43 +24,24 @@ namespace TacticalPanicCode
         public GistBasis[] GistBasis => unitBasis.GistBasis;
         private bool IsAlive;
 
-        private EnumUnitBehaviour unitBehaviour;
+        [SerializeField]
+        private UnitBehaviorStack unitBehaviour;
         [SerializeField]
         private SpriteRenderer pedestal;
         [SerializeField]
         private SpriteRenderer unitSpriteRenderer;
         [SerializeField]
-        private Collider capculeCollider;
+        private Rigidbody _rigidbody;
+        public new Rigidbody rigidbody { get { return _rigidbody; } }
+        [SerializeField]
+        private Transform _skinRoot;
+        public Transform skinRoot { get { return _skinRoot; } }
+
+        public float speed { get { return unitBasis.mspeed; } }
 
         public Sprite SpriteInfo { get => unitBasis.unitInformator.unitSprite; }
 
         [Header("Minions")]
-        [SerializeField]
-        private MoveOperator moveOperator;
-        public MoveOperator MoveOperator
-        {
-            get
-            {
-                if (moveOperator == null)
-                {
-                    moveOperator = gameObject.GetComponent<MoveOperator>();
-                }
-                return moveOperator;
-            }
-        }
-        [SerializeField]
-        private FightOperator fightOperator;
-        public FightOperator FightOperator
-        {
-            get
-            {
-                if (fightOperator == null)
-                {
-                    fightOperator = gameObject.GetComponent<FightOperator>();
-                }
-                return fightOperator;
-            }
-        }
         [SerializeField]
         private UnitSoundOperator unitSoundOperator;
         public UnitSoundOperator UnitSoundOperator
