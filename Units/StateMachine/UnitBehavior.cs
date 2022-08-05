@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TacticalPanicCode
 {
-    public abstract class UnitBehavior : ScriptableObject
+    public abstract class UnitBehavior
     {
         public virtual void Enter() { }
         public virtual void Exit() { }

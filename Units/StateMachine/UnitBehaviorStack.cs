@@ -8,12 +8,10 @@ namespace TacticalPanicCode
     {
         private UnitBehavior currentBehavior;
         private Stack<UnitBehavior> stack;
-        private delegate void PopDelegate();
-        private event PopDelegate PopEvent;
 
         private void Awake()
         {
-            //stack.Push(new InfiniteIdle());
+            stack.Push(new InfiniteIdleUnitBehavior());
         }
 
         public void PushBehavior(UnitBehavior behavior)
