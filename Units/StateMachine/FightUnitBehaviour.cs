@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TacticalPanicCode
+namespace TacticalPanicCode.UnitBehaviours
 {
-    public class FightUnitBehavior : UnitBehavior
+    public class FightUnitBehaviour : UnitBehaviour
     {
         
     }

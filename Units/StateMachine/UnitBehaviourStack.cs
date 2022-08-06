@@ -1,23 +1,21 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TacticalPanicCode
+namespace TacticalPanicCode.UnitBehaviours
 {
-    public class UnitBehaviorStack : MonoBehaviour
+    public class UnitBehaviourStack : MonoBehaviour
     {
-        private UnitBehavior currentBehavior;
-        private Stack<UnitBehavior> stack = new Stack<UnitBehavior>();
+        private UnitBehaviour currentBehavior;
+        private Stack<UnitBehaviour> stack = new Stack<UnitBehaviour>();
         [SerializeField]
         private UnitOperator unit;
 
         private void Awake()
         {
-            PushBehavior(new InfiniteIdleUnitBehavior());
+            PushBehavior(new InfiniteIdleUnitBehaviour());
         }
 
-        public void PushBehavior(UnitBehavior behavior)
+        public void PushBehavior(UnitBehaviour behavior)
         {
             behavior.exitEvent += PopBehavior;
             stack.Push(behavior);
@@ -25,7 +23,7 @@ namespace TacticalPanicCode
             currentBehavior.Enter();
         }
 
-        public void PopBehavior(UnitBehavior behavior)
+        public void PopBehavior(UnitBehaviour behavior)
         {
             if (behavior != stack.Peek())
                 return;
@@ -36,6 +34,7 @@ namespace TacticalPanicCode
         {
             stack.Pop();
             currentBehavior = stack.Peek();
+            currentBehavior.Enter();
         }
 
         void Update()
@@ -50,26 +49,26 @@ namespace TacticalPanicCode
 
         internal void CreateBehaviour(UnitOnLevelPathInformator path)
         {
-            Vector3 target;
+            //from end to begin
+            Vector3 target = path.GetExitPoint();
+            var ToExit = new MoveToPointUnitBehaviour(target, unit);
+            PushBehavior(ToExit);
+
             int length = path.points.Length;
             if (length > 0)
             {
-                for (int i = 0; i < length; i++)
+                for (int i = length - 1; i >= 0; i--)
                 {
-                    target = path.GetPoint(i);
-                    var ToPoint = new MoveToPointUnitBehavior(target, unit);
-                    PushBehavior(ToPoint);
-
                     if(path.points[i].delay > 0)
                     {
-                        var Wait = new IdleSomeTimeUnitBehavior(path.points[i].delay);
+                        var Wait = new IdleSomeTimeUnitBehaviour(path.points[i].delay);
                         PushBehavior(Wait);
                     }
+                    target = path.GetPoint(i);
+                    var ToPoint = new MoveToPointUnitBehaviour(target, unit);
+                    PushBehavior(ToPoint);
                 }
             }
-            target = path.GetExitPoint();
-            var ToExit = new MoveToPointUnitBehavior(target, unit);
-            PushBehavior(ToExit);
         }
     }
 }

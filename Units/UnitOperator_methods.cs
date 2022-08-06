@@ -1,7 +1,5 @@
 using UnityEngine;
 using Unity.Mathematics;
-using System.Text;
-using System;
 
 namespace TacticalPanicCode
 {
@@ -23,7 +21,6 @@ namespace TacticalPanicCode
         }
         public void Prepare(ConflictSide side)
         {
-            //SetUnitActivity(false);
             SetConflictSide(side);
             SetVisualState(VisualOfUnit.Off);
         }
@@ -40,16 +37,16 @@ namespace TacticalPanicCode
 
         public bool CheckTermsAndDeploy()
         {
-            bool Landing = false;
+            bool success = false;
 
             if (CheckTerms())
             {
                 PlayerOperator.DrawMana(GetManaPrice());
-                Landing = true;
+                success = true;
                 Deploy();
             }
 
-            return Landing;
+            return success;
         }
 
         public void SpawnToPoint(UnitOnLevelPathInformator enemyPath)

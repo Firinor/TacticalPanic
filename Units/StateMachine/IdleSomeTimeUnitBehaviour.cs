@@ -1,12 +1,12 @@
 using UnityEngine;
 
-namespace TacticalPanicCode
+namespace TacticalPanicCode.UnitBehaviours
 {
-    public class IdleSomeTimeUnitBehavior : UnitBehavior
+    public class IdleSomeTimeUnitBehaviour : UnitBehaviour
     {
         private float time;
 
-        public IdleSomeTimeUnitBehavior(float time)
+        public IdleSomeTimeUnitBehaviour(float time)
         {
             this.time = time;
         }

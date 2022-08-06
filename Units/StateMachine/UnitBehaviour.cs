@@ -1,6 +1,6 @@
-namespace TacticalPanicCode
+namespace TacticalPanicCode.UnitBehaviours
 {
-    public abstract class UnitBehavior
+    public abstract class UnitBehaviour
     {
         public delegate void Delegate();
         private Delegate exitDelegate;

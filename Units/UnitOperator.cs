@@ -1,6 +1,6 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
+using TacticalPanicCode.UnitBehaviours;
 
 namespace TacticalPanicCode
 {
@@ -25,8 +25,6 @@ namespace TacticalPanicCode
         private bool IsAlive;
 
         [SerializeField]
-        private UnitBehaviorStack unitBehaviour;
-        [SerializeField]
         private SpriteRenderer pedestal;
         [SerializeField]
         private SpriteRenderer unitSpriteRenderer;
@@ -42,6 +40,8 @@ namespace TacticalPanicCode
         public Sprite SpriteInfo { get => unitBasis.unitInformator.unitSprite; }
 
         [Header("Minions")]
+        [SerializeField]
+        private UnitBehaviourStack unitBehaviour;
         [SerializeField]
         private UnitSoundOperator unitSoundOperator;
         public UnitSoundOperator UnitSoundOperator
