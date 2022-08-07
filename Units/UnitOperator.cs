@@ -43,6 +43,32 @@ namespace TacticalPanicCode
         [SerializeField]
         private UnitBehaviourStack unitBehaviour;
         [SerializeField]
+        private AttackRadiusOperator attackRadiusOperator;
+        public AttackRadiusOperator AttackRadiusOperator
+        {
+            get
+            {
+                if (attackRadiusOperator == null)
+                {
+                    attackRadiusOperator = gameObject.GetComponentInChildren<AttackRadiusOperator>();
+                }
+                return attackRadiusOperator;
+            }
+        }
+        [SerializeField]
+        private AgroRadiusOperator agroRadiusOperator;
+        public AgroRadiusOperator AgroRadiusOperator
+        {
+            get
+            {
+                if (agroRadiusOperator == null)
+                {
+                    agroRadiusOperator = gameObject.GetComponentInChildren<AgroRadiusOperator>();
+                }
+                return agroRadiusOperator;
+            }
+        }
+        [SerializeField]
         private UnitSoundOperator unitSoundOperator;
         public UnitSoundOperator UnitSoundOperator
         {
