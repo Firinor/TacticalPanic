@@ -114,12 +114,6 @@ namespace TacticalPanicCode
             gameObject.name = "Unit-" + unitBasis.unitName;
             unitSpriteRenderer.sprite = SpriteInfo;
 
-            //HP = new GistOfUnit("Health points", "red", Gist.Life, 100, 100, 1, sliders[0], 1, 10);
-            //MP = new GistOfUnit("Magic points", "#0088ff", Gist.Magic, 50, 50, 1, sliders[1], 1, 10);
-            //EP = new GistOfUnit("Energy points", "yellow", Gist.Energy, 50, 50, 1, sliders[2], 1, 5);
-            //SP = new GistOfUnit("Special points", "lime", Gist.Spectrum, 25, 25, 0, sliders[3], 1, 0);
-            //elements = new GistOfUnit[]{ HP, MP, EP, SP };
-
             //RefreshBar();
         }
     }
