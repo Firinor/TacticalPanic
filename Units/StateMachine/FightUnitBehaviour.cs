@@ -6,6 +6,8 @@ namespace TacticalPanicCode.UnitBehaviours
 {
     public class FightUnitBehaviour : UnitBehaviour
     {
-        
+        public FightUnitBehaviour(UnitOperator target, UnitOperator unit)
+        {
+        }
     }
 }

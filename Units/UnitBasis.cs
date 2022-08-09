@@ -14,6 +14,9 @@ namespace TacticalPanicCode
         public int id { get; private set; }
         public string unitName { get; private set; }
         public float mspeed { get; private set; }
+        public int blockCount { get; private set; }
+        public float agroRadius { get; private set; }
+        public float attackRadius { get; private set; }
         public Gist GistOfDeath { get; private set; }
         public UnitInformator unitInformator { get; set; }
         public Sprite SpriteInfo => unitInformator.unitSprite;

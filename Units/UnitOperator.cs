@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TacticalPanicCode.UnitBehaviours;
+using System.Collections.Generic;
+using System;
 
 namespace TacticalPanicCode
 {
@@ -10,12 +12,13 @@ namespace TacticalPanicCode
 
     //            UnitInformator
     //UnitBasis <
-    //            Unit -> UnitCard
+    //            UnitOperator -> UnitCard
     //
     // Gist -> GistBasis -> GistOfUnit
     public partial class UnitOperator : MonoBehaviour, IInfoble
     {
         public UnitBasis unitBasis { private get; set; }
+        public UnitStats unitStats { private get; set; }
 
         [Header("Main")]
         [SerializeField]
@@ -24,10 +27,12 @@ namespace TacticalPanicCode
         public GistBasis[] GistBasis => unitBasis.GistBasis;
         private bool IsAlive;
 
+        private List<UnitOperator> targets = new List<UnitOperator>();
+
         [SerializeField]
         private SpriteRenderer pedestal;
         [SerializeField]
-        private SpriteRenderer unitSpriteRenderer;
+        private SpriteRenderer unitBodyRenderer;
         [SerializeField]
         private Rigidbody _rigidbody;
         public new Rigidbody rigidbody { get { return _rigidbody; } }
@@ -57,6 +62,12 @@ namespace TacticalPanicCode
         }
         [SerializeField]
         private AgroRadiusOperator agroRadiusOperator;
+
+        internal UnitOperator NearestEnemy()
+        {
+            throw new NotImplementedException();
+        }
+
         public AgroRadiusOperator AgroRadiusOperator
         {
             get
@@ -68,6 +79,12 @@ namespace TacticalPanicCode
                 return agroRadiusOperator;
             }
         }
+
+        internal UnitOperator MostDangerousEnemy()
+        {
+            throw new NotImplementedException();
+        }
+
         [SerializeField]
         private UnitSoundOperator unitSoundOperator;
         public UnitSoundOperator UnitSoundOperator
@@ -112,9 +129,7 @@ namespace TacticalPanicCode
         {
             unitBasis = LoadingBattleSceneManager.LastLoadingUnit;
             gameObject.name = "Unit-" + unitBasis.unitName;
-            unitSpriteRenderer.sprite = SpriteInfo;
-
-            //RefreshBar();
+            unitBodyRenderer.sprite = SpriteInfo;
         }
     }
 }

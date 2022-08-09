@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -69,6 +70,32 @@ namespace TacticalPanicCode.UnitBehaviours
                     PushBehavior(ToPoint);
                 }
             }
+        }
+
+        internal void GoToTarget()
+        {
+            UnitOperator target = unit.NearestEnemy();
+            if (target == null)
+                return;
+
+            var ToTarget = new MoveToTargetUnitBehaviour(target, unit);
+            PushBehavior(ToTarget);
+        }
+
+        internal void StopThePersecution()
+        {
+            if (stack.Peek() is MoveToTargetUnitBehaviour)
+                PopBehavior();
+        }
+
+        internal void Attack()
+        {
+            UnitOperator target = unit.MostDangerousEnemy();
+            if (target == null)
+                return;
+
+            var ToTarget = new FightUnitBehaviour(target, unit);
+            PushBehavior(ToTarget);
         }
     }
 }

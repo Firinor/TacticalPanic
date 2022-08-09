@@ -196,16 +196,16 @@ namespace TacticalPanicCode
             switch (visual)
             {
                 case VisualOfUnit.Haziness:
-                    unitSpriteRenderer.color = new Color(.25f, 1f, .25f, .8f);
+                    unitBodyRenderer.color = new Color(.25f, 1f, .25f, .8f);
                     break;
                 case VisualOfUnit.Grayness:
-                    unitSpriteRenderer.color = new Color(1f, .25f, .25f, .8f);
+                    unitBodyRenderer.color = new Color(1f, .25f, .25f, .8f);
                     break;
                 case VisualOfUnit.Off:
-                    unitSpriteRenderer.color = new Color(1f, 1f, 1f, 0f);
+                    unitBodyRenderer.color = new Color(1f, 1f, 1f, 0f);
                     break;
                 default: //Visual.Normal
-                    unitSpriteRenderer.color = Color.white;
+                    unitBodyRenderer.color = Color.white;
                     break;
             }
         }
@@ -215,15 +215,35 @@ namespace TacticalPanicCode
         }
         public void Pick()
         {
-            unitSpriteRenderer.material = InputOperator.PickMaterial;
+            unitBodyRenderer.material = InputOperator.PickMaterial;
         }
         public void UnPick()
         {
-            unitSpriteRenderer.material = InputOperator.DefaultMaterial;
+            unitBodyRenderer.material = InputOperator.DefaultMaterial;
         }
         public string GetTextInfo()
         {
             return GetName();
+        }
+
+        public void OnAgroRadiusEnter(Collider other)
+        {
+            targets.Add(other.GetComponent<UnitOperator>());
+            unitBehaviour.GoToTarget();
+
+        }
+        public void OnAgroRadiusExit(Collider other)
+        {
+            targets.Remove(other.GetComponent<UnitOperator>());
+            unitBehaviour.StopThePersecution();
+        }
+        public void OnAttackRadiusEnter(Collider other)
+        {
+            unitBehaviour.Attack();
+        }
+        public void OnAttackRadiusExit(Collider other)
+        {
+            unitBehaviour.GoToTarget();
         }
     }
 }

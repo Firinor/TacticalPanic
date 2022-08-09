@@ -6,13 +6,15 @@ namespace TacticalPanicCode
 {
     public class AgroRadiusOperator : MonoBehaviour
     {
+        [SerializeField]
+        private UnitOperator unit;
         public void OnTriggerEnter(Collider other)
         {
-            Debug.Log($"Agro in! {GetHashCode()}");
+            unit.OnAgroRadiusEnter(other);
         }
         public void OnTriggerExit(Collider other)
         {
-            Debug.Log($"Agro out! {GetHashCode()}");
+            unit.OnAgroRadiusExit(other);
         }
     }
 }
