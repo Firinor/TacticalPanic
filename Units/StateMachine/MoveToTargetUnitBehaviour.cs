@@ -15,14 +15,14 @@ namespace TacticalPanicCode.UnitBehaviours
         public MoveToTargetUnitBehaviour(UnitOperator target, UnitOperator unitOperator)
         {
             this.unitOperator = unitOperator;
-            skinRoot = unitOperator.skinRoot;
+            skinRoot = unitOperator.SkinRoot;
             unitTransform = unitOperator.transform;
             targetTransform = target.transform;
             rigidbody = unitOperator.rigidbody;
         }
         public override void FixedUpdate()
         {
-            rigidbody.AddRelativeForce(Vector3.forward * unitOperator.speed, ForceMode.Impulse);
+            rigidbody.AddRelativeForce(Vector3.forward * unitOperator.Speed, ForceMode.Impulse);
             timer -= Time.fixedDeltaTime;
             if (timer < 0)
             {

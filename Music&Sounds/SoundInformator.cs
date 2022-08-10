@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace TacticalPanicCode
 {
+    public enum MaterialSoundType { Flesh, Wood, Metal, Stone, Spirit };
+    public enum UnitSounds { Death, Hit, Attack }
+
     public class SoundInformator : SinglBehaviour<SoundInformator>
     {
         [SerializeField]

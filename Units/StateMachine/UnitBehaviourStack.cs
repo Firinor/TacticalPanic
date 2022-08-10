@@ -11,11 +11,24 @@ namespace TacticalPanicCode.UnitBehaviours
         [SerializeField]
         private UnitOperator unit;
 
+        #region MonoBehaviour
         private void Awake()
         {
             PushBehavior(new InfiniteIdleUnitBehaviour());
         }
 
+        void Update()
+        {
+            currentBehavior.Update();
+        }
+
+        void FixedUpdate()
+        {
+            currentBehavior.FixedUpdate();
+        }
+        #endregion
+
+        #region Stack
         public void PushBehavior(UnitBehaviour behavior)
         {
             behavior.exitEvent += PopBehavior;
@@ -37,18 +50,10 @@ namespace TacticalPanicCode.UnitBehaviours
             currentBehavior = stack.Peek();
             currentBehavior.Enter();
         }
+        #endregion
 
-        void Update()
-        {
-            currentBehavior.Update();
-        }
-
-        void FixedUpdate()
-        {
-            currentBehavior.FixedUpdate();
-        }
-
-        internal void CreateBehaviour(UnitOnLevelPathInformator path)
+        #region UnitBehaviourFactory
+        internal void CreatePathBehaviour(UnitOnLevelPathInformator path)
         {
             //from end to begin
             Vector3 target = path.GetExitPoint();
@@ -72,9 +77,8 @@ namespace TacticalPanicCode.UnitBehaviours
             }
         }
 
-        internal void GoToTarget()
+        internal void GoToTarget(UnitOperator target)
         {
-            UnitOperator target = unit.NearestEnemy();
             if (target == null)
                 return;
 
@@ -82,20 +86,15 @@ namespace TacticalPanicCode.UnitBehaviours
             PushBehavior(ToTarget);
         }
 
-        internal void StopThePersecution()
-        {
-            if (stack.Peek() is MoveToTargetUnitBehaviour)
-                PopBehavior();
-        }
-
         internal void Attack()
         {
-            UnitOperator target = unit.MostDangerousEnemy();
+            UnitOperator target = unit.EnemyToAttack();
             if (target == null)
                 return;
 
             var ToTarget = new FightUnitBehaviour(target, unit);
             PushBehavior(ToTarget);
         }
+        #endregion
     }
 }
