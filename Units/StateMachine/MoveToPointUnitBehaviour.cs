@@ -5,13 +5,15 @@ namespace TacticalPanicCode.UnitBehaviours
 {
     public class MoveToPointUnitBehaviour : UnitBehaviour
     {
-        private Vector3 target;
+        public Vector3 target { get; private set; }
         private Transform skinRoot;
         private Transform unitTransform;
         private Rigidbody rigidbody;
         private UnitOperator unitOperator;
         private float timeToCheckTarget = .5f;
         private float timer = 0;
+
+        public float distanceToPoint;
 
         public MoveToPointUnitBehaviour(Vector3 target, UnitOperator unitOperator)
         {
@@ -23,7 +25,7 @@ namespace TacticalPanicCode.UnitBehaviours
         }
         public override void FixedUpdate()
         {
-            rigidbody.AddRelativeForce(Vector3.forward * unitOperator.Speed, ForceMode.Impulse);
+            rigidbody.AddRelativeForce(Vector3.forward * unitOperator.unitStats.Speed, ForceMode.Impulse);
             timer -= Time.fixedDeltaTime;
             if(timer < 0)
             {
@@ -33,6 +35,12 @@ namespace TacticalPanicCode.UnitBehaviours
             if (UnitOnTarget())
                 Exit();
         }
+
+        public override void Exit()
+        {
+            unitOperator.distanceToGoal?.RemoveSegment();
+        }
+
         private void LookAtPoint()
         {
             unitTransform.LookAt(target);

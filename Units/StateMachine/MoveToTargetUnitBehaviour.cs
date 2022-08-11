@@ -8,13 +8,13 @@ namespace TacticalPanicCode.UnitBehaviours
         private Transform unitTransform;
         private Transform targetTransform;
         private Rigidbody rigidbody;
-        private UnitOperator unitOperator;
+        private UnitStats unitStats;
         private float timeToCheckTarget = .5f;
         private float timer = 0;
 
         public MoveToTargetUnitBehaviour(UnitOperator target, UnitOperator unitOperator)
         {
-            this.unitOperator = unitOperator;
+            unitStats = unitOperator.unitStats;
             skinRoot = unitOperator.SkinRoot;
             unitTransform = unitOperator.transform;
             targetTransform = target.transform;
@@ -22,7 +22,7 @@ namespace TacticalPanicCode.UnitBehaviours
         }
         public override void FixedUpdate()
         {
-            rigidbody.AddRelativeForce(Vector3.forward * unitOperator.Speed, ForceMode.Impulse);
+            rigidbody.AddRelativeForce(Vector3.forward * unitStats.Speed, ForceMode.Impulse);
             timer -= Time.fixedDeltaTime;
             if (timer < 0)
             {

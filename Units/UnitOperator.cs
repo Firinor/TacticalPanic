@@ -16,19 +16,21 @@ namespace TacticalPanicCode
     // Gist -> GistBasis -> GistOfUnit
     public class UnitOperator : MonoBehaviour, IInfoble
     {
-        public UnitBasis unitBasis { private get; set; }
-        public UnitStats unitStats { private get; set; }
+        public UnitBasis unitBasis { get; private set; }
+        public UnitStats unitStats { get; }
+        public UnitAuxiliary unitAuxiliary;
         
         [Header("Main")]
         [SerializeField]
         private Slider[] sliders = new Slider[PlayerOperator.GistsCount];
-        public GistOfUnit[] GistsOfUnit { get; }
-        public GistBasis[] GistBasis => unitBasis.GistBasis;
-        private bool IsAlive;
 
-        private List<UnitOperator> targets = new List<UnitOperator>();
-        private List<UnitOperator> blockers = new List<UnitOperator>();
-        private UnitOperator priorityTarget;
+        public GistBasis[] GistBasis => unitBasis.GistBasis;
+        public bool Blocked { get => Blockers.Count > 0; }
+        public DistanceToGoalHolder distanceToGoal;
+
+        public List<UnitOperator> Targets { get; private set; } = new List<UnitOperator>();
+        public List<UnitOperator> Blockers { get; private set; } = new List<UnitOperator>();
+        public UnitOperator PriorityTarget { get; private set; }
 
         [SerializeField]
         private SpriteRenderer pedestal;
@@ -40,10 +42,9 @@ namespace TacticalPanicCode
         [SerializeField]
         private Transform _skinRoot;
         public Transform SkinRoot { get => _skinRoot; }
-        public float Speed { get => unitBasis.mspeed; }
-        public bool Blocked { get => blockers.Count > 0; }
-        public float CurrentHP { get => unitStats.CurrentHP; }
+        
         public Sprite SpriteInfo { get => unitBasis.unitInformator.unitSprite; }
+        
 
         #region Minions
         [Header("Minions")]
@@ -122,6 +123,7 @@ namespace TacticalPanicCode
             unitBasis = LoadingBattleSceneManager.LastLoadingUnit;
             gameObject.name = "Unit-" + unitBasis.unitName;
             unitBodyRenderer.sprite = SpriteInfo;
+            unitStats.Death += Death;
         }
         #endregion
 
@@ -144,8 +146,8 @@ namespace TacticalPanicCode
         {
             for (int i = 0; i < PlayerOperator.GistsCount; i++)
             {
-                if (GistsOfUnit[i].slider != null)
-                    GistsOfUnit[i].slider.value = GistsOfUnit[i].points;
+                if (unitStats.GistsOfUnit[i].slider != null)
+                    unitStats.GistsOfUnit[i].slider.value = unitStats.GistsOfUnit[i].points;
             }
         }
         #endregion
@@ -235,6 +237,7 @@ namespace TacticalPanicCode
                     break;
                 default: //ConflictSide.Enemy
                     gameObject.tag = "Enemy";
+                    unitAuxiliary = new EnemyUnitAuxiliary();
                     pedestal.color = SideColor.enemy;
                     break;
             }
@@ -290,57 +293,19 @@ namespace TacticalPanicCode
         #region Damage
         public void Damage(float[] damage)
         {
-            for (int i = 0; i < damage.Length && i < PlayerOperator.GistsCount; i++)
-            {
-                if (damage[i] != 0 && GistsOfUnit[i].slider != null)
-                {
-                    Damage(damage[i], GistsOfUnit[i]);
-                }
-            }
+            unitStats.Damage(damage);
         }
         public void Damage(float damage, Gist gist = Gist.Life)
         {
-            if (damage == 0)
-                return;
-
-            Damage(damage, GistBasis[PlayerOperator.GetIndexByGist(gist)].gist);
-        }
-        private void Damage(float damage, GistOfUnit element)
-        {
-            if (!IsAlive || damage == 0 || element.slider == null || element.points <= 0)
-                return;
-
-            element.points -= (int)damage;
-            element.points = math.clamp(element.points, 0, element.gist.points);
-            element.slider.value = element.points;
-
-            if (element.points <= 0 && unitBasis.GistOfDeath == element.gist.gist)
-            {
-                IsAlive = false;
-                Death();
-            }
-            else
-            {
-                //audioOperator.PlaySound(UnitSounds.Hit, this);
-            }
-            //UnitInfoPanelOperator.RefreshPointsInfo(gameObject.GetComponent<UnitOperator>());
+            unitStats.Damage(damage, gist);
         }
         public void Heal(float[] cure)
         {
-            for (int i = 0; i < cure.Length && i < PlayerOperator.GistsCount; i++)
-            {
-                if (cure[i] != 0 && GistsOfUnit[i].slider != null)
-                {
-                    Damage(-cure[i], GistsOfUnit[i]);
-                }
-            }
+            unitStats.Heal(cure);
         }
         public void Heal(float cure, Gist gist = Gist.Life)
         {
-            if (cure == 0)
-                return;
-
-            Damage(-cure, GistBasis[PlayerOperator.GetIndexByGist(gist)].gist);
+            unitStats.Heal(cure, gist);
         }
         #endregion
         
@@ -374,50 +339,26 @@ namespace TacticalPanicCode
         }
         public void OnAttackRadiusEnter(Collider other)
         {
-            targets.Add(other.GetComponent<UnitOperator>());
+            Targets.Add(other.GetComponent<UnitOperator>());
         }
         public void OnAttackRadiusExit(Collider other)
         {
-            targets.Remove(other.GetComponent<UnitOperator>());
-        }
-
-        internal UnitOperator EnemyToAttack()
-        {
-            UnitOperator resultUnit;
-
-            if (priorityTarget != null && blockers.Contains(priorityTarget))
-            {
-                return priorityTarget;
-            }
-
-            if(blockers.Count > 0)
-            {
-                if (blockers.Count == 1)
-                    return blockers[0];
-
-                resultUnit = blockers[0];
-
-                for(int i = 1; i < blockers.Count; i++)
-                {
-                    if (blockers[i].CurrentHP < resultUnit.CurrentHP)
-                        resultUnit = blockers[i];
-                }
-            }
-
-            //targets.Sort;
-            //priorityTarget;
-
-            return targets[0];
+            Targets.Remove(other.GetComponent<UnitOperator>());
         }
 
         internal void OnBodyRadiusEnter(Collider other)
         {
-            blockers.Add(other.GetComponent<UnitOperator>());
+            Blockers.Add(other.GetComponent<UnitOperator>());
         }
 
         internal void OnBodyRadiusExit(Collider other)
         {
-            blockers.Remove(other.GetComponent<UnitOperator>());
+            Blockers.Remove(other.GetComponent<UnitOperator>());
+        }
+
+        internal bool IsThereAnyoneToAttack()
+        {
+            return Targets.Count > 0 || Blocked || PriorityTarget != null;
         }
         #endregion
     }
