@@ -2,8 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TacticalPanicCode.UnitBehaviours;
 using System.Collections.Generic;
-using System;
-using Unity.Mathematics;
 
 namespace TacticalPanicCode
 {
@@ -17,8 +15,6 @@ namespace TacticalPanicCode
     public class UnitOperator : MonoBehaviour, IInfoble
     {
         public UnitBasis unitBasis { get; private set; }
-        public UnitStats unitStats { get; }
-        public UnitAuxiliary unitAuxiliary;
         
         [Header("Main")]
         [SerializeField]
@@ -26,7 +22,7 @@ namespace TacticalPanicCode
 
         public GistBasis[] GistBasis => unitBasis.GistBasis;
         public bool Blocked { get => Blockers.Count > 0; }
-        public DistanceToGoalHolder distanceToGoal;
+        public UnitDistanceToGoalHolder distanceToGoal;
 
         public List<UnitOperator> Targets { get; private set; } = new List<UnitOperator>();
         public List<UnitOperator> Blockers { get; private set; } = new List<UnitOperator>();
@@ -38,7 +34,7 @@ namespace TacticalPanicCode
         private SpriteRenderer unitBodyRenderer;
         [SerializeField]
         private Rigidbody _rigidbody;
-        public new Rigidbody rigidbody { get { return _rigidbody; } }
+        public Rigidbody unitRigidbody { get { return _rigidbody; } }
         [SerializeField]
         private Transform _skinRoot;
         public Transform SkinRoot { get => _skinRoot; }
@@ -49,7 +45,20 @@ namespace TacticalPanicCode
         #region Minions
         [Header("Minions")]
         [SerializeField]
-        private UnitBehaviourStack unitBehaviour;
+        private UnitBehaviourStack unitBehaviourStack;
+        [SerializeField]
+        private UnitStats unitStats;
+        public UnitStats Stats
+        {
+            get
+            {
+                if (unitStats == null)
+                {
+                    unitStats = gameObject.GetComponentInChildren<UnitStats>();
+                }
+                return unitStats;
+            }
+        }
         [SerializeField]
         private AttackRadiusOperator attackRadiusOperator;
         public AttackRadiusOperator AttackRadiusOperator
@@ -163,6 +172,7 @@ namespace TacticalPanicCode
         {
             animationOperator.Deploy();
             SetVisualState(VisualOfUnit.Normal);
+            SetUnitActivity(true);
         }
 
         public bool CheckTermsAndDeploy()
@@ -182,7 +192,7 @@ namespace TacticalPanicCode
         public void SpawnToPoint(UnitOnLevelPathInformator enemyPath)
         {
             Deploy(enemyPath.GetSpawnPoint());
-            unitBehaviour.CreatePathBehaviour(enemyPath);
+            unitBehaviourStack.CreatePathBehaviour(enemyPath);
         }
 
         public bool CheckTerms()
@@ -210,17 +220,7 @@ namespace TacticalPanicCode
         }
         public void SetUnitActivity(bool flag)
         {
-            if (gameObject.TryGetComponent(out PlayerDebuger scriptPlayer))
-                scriptPlayer.enabled = flag;
-            if (gameObject.TryGetComponent(out MoveOperator scriptMoveEnemy))
-                scriptMoveEnemy.enabled = flag;
-            if (gameObject.TryGetComponent(out FightOperator scriptFight))
-                scriptFight.enabled = flag;
-
-            foreach (Collider2D collider2D in gameObject.GetComponents<Collider2D>())
-            {
-                collider2D.enabled = flag;
-            }
+            unitBehaviourStack.enabled = flag;
         }
         public void SetConflictSide(ConflictSide side = ConflictSide.Enemy)
         {
@@ -237,7 +237,7 @@ namespace TacticalPanicCode
                     break;
                 default: //ConflictSide.Enemy
                     gameObject.tag = "Enemy";
-                    unitAuxiliary = new EnemyUnitAuxiliary();
+                    distanceToGoal = new UnitDistanceToGoalHolder();
                     pedestal.color = SideColor.enemy;
                     break;
             }
@@ -331,7 +331,7 @@ namespace TacticalPanicCode
         #region Behaviour
         public void OnAgroRadiusEnter(Collider other)
         {
-            unitBehaviour.Attack();
+            unitBehaviourStack.Attack();
         }
         public void OnAgroRadiusExit(Collider other)
         {

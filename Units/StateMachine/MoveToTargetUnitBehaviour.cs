@@ -14,11 +14,11 @@ namespace TacticalPanicCode.UnitBehaviours
 
         public MoveToTargetUnitBehaviour(UnitOperator target, UnitOperator unitOperator)
         {
-            unitStats = unitOperator.unitStats;
+            unitStats = unitOperator.Stats;
             skinRoot = unitOperator.SkinRoot;
             unitTransform = unitOperator.transform;
             targetTransform = target.transform;
-            rigidbody = unitOperator.rigidbody;
+            rigidbody = unitOperator.unitRigidbody;
         }
         public override void FixedUpdate()
         {

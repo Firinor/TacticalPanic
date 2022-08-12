@@ -1,5 +1,6 @@
 using System;
 using Unity.Mathematics;
+using UnityEditor;
 using UnityEngine;
 
 namespace TacticalPanicCode
@@ -12,12 +13,24 @@ namespace TacticalPanicCode
         private UnitOperator unitOperator;
 
         public GistOfUnit[] GistsOfUnit { get; }
-        public GistBasis[] GistBasis => unitBasis.GistBasis;
+        public GistBasis[] GistBasis => Basis.GistBasis;
 
         public bool IsAlive;
 
-        public float Speed { get => unitBasis.mspeed; }
+        public float Speed { get => Basis.mspeed; }
         public float CurrentHP;
+
+        public UnitBasis Basis
+        {
+            get
+            {
+                if (unitBasis == null)
+                {
+                    unitBasis = unitOperator.unitBasis;
+                }
+                return unitBasis;
+            }
+        }
 
         public void Damage(float[] damage)
         {
@@ -45,7 +58,7 @@ namespace TacticalPanicCode
             element.points = math.clamp(element.points, 0, element.gist.points);
             element.slider.value = element.points;
 
-            if (element.points <= 0 && unitBasis.GistOfDeath == element.gist.gist)
+            if (element.points <= 0 && Basis.GistOfDeath == element.gist.gist)
             {
                 IsAlive = false;
                 Death?.Invoke();

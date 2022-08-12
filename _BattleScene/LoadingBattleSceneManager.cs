@@ -36,7 +36,9 @@ namespace TacticalPanicCode
                 LastLoadingUnit = squad.UnitBasis;
                 for (int i = 0; i < squad.Count; i++)
                 {
-                    UnitOperator unit = Instantiate(unitPrefab, UnitsManager.EnemyUnitsParent.transform).GetComponent<UnitOperator>();
+                    GameObject unitGameObject = Instantiate(unitPrefab, UnitsManager.EnemyUnitsParent.transform);
+                    unitGameObject.name = unitGameObject.name + $" - {i}";
+                    UnitOperator unit = unitGameObject.GetComponent<UnitOperator>();
                     unit.Prepare(ConflictSide.Enemy);
                     EnemyManager.AddEnemyToDictionary(unit, squad);
                 }

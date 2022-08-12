@@ -13,7 +13,7 @@ namespace TacticalPanicCode.UnitBehaviours
         public FightUnitBehaviour(UnitOperator unit)
         {
             this.unit = unit;
-            stats = unit.unitStats;
+            stats = unit.Stats;
         }
 
         internal UnitOperator EnemyToAttack()
@@ -38,7 +38,7 @@ namespace TacticalPanicCode.UnitBehaviours
 
                 for (int i = 1; i < blockers.Count; i++)
                 {
-                    if (blockers[i].unitStats.CurrentHP < resultUnit.unitStats.CurrentHP)
+                    if (blockers[i].Stats.CurrentHP < resultUnit.Stats.CurrentHP)
                         resultUnit = blockers[i];
                 }
             }

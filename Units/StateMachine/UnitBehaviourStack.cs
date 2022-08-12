@@ -57,7 +57,7 @@ namespace TacticalPanicCode.UnitBehaviours
         internal void CreatePathBehaviour(UnitOnLevelPathInformator path)
         {
             //from end to begin
-            var distanceToGoalHolder = unit.distanceToGoal = new DistanceToGoalHolder();
+            var distanceToGoalHolder = unit.distanceToGoal = new UnitDistanceToGoalHolder();
 
             Vector3 previewTarget = path.GetExitPoint();
             var ToPoint = new MoveToPointUnitBehaviour(previewTarget, unit);
@@ -77,9 +77,10 @@ namespace TacticalPanicCode.UnitBehaviours
 
                     Vector3 target = path.GetPoint(i);
                     ToPoint = new MoveToPointUnitBehaviour(target, unit);
+                    PushBehavior(ToPoint);
+
                     distanceToGoalHolder.AddSegment(ToPoint, math.distance(target, previewTarget));
                     previewTarget = target;
-                    PushBehavior(ToPoint);
                 }
             }
         }
@@ -104,7 +105,7 @@ namespace TacticalPanicCode.UnitBehaviours
         #endregion
     }
 
-    public class DistanceToGoalHolder
+    public class UnitDistanceToGoalHolder
     {
         private LinkedList<DistanceOfBehaviour> unitBehaviours = new LinkedList<DistanceOfBehaviour>();
 
@@ -118,6 +119,9 @@ namespace TacticalPanicCode.UnitBehaviours
 
         public void RemoveSegment()
         {
+            if (unitBehaviours.Count == 0)
+                return;
+
             distanceToGoal -= unitBehaviours.Last.Value.distanceOfGoal;
             unitBehaviours.RemoveLast();
         }

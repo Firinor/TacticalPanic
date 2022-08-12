@@ -21,11 +21,11 @@ namespace TacticalPanicCode.UnitBehaviours
             this.unitOperator = unitOperator;
             skinRoot = unitOperator.SkinRoot;
             unitTransform = unitOperator.transform;
-            rigidbody = unitOperator.rigidbody;
+            rigidbody = unitOperator.unitRigidbody;
         }
         public override void FixedUpdate()
         {
-            rigidbody.AddRelativeForce(Vector3.forward * unitOperator.unitStats.Speed, ForceMode.Impulse);
+            rigidbody.AddRelativeForce(Vector3.forward * unitOperator.Stats.Speed, ForceMode.Impulse);
             timer -= Time.fixedDeltaTime;
             if(timer < 0)
             {
@@ -39,6 +39,7 @@ namespace TacticalPanicCode.UnitBehaviours
         public override void Exit()
         {
             unitOperator.distanceToGoal?.RemoveSegment();
+            base.Exit();
         }
 
         private void LookAtPoint()
