@@ -20,6 +20,16 @@ namespace TacticalPanicCode
         public float Speed { get => Basis.mspeed; }
         public float CurrentHP;
 
+        public float Cooldown = 1f;
+        public float TimeToSwing = 0.15f;
+        public float TimeToArcOff = 0.3f;
+        public float currentCooldown = 0f;
+        public bool readyToAttack = true;
+        public bool attackAction = false;
+
+        public enum AttackStages { swing, arc, rollback };
+        public AttackStages attackStage = AttackStages.rollback;
+
         public UnitBasis Basis
         {
             get
@@ -30,6 +40,11 @@ namespace TacticalPanicCode
                 }
                 return unitBasis;
             }
+        }
+
+        void FixedUpdate()
+        {
+            currentCooldown += Time.deltaTime;//Attack speed
         }
 
         public void Damage(float[] damage)

@@ -33,12 +33,13 @@ namespace TacticalPanicCode
         [SerializeField]
         private SpriteRenderer unitBodyRenderer;
         [SerializeField]
+        private Collider bodyCollider;
+        [SerializeField]
         private Rigidbody _rigidbody;
         public Rigidbody unitRigidbody { get { return _rigidbody; } }
         [SerializeField]
         private Transform _skinRoot;
         public Transform SkinRoot { get => _skinRoot; }
-        
         public Sprite SpriteInfo { get => unitBasis.unitInformator.unitSprite; }
         
 
@@ -173,6 +174,7 @@ namespace TacticalPanicCode
             animationOperator.Deploy();
             SetVisualState(VisualOfUnit.Normal);
             SetUnitActivity(true);
+            attackRadiusOperator.SetVisualRangeActivity(false);
         }
 
         public bool CheckTermsAndDeploy()
@@ -221,6 +223,9 @@ namespace TacticalPanicCode
         public void SetUnitActivity(bool flag)
         {
             unitBehaviourStack.enabled = flag;
+            bodyCollider.enabled = flag;
+            agroRadiusOperator.SetColliderActivity(flag);
+            attackRadiusOperator.SetColliderActivity(flag);
         }
         public void SetConflictSide(ConflictSide side = ConflictSide.Enemy)
         {
@@ -339,7 +344,9 @@ namespace TacticalPanicCode
         }
         public void OnAttackRadiusEnter(Collider other)
         {
-            Targets.Add(other.GetComponent<UnitOperator>());
+            if (gameObject.tag != other.tag)
+                Debug.Log(gameObject.tag + " " + other.tag);
+                Targets.Add(other.GetComponent<UnitOperator>());
         }
         public void OnAttackRadiusExit(Collider other)
         {

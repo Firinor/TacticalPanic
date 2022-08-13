@@ -6,6 +6,10 @@ namespace TacticalPanicCode
     {
         [SerializeField]
         private UnitOperator unit;
+        [SerializeField]
+        private Collider attackCollider;
+        [SerializeField]
+        private SpriteRenderer rangeSprite;
 
         void OnTriggerEnter(Collider other)
         {
@@ -15,6 +19,14 @@ namespace TacticalPanicCode
         void OnTriggerExit(Collider other)
         {
             unit.OnAttackRadiusExit(other);
+        }
+        public void SetColliderActivity(bool flag)
+        {
+            attackCollider.enabled = flag;
+        }
+        public void SetVisualRangeActivity(bool flag)
+        {
+            rangeSprite.enabled  = flag;
         }
     }
 }

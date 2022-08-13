@@ -8,6 +8,9 @@ namespace TacticalPanicCode
     {
         [SerializeField]
         private UnitOperator unit;
+        [SerializeField]
+        private Collider agroCollider;
+
         public void OnTriggerEnter(Collider other)
         {
             unit.OnAgroRadiusEnter(other);
@@ -15,6 +18,11 @@ namespace TacticalPanicCode
         public void OnTriggerExit(Collider other)
         {
             unit.OnAgroRadiusExit(other);
+        }
+
+        public void SetColliderActivity(bool flag)
+        {
+            agroCollider.enabled = flag;
         }
     }
 }
