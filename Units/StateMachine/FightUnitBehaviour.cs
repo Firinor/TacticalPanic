@@ -46,11 +46,11 @@ namespace TacticalPanicCode.UnitBehaviours
                 }
                 else if (stats.attackStage == UnitStats.AttackStages.rollback)
                 {
-                    if (stats.currentCooldown >= stats.Cooldown)
-                    {
-                        stats.readyToAttack = true;
-                        stats.attackAction = false;
-                    }
+                    //if (stats.currentCooldown >= stats.Cooldown)
+                    //{
+                    //    stats.readyToAttack = true;
+                    //    stats.attackAction = false;
+                    //}
                 }
             }
         }

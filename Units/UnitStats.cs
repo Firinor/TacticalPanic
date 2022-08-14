@@ -1,12 +1,15 @@
 using System;
+using UniRx.Triggers;
+using UniRx;
 using Unity.Mathematics;
-using UnityEditor;
 using UnityEngine;
 
 namespace TacticalPanicCode
 {
-    public class UnitStats : MonoBehaviour
+    public class UnitStats : MonoBehaviour, IDisposable
     {
+        private CompositeDisposable disposables = new CompositeDisposable();
+
         public Action Death;
         private UnitBasis unitBasis;
         [SerializeField]
@@ -20,7 +23,6 @@ namespace TacticalPanicCode
         public float Speed { get => Basis.mspeed; }
         public float CurrentHP;
 
-        public float Cooldown = 1f;
         public float TimeToSwing = 0.15f;
         public float TimeToArcOff = 0.3f;
         public float currentCooldown = 0f;
@@ -42,11 +44,18 @@ namespace TacticalPanicCode
             }
         }
 
-        void FixedUpdate()
+        void Awake()
         {
-            currentCooldown += Time.deltaTime;//Attack speed
+            IObservable<Unit> streamToForse = this.FixedUpdateAsObservable().Where(_ => currentCooldown > 0);
+            streamToForse.Subscribe(_ => Cooldown()).AddTo(disposables);
         }
 
+        void Cooldown()
+        {
+            currentCooldown -= Time.deltaTime;//Attack speed
+        }
+
+        #region Damage & Heal
         public void Damage(float[] damage)
         {
             for (int i = 0; i < damage.Length && i < PlayerOperator.GistsCount; i++)
@@ -100,6 +109,11 @@ namespace TacticalPanicCode
                 return;
 
             Damage(-cure, GistBasis[PlayerOperator.GetIndexByGist(gist)].gist);
+        }
+        #endregion
+        public void Dispose()
+        {
+            disposables.Clear();
         }
     }
 }
