@@ -99,8 +99,8 @@ namespace TacticalPanicCode.UnitBehaviours
             if (!unit.IsThereAnyoneToAttack())
                 return;
 
-            var ToTarget = new FightUnitBehaviour(unit);
-            PushBehavior(ToTarget);
+            var fightBehaviour = new FightUnitBehaviour(unit);
+            PushBehavior(fightBehaviour);
         }
         #endregion
     }

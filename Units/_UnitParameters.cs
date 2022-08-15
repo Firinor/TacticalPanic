@@ -2,6 +2,11 @@ using UnityEngine;
 
 namespace TacticalPanicCode
 {
+    //            UnitInformator
+    //UnitBasis <
+    //            UnitOperator,UnitStats,UnitSkills  -> UnitCard
+    //
+    // Gist -> GistBasis -> GistOfUnit
     public enum Gist
     {
         Life = GistColors.Red,

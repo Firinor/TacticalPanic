@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TacticalPanicCode.UnitBehaviours;
 using System.Collections.Generic;
+using System;
 
 namespace TacticalPanicCode
 {
@@ -9,24 +10,26 @@ namespace TacticalPanicCode
 
     //            UnitInformator
     //UnitBasis <
-    //            UnitOperator -> UnitCard
+    //            UnitOperator,UnitStats,UnitSkills  -> UnitCard
     //
     // Gist -> GistBasis -> GistOfUnit
     public class UnitOperator : MonoBehaviour, IInfoble
     {
-        public UnitBasis unitBasis { get; private set; }
-        
+        private UnitBasis unitBasis;
+
         [Header("Main")]
         [SerializeField]
         private Slider[] sliders = new Slider[PlayerOperator.GistsCount];
 
         public GistBasis[] GistBasis => unitBasis.GistBasis;
-        public bool Blocked { get => Blockers.Count > 0; }
+        
         public UnitDistanceToGoalHolder distanceToGoal;
 
         public List<UnitOperator> Targets { get; private set; } = new List<UnitOperator>();
         public List<UnitOperator> Blockers { get; private set; } = new List<UnitOperator>();
         public UnitOperator PriorityTarget { get; private set; }
+
+        public bool Blocked { get => Blockers.Count > 0; }
 
         [SerializeField]
         private SpriteRenderer pedestal;
@@ -58,6 +61,19 @@ namespace TacticalPanicCode
                     unitStats = gameObject.GetComponentInChildren<UnitStats>();
                 }
                 return unitStats;
+            }
+        }
+        [SerializeField]
+        private UnitSkills unitSkills;
+        public UnitSkills Skills
+        {
+            get
+            {
+                if (unitSkills == null)
+                {
+                    unitSkills = gameObject.GetComponentInChildren<UnitSkills>();
+                }
+                return unitSkills;
             }
         }
         [SerializeField]
@@ -124,6 +140,11 @@ namespace TacticalPanicCode
                 }
                 return unitVFXOperator;
             }
+        }
+
+        internal UnitBasis GetBasis()
+        {
+            return unitBasis;
         }
         #endregion
 
@@ -344,9 +365,7 @@ namespace TacticalPanicCode
         }
         public void OnAttackRadiusEnter(Collider other)
         {
-            if (gameObject.tag != other.tag)
-                Debug.Log(gameObject.tag + " " + other.tag);
-                Targets.Add(other.GetComponent<UnitOperator>());
+            Targets.Add(other.GetComponent<UnitOperator>());
         }
         public void OnAttackRadiusExit(Collider other)
         {

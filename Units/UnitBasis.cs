@@ -6,27 +6,26 @@ namespace TacticalPanicCode
 {
     //            UnitInformator
     //UnitBasis <
-    //            Unit -> UnitCard
+    //            UnitOperator,UnitStats,UnitSkills  -> UnitCard
     //
     // Gist -> GistBasis -> GistOfUnit
     public class UnitBasis : IInfoble
     {
         public int id { get; private set; }
         public string unitName { get; private set; }
-        public float mspeed { get; private set; }
+        public float movementSpeed { get; private set; }
         public int blockCount { get; private set; }
         public float agroRadius { get; private set; }
-        public float attackRadius { get; private set; }
         public Gist GistOfDeath { get; private set; }
         public UnitInformator unitInformator { get; set; }
         public Sprite SpriteInfo => unitInformator.unitSprite;
         public GistBasis[] GistBasis { get; }
 
-        public UnitBasis(int id, string unitName, float mspeed, Gist DeathElement, GistBasis[] GistBasis)
+        public UnitBasis(int id, string unitName, float movementSpeed, Gist DeathElement, GistBasis[] GistBasis)
         {
             this.id = id;
             this.unitName = unitName;
-            this.mspeed = mspeed;
+            this.movementSpeed = movementSpeed;
             this.GistOfDeath = DeathElement;
             this.GistBasis = GistBasis;
         }

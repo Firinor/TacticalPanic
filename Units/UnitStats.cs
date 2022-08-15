@@ -6,31 +6,29 @@ using UnityEngine;
 
 namespace TacticalPanicCode
 {
+    //            UnitInformator
+    //UnitBasis <
+    //            UnitOperator,UnitStats,UnitSkills  -> UnitCard
+    //
+    // Gist -> GistBasis -> GistOfUnit
     public class UnitStats : MonoBehaviour, IDisposable
     {
         private CompositeDisposable disposables = new CompositeDisposable();
 
-        public Action Death;
-        private UnitBasis unitBasis;
         [SerializeField]
         private UnitOperator unitOperator;
+        private UnitBasis unitBasis;
+        public Action Death;
 
         public GistOfUnit[] GistsOfUnit { get; }
         public GistBasis[] GistBasis => Basis.GistBasis;
 
-        public bool IsAlive;
+        public bool IsAlive { get { return CurrentHP <= 0; } }
 
-        public float Speed { get => Basis.mspeed; }
+        public float Speed { get => Basis.movementSpeed; }
         public float CurrentHP;
 
-        public float TimeToSwing = 0.15f;
-        public float TimeToArcOff = 0.3f;
         public float currentCooldown = 0f;
-        public bool readyToAttack = true;
-        public bool attackAction = false;
-
-        public enum AttackStages { swing, arc, rollback };
-        public AttackStages attackStage = AttackStages.rollback;
 
         public UnitBasis Basis
         {
@@ -38,7 +36,7 @@ namespace TacticalPanicCode
             {
                 if (unitBasis == null)
                 {
-                    unitBasis = unitOperator.unitBasis;
+                    unitBasis = unitOperator.GetBasis();
                 }
                 return unitBasis;
             }
@@ -84,7 +82,6 @@ namespace TacticalPanicCode
 
             if (element.points <= 0 && Basis.GistOfDeath == element.gist.gist)
             {
-                IsAlive = false;
                 Death?.Invoke();
             }
             else
@@ -111,6 +108,7 @@ namespace TacticalPanicCode
             Damage(-cure, GistBasis[PlayerOperator.GetIndexByGist(gist)].gist);
         }
         #endregion
+        
         public void Dispose()
         {
             disposables.Clear();
