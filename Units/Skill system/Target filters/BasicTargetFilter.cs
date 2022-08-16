@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace TacticalPanicCode
 {
-    public class BasicTargetFilter : TargetFilter
+    public class BasicTargetFilter : SkillTargetFilter
     {
         public override UnitOperator EnemyToAttack(UnitOperator unit)
         {

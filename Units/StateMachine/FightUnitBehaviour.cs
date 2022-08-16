@@ -6,14 +6,14 @@ namespace TacticalPanicCode.UnitBehaviours
     {
         private UnitStats stats;
         private UnitOperator unit;
-        private UnitSkills skills;
+        private Skill skill;
 
 
         public FightUnitBehaviour(UnitOperator unit)
         {
             this.unit = unit;
             stats = unit.Stats;
-            skills = unit.Skills;
+            skill = unit.unitAutoAttack;
         }
 
         public override void FixedUpdate()

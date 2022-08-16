@@ -16,6 +16,8 @@ namespace TacticalPanicCode
     public class UnitOperator : MonoBehaviour, IInfoble
     {
         private UnitBasis unitBasis;
+        public Skill unitAutoAttack { get; private set; }
+        private Skill unitUltimate;
 
         [Header("Main")]
         [SerializeField]
@@ -61,19 +63,6 @@ namespace TacticalPanicCode
                     unitStats = gameObject.GetComponentInChildren<UnitStats>();
                 }
                 return unitStats;
-            }
-        }
-        [SerializeField]
-        private UnitSkills unitSkills;
-        public UnitSkills Skills
-        {
-            get
-            {
-                if (unitSkills == null)
-                {
-                    unitSkills = gameObject.GetComponentInChildren<UnitSkills>();
-                }
-                return unitSkills;
             }
         }
         [SerializeField]
@@ -184,7 +173,6 @@ namespace TacticalPanicCode
         #endregion
 
         #region Deploy
-
         public void Deploy(Vector3 spawnPoint)
         {
             gameObject.transform.position = spawnPoint;
@@ -226,6 +214,23 @@ namespace TacticalPanicCode
             {
                 int gistManaPrise = GistBasis[i].manaPrice;
                 if (gistManaPrise > 0 && PlayerOperator.GetCurrentMana(GistBasis[i].gist) < gistManaPrise)
+                {
+                    Check = false;
+                    break;
+                }
+            }
+
+            return Check;
+        }
+
+        public bool CheckPoints(float[] cost)
+        {
+            bool Check = true;
+
+            for (int i = 0; i < cost.Length; i++)
+            {
+                float gistManaPrise = cost[i];
+                if (gistManaPrise > 0 && unitBasis.GistBasis[i].points < gistManaPrise)
                 {
                     Check = false;
                     break;
