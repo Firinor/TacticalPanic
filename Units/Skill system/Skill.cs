@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using Unity.Mathematics;
 
 namespace TacticalPanicCode
 {
@@ -17,8 +15,8 @@ namespace TacticalPanicCode
         private int damage;
         private int range;
         private int targetCount;
-        private int cooldown;
-        private int currentCooldown;
+        private float cooldown;
+        private float currentCooldown;
         private SkillTargetFilter filter = new BasicTargetFilter();
 
         //Attack states
@@ -29,6 +27,12 @@ namespace TacticalPanicCode
         private int preparePart;
         private int effeckPart;
         private int cooldownPart;
+
+        public Skill(UnitOperator unit)
+        {
+            this.unit = unit;
+            unit.unitFixedUpdate += DecreaseCooldown;
+        }
 
         public void Prepare()
         {
@@ -61,6 +65,14 @@ namespace TacticalPanicCode
         private void IncreaseCooldown()
         {
             currentCooldown += cooldown;
+            unit.unitFixedUpdate += DecreaseCooldown;
+        }
+
+        private void DecreaseCooldown(float deltaTime)
+        {
+            currentCooldown -= deltaTime;
+            if(currentCooldown <= 0)
+                unit.unitFixedUpdate -= DecreaseCooldown;
         }
 
         private void PayTheCost()

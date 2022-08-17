@@ -46,7 +46,9 @@ namespace TacticalPanicCode
         private Transform _skinRoot;
         public Transform SkinRoot { get => _skinRoot; }
         public Sprite SpriteInfo { get => unitBasis.unitInformator.unitSprite; }
-        
+
+        public delegate void UnitFixedUpdate(float i);
+        public UnitFixedUpdate unitFixedUpdate;
 
         #region Minions
         [Header("Minions")]
@@ -144,6 +146,11 @@ namespace TacticalPanicCode
             gameObject.name = "Unit-" + unitBasis.unitName;
             unitBodyRenderer.sprite = SpriteInfo;
             unitStats.Death += Death;
+        }
+        private void FixedUpdate()
+        {
+            //skills cooldown
+            unitFixedUpdate?.Invoke(Time.fixedDeltaTime);
         }
         #endregion
 
@@ -362,7 +369,7 @@ namespace TacticalPanicCode
         #region Behaviour
         public void OnAgroRadiusEnter(Collider other)
         {
-            unitBehaviourStack.Attack();
+            unitBehaviourStack.Attack(other.GetComponent<UnitOperator>());
         }
         public void OnAgroRadiusExit(Collider other)
         {

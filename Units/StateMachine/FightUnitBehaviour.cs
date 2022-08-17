@@ -20,8 +20,6 @@ namespace TacticalPanicCode.UnitBehaviours
         {
             if (NoUnitToAttack())
                 Exit();
-
-
         }
 
         private bool NoUnitToAttack()
