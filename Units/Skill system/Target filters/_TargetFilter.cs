@@ -2,7 +2,7 @@ namespace TacticalPanicCode
 {
     public abstract class SkillTargetFilter
     {
-        public virtual UnitOperator EnemyToAttack(UnitOperator unit)
+        public virtual UnitOperator TargetForSkill(UnitOperator unit)
         {
             return null;
         }

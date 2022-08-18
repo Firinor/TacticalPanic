@@ -14,10 +14,13 @@ namespace TacticalPanicCode
         {
             animator.Play("Death");
         }
-
         internal void Deploy()
         {
             animator.enabled = true;
+        }
+        internal void AnimStroke(AnimationClip amin)
+        {
+            animator.Play(amin.name);
         }
     }
 }

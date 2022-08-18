@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace TacticalPanicCode
 {
@@ -9,7 +10,11 @@ namespace TacticalPanicCode
     // Gist -> GistBasis -> GistOfUnit
     public class Skill
     {
+        public bool Ready { get; private set; }
+
         private UnitOperator unit;
+
+        private AnimationClip amin;
 
         private float[] cost;
         private int damage;
@@ -24,9 +29,9 @@ namespace TacticalPanicCode
         private int effeckWeight;
         private int cooldownWeight;
 
-        private int preparePart;
-        private int effeckPart;
-        private int cooldownPart;
+        private float preparePart;
+        private float effeckPart;
+        private float cooldownPart;
 
         public Skill(UnitOperator unit)
         {
@@ -39,7 +44,8 @@ namespace TacticalPanicCode
             if (currentCooldown > 0)
                 return;
 
-            List<UnitOperator> targets = GetTargets();
+            IncreaseCooldown(preparePart);
+            unit.UseSkill(amin);
         }
 
         public void Use()
@@ -59,25 +65,30 @@ namespace TacticalPanicCode
                 target.Damage(damage);
             }
 
-            IncreaseCooldown();
+            IncreaseCooldown(cooldown);
         }
 
-        private void IncreaseCooldown()
+        private void IncreaseCooldown(float value)
         {
-            currentCooldown += cooldown;
+            currentCooldown += value;
             unit.unitFixedUpdate += DecreaseCooldown;
+            Ready = false;
         }
 
         private void DecreaseCooldown(float deltaTime)
         {
             currentCooldown -= deltaTime;
             if(currentCooldown <= 0)
+            {
                 unit.unitFixedUpdate -= DecreaseCooldown;
+                Ready = true;
+            }
         }
 
         private void PayTheCost()
         {
-            unit.Damage(cost);
+            if (cost != null)
+                unit.Damage(cost);
         }
 
         private bool CheckTheCost()
@@ -91,7 +102,7 @@ namespace TacticalPanicCode
         private List<UnitOperator> GetTargets()
         {
             List<UnitOperator> targets = new List<UnitOperator>();
-            UnitOperator result = filter.EnemyToAttack(unit);
+            UnitOperator result = filter.TargetForSkill(unit);
             if (result != null)
                 targets.Add(result);
 

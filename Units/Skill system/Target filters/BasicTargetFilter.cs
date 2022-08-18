@@ -4,7 +4,7 @@ namespace TacticalPanicCode
 {
     public class BasicTargetFilter : SkillTargetFilter
     {
-        public override UnitOperator EnemyToAttack(UnitOperator unit)
+        public override UnitOperator TargetForSkill(UnitOperator unit)
         {
             UnitOperator resultUnit = null;
 

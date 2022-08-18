@@ -177,6 +177,11 @@ namespace TacticalPanicCode
                     unitStats.GistsOfUnit[i].slider.value = unitStats.GistsOfUnit[i].points;
             }
         }
+
+        internal void UseSkill(AnimationClip amin)
+        {
+            animationOperator.AnimStroke(amin);
+        }
         #endregion
 
         #region Deploy
@@ -346,7 +351,7 @@ namespace TacticalPanicCode
             unitStats.Heal(cure, gist);
         }
         #endregion
-        
+
         #region IInfoble
         public string GetName()
         {
@@ -399,5 +404,15 @@ namespace TacticalPanicCode
             return Targets.Count > 0 || Blocked || PriorityTarget != null;
         }
         #endregion
+
+        internal void GoToTarget()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void SkillUseAnimationPosition()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
