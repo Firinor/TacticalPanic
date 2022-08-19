@@ -6,15 +6,21 @@ namespace TacticalPanicCode
     {
         [SerializeField]
         private UnitOperator unit;
+        private Skill skill;
 
         public void Death()
         {
             unit.DeathAnimationEnds();
         }
 
+        public void SetSkill(Skill skill)
+        {
+            this.skill = skill;
+        }
+
         public void SkillUse()
         {
-            unit.SkillUseAnimationPosition();
+            unit.SkillUseAnimationPoint(skill);
         }
     }
 }

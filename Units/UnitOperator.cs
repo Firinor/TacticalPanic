@@ -27,6 +27,7 @@ namespace TacticalPanicCode
         
         public UnitDistanceToGoalHolder distanceToGoal;
 
+        public List<UnitOperator> UnitsInAgroRadius { get; private set; } = new List<UnitOperator>();
         public List<UnitOperator> Targets { get; private set; } = new List<UnitOperator>();
         public List<UnitOperator> Blockers { get; private set; } = new List<UnitOperator>();
         public UnitOperator PriorityTarget { get; private set; }
@@ -146,6 +147,7 @@ namespace TacticalPanicCode
             gameObject.name = "Unit-" + unitBasis.unitName;
             unitBodyRenderer.sprite = SpriteInfo;
             unitStats.Death += Death;
+            unitAutoAttack = new Skill(this);
         }
         private void FixedUpdate()
         {
@@ -178,9 +180,10 @@ namespace TacticalPanicCode
             }
         }
 
-        internal void UseSkill(AnimationClip amin)
+        internal void UseSkill(Skill skill, AnimationClip amin)
         {
-            animationOperator.AnimStroke(amin);
+            unitVFXOperator.PlayOnce(skill);
+            animationOperator.AnimStroke(skill, amin);
         }
         #endregion
 
@@ -374,11 +377,13 @@ namespace TacticalPanicCode
         #region Behaviour
         public void OnAgroRadiusEnter(Collider other)
         {
-            unitBehaviourStack.Attack(other.GetComponent<UnitOperator>());
+            UnitOperator unit = other.GetComponent<UnitOperator>();
+            UnitsInAgroRadius.Add(unit);
+            unitBehaviourStack.Attack(unit);
         }
         public void OnAgroRadiusExit(Collider other)
         {
-            //Calm down
+            UnitsInAgroRadius.Remove(other.GetComponent<UnitOperator>());
         }
         public void OnAttackRadiusEnter(Collider other)
         {
@@ -403,16 +408,22 @@ namespace TacticalPanicCode
         {
             return Targets.Count > 0 || Blocked || PriorityTarget != null;
         }
+
+        internal bool NeedToGetCloserToTheTarget(UnitOperator target)
+        {
+            return UnitsInAgroRadius.Contains(target) && !Targets.Contains(target);
+        }
         #endregion
 
-        internal void GoToTarget()
+        internal void GoToTarget(UnitOperator target)
         {
-            throw new NotImplementedException();
+            unitBehaviourStack.GoToTarget(target);
         }
 
-        internal void SkillUseAnimationPosition()
+        internal void SkillUseAnimationPoint(Skill skill)
         {
-            throw new NotImplementedException();
+            
+            skill.Use();
         }
     }
 }

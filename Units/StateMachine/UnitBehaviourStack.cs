@@ -94,13 +94,13 @@ namespace TacticalPanicCode.UnitBehaviours
             PushBehavior(ToTarget);
         }
 
-        internal void Attack(UnitOperator unit)
+        internal void Attack(UnitOperator target)
         {
             //if (!unit.IsThereAnyoneToAttack())
             //    return;
-            Debug.Log(gameObject.name + " attak " + unit.gameObject.name + "!");
+            Debug.Log(gameObject.name + " attak " + target.gameObject.name + "!");
 
-            var fightBehaviour = new FightUnitBehaviour(unit);
+            var fightBehaviour = new FightUnitBehaviour(ownerUnit: unit, target: target);
             PushBehavior(fightBehaviour);
         }
         #endregion

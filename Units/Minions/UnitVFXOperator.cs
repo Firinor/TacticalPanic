@@ -21,7 +21,12 @@ namespace TacticalPanicCode
         [SerializeField]
         private Color slashColor;
 
-        private Dictionary<string, int> indexes; 
+        private Dictionary<string, int> indexes;
+
+        internal void PlayOnce(Skill skill)
+        {
+            visualEffect.Play();
+        }
 
         void Awake()
         {

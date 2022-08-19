@@ -9,6 +9,8 @@ namespace TacticalPanicCode
     {
         [SerializeField]
         private Animator animator;
+        [SerializeField]
+        private AnimatorEvents animatorEvents;
 
         public void AnimDeath()
         {
@@ -18,9 +20,19 @@ namespace TacticalPanicCode
         {
             animator.enabled = true;
         }
-        internal void AnimStroke(AnimationClip amin)
+        internal void AnimStroke(Skill skill, AnimationClip amin)
         {
-            animator.Play(amin.name);
+            animatorEvents.SetSkill(skill);
+            string name;
+            if(amin == null)
+            {
+                name = "Stroke";
+            }
+            else
+            {
+                name = amin.name;
+            }
+            animator.Play(name);
         }
     }
 }

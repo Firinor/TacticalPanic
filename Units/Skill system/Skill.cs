@@ -45,7 +45,7 @@ namespace TacticalPanicCode
                 return;
 
             IncreaseCooldown(preparePart);
-            unit.UseSkill(amin);
+            unit.UseSkill(this, amin);
         }
 
         public void Use()

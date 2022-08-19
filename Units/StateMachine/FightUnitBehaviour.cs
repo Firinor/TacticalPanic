@@ -5,15 +5,15 @@ namespace TacticalPanicCode.UnitBehaviours
 {
     public class FightUnitBehaviour : UnitBehaviour
     {
-        private UnitStats stats;
-        private UnitOperator unit;
+        private UnitOperator ownerUnit;
+        private UnitOperator target;
         private Skill skill;
 
-        public FightUnitBehaviour(UnitOperator unit)
+        public FightUnitBehaviour(UnitOperator ownerUnit, UnitOperator target)
         {
-            this.unit = unit;
-            stats = unit.Stats;
-            skill = unit.unitAutoAttack;
+            this.ownerUnit = ownerUnit;
+            skill = ownerUnit.unitAutoAttack;
+            this.target = target;
         }
 
         public override void FixedUpdate()
@@ -27,23 +27,23 @@ namespace TacticalPanicCode.UnitBehaviours
                 return;
             }
 
-            if (!TargetInRadius())
+            if (NeedToGetCloserToTheTarget())
             {
-                unit.GoToTarget();
+                ownerUnit.GoToTarget(target);
                 return;
             }
 
             skill.Prepare();
         }
 
-        private bool TargetInRadius()
+        private bool NeedToGetCloserToTheTarget()
         {
-            throw new NotImplementedException();
+            return ownerUnit.NeedToGetCloserToTheTarget(target);
         }
 
         private bool NoUnitToAttack()
         {
-            return !unit.IsThereAnyoneToAttack();
+            return !ownerUnit.IsThereAnyoneToAttack();
         }
     }
 }
