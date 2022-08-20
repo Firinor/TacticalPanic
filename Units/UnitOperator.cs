@@ -147,7 +147,7 @@ namespace TacticalPanicCode
             gameObject.name = "Unit-" + unitBasis.unitName;
             unitBodyRenderer.sprite = SpriteInfo;
             unitStats.Death += Death;
-            unitAutoAttack = new Skill(this);
+            unitAutoAttack = new Skill(this, SkillManager.DefaultSkill);
         }
         private void FixedUpdate()
         {

@@ -12,6 +12,7 @@ namespace TacticalPanicCode
     {
         public bool Ready { get; private set; }
 
+        private SkillBasis skillBasis;
         private UnitOperator unit;
 
         private AnimationClip amin;
@@ -33,10 +34,11 @@ namespace TacticalPanicCode
         private float effeckPart;
         private float cooldownPart;
 
-        public Skill(UnitOperator unit)
+        public Skill(UnitOperator unit, SkillBasis skillBasis)
         {
             this.unit = unit;
             unit.unitFixedUpdate += DecreaseCooldown;
+            this.skillBasis = skillBasis;
         }
 
         public void Prepare()
