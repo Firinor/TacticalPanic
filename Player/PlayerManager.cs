@@ -10,7 +10,7 @@ namespace TacticalPanicCode
 
         public static void OnLoad()
         {
-            Account = SaveManager.Data.Account;
+            Account = SaveManager.PlayerAccount();
             Party = GetUnitsByIDs(SaveManager.Data.Party);
         }
 
