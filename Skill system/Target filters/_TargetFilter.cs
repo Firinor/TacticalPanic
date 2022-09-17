@@ -1,8 +1,8 @@
-namespace TacticalPanicCode
+namespace FirSkillSystem
 {
     public abstract class SkillTargetFilter
     {
-        public virtual UnitOperator TargetForSkill(UnitOperator unit)
+        public virtual IUnit TargetForSkill(IUnit unit)
         {
             return null;
         }

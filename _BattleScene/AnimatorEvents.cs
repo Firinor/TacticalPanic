@@ -1,3 +1,4 @@
+using FirSkillSystem;
 using UnityEngine;
 
 namespace TacticalPanicCode

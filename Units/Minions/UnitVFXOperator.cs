@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
@@ -23,7 +21,7 @@ namespace TacticalPanicCode
 
         private Dictionary<string, int> indexes;
 
-        internal void PlayOnce(Skill skill)
+        internal void PlayOnce(VisualEffect visualEffect)
         {
             visualEffect.Play();
         }

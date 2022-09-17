@@ -1,29 +1,27 @@
 using System.Collections.Generic;
+using TacticalPanicCode;
 using UnityEngine;
+using UnityEngine.VFX;
 
-namespace TacticalPanicCode
+namespace FirSkillSystem
 {
-    //            UnitInformator
-    //UnitBasis <
-    //            UnitOperator,UnitStats -> UnitCard
-    //
-    // Gist -> GistBasis -> GistOfUnit
     public class Skill
     {
         public bool Ready { get; private set; }
 
         private SkillBasis skillBasis;
-        private UnitOperator unit;
+        private IUnit unit;
 
-        private AnimationClip amin;
+        public AnimationClip anim { get; private set; }
+        public VisualEffect VFXanim { get; private set; }
 
         private float[] cost;
-        private int damage;
+        private float damage;
         private int range;
         private int targetCount;
         private float cooldown;
         private float currentCooldown;
-        private SkillTargetFilter filter = new BasicTargetFilter();
+        private SkillTargetFilter filter;
 
         //Attack states
         private int prepareWeight;
@@ -34,7 +32,7 @@ namespace TacticalPanicCode
         private float effeckPart;
         private float cooldownPart;
 
-        public Skill(UnitOperator unit, SkillBasis skillBasis)
+        public Skill(IUnit unit, SkillBasis skillBasis)
         {
             this.unit = unit;
             unit.unitFixedUpdate += DecreaseCooldown;
@@ -47,7 +45,7 @@ namespace TacticalPanicCode
                 return;
 
             IncreaseCooldown(preparePart);
-            unit.UseSkill(this, amin);
+            unit.UseSkill(this);
         }
 
         public void Use()
@@ -62,7 +60,7 @@ namespace TacticalPanicCode
 
             PayTheCost();
 
-            foreach(UnitOperator target in targets)
+            foreach(IUnit target in targets)
             {
                 target.Damage(damage);
             }
@@ -90,7 +88,13 @@ namespace TacticalPanicCode
         private void PayTheCost()
         {
             if (cost != null)
-                unit.Damage(cost);
+            {
+                for (int i = 0; i <= PlayerOperator.GistsCount; i++)
+                {
+                    if (cost[i] > 0)
+                        unit.Damage(cost[i], (Gist)i);
+                }
+            }
         }
 
         private bool CheckTheCost()
@@ -98,13 +102,19 @@ namespace TacticalPanicCode
             if (cost == null)
                 return true;
 
-            return unit.CheckPoints(cost);
+            for (int i = 0; i <= PlayerOperator.GistsCount; i++)
+            {
+                if (cost[i] > 0 &&!unit.CheckPoints(cost[i], (Gist)i))
+                return false;
+            }
+
+            return true;
         }
 
-        private List<UnitOperator> GetTargets()
+        private List<IUnit> GetTargets()
         {
-            List<UnitOperator> targets = new List<UnitOperator>();
-            UnitOperator result = filter.TargetForSkill(unit);
+            List<IUnit> targets = new List<IUnit>();
+            IUnit result = filter.TargetForSkill(unit);
             if (result != null)
                 targets.Add(result);
 

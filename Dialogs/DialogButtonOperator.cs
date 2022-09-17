@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using FirDialogSystem;
 using UnityEngine;
 
 namespace TacticalPanicCode

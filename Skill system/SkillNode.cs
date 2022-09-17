@@ -1,6 +1,6 @@
 using System;
 
-namespace TacticalPanicCode
+namespace FirSkillSystem
 {
     public class SkillNode
     {

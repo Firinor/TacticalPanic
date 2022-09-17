@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TacticalPanicCode
+namespace FirSkillSystem
 {
     public class SkillBasis
     {

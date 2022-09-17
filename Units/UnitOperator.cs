@@ -2,7 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TacticalPanicCode.UnitBehaviours;
 using System.Collections.Generic;
-using System;
+using FirSkillSystem;
+using static FirSkillSystem.IUnit;
 
 namespace TacticalPanicCode
 {
@@ -13,7 +14,7 @@ namespace TacticalPanicCode
     //            UnitOperator,UnitStats,UnitSkills  -> UnitCard
     //
     // Gist -> GistBasis -> GistOfUnit
-    public class UnitOperator : MonoBehaviour, IInfoble
+    public class UnitOperator : MonoBehaviour, IInfoble, IUnit
     {
         private UnitBasis unitBasis;
         public Skill unitAutoAttack { get; private set; }
@@ -33,6 +34,7 @@ namespace TacticalPanicCode
         public UnitOperator PriorityTarget { get; private set; }
 
         public bool Blocked { get => Blockers.Count > 0; }
+        public UnitFixedUpdate unitFixedUpdate;
 
         [SerializeField]
         private SpriteRenderer pedestal;
@@ -47,9 +49,6 @@ namespace TacticalPanicCode
         private Transform _skinRoot;
         public Transform SkinRoot { get => _skinRoot; }
         public Sprite SpriteInfo { get => unitBasis.unitInformator.unitSprite; }
-
-        public delegate void UnitFixedUpdate(float i);
-        public UnitFixedUpdate unitFixedUpdate;
 
         #region Minions
         [Header("Minions")]
@@ -134,6 +133,8 @@ namespace TacticalPanicCode
             }
         }
 
+        UnitFixedUpdate IUnit.unitFixedUpdate { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
         internal UnitBasis GetBasis()
         {
             return unitBasis;
@@ -180,10 +181,10 @@ namespace TacticalPanicCode
             }
         }
 
-        internal void UseSkill(Skill skill, AnimationClip amin)
+        public void UseSkill(Skill skill)
         {
-            unitVFXOperator.PlayOnce(skill);
-            animationOperator.AnimStroke(skill, amin);
+            unitVFXOperator.PlayOnce(skill.VFXanim);
+            animationOperator.AnimStroke(skill, skill.anim);
         }
         #endregion
 
@@ -244,8 +245,7 @@ namespace TacticalPanicCode
 
             for (int i = 0; i < cost.Length; i++)
             {
-                float gistManaPrise = cost[i];
-                if (gistManaPrise > 0 && unitBasis.GistBasis[i].points < gistManaPrise)
+                if (!CheckPoints(cost[i], (Gist)i))
                 {
                     Check = false;
                     break;
@@ -253,6 +253,11 @@ namespace TacticalPanicCode
             }
 
             return Check;
+        }
+
+        public bool CheckPoints(float cost, Gist gist = Gist.Magic)
+        {
+            return cost > 0 && unitBasis.GistBasis[(int)gist].points < cost;
         }
 
         #region VisualOfDeploy

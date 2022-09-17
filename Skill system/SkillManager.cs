@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TacticalPanicCode
+namespace FirSkillSystem
 {
     public static class SkillManager
     {
