@@ -1,13 +1,10 @@
-using TacticalPanicCode;
-using UnityEditor;
-using UnityEngine;
-
 namespace FirSkillSystem
 {
-    public interface IUnit
+    public delegate void CooldownEventHandler(float cooldown);
+
+    public interface ISkillUser
     {
-        public delegate void UnitFixedUpdate(float i);
-        public UnitFixedUpdate unitFixedUpdate { get; set; }
+        public event CooldownEventHandler CooldownEvent;
 
         public abstract void UseSkill(Skill skill);
 
@@ -16,6 +13,6 @@ namespace FirSkillSystem
         public abstract void Heal(float cure, Gist gist = Gist.Life);
         #endregion
 
-        public bool CheckPoints(float cost, Gist gist = Gist.Magic);
+        public abstract bool CheckPoints(float cost, Gist gist = Gist.Magic);
     }
 }

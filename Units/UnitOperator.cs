@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using TacticalPanicCode.UnitBehaviours;
 using System.Collections.Generic;
 using FirSkillSystem;
-using static FirSkillSystem.IUnit;
 
 namespace TacticalPanicCode
 {
@@ -14,7 +13,7 @@ namespace TacticalPanicCode
     //            UnitOperator,UnitStats,UnitSkills  -> UnitCard
     //
     // Gist -> GistBasis -> GistOfUnit
-    public class UnitOperator : MonoBehaviour, IInfoble, IUnit
+    public class UnitOperator : MonoBehaviour, IInfoble, ISkillUser
     {
         private UnitBasis unitBasis;
         public Skill unitAutoAttack { get; private set; }
@@ -34,7 +33,18 @@ namespace TacticalPanicCode
         public UnitOperator PriorityTarget { get; private set; }
 
         public bool Blocked { get => Blockers.Count > 0; }
-        public UnitFixedUpdate unitFixedUpdate;
+        private CooldownEventHandler cooldownEvent;
+        public event CooldownEventHandler CooldownEvent
+        {
+            add
+            {
+                cooldownEvent += value;
+            }
+            remove
+            {
+                cooldownEvent -= value;
+            }
+        }
 
         [SerializeField]
         private SpriteRenderer pedestal;
@@ -133,8 +143,6 @@ namespace TacticalPanicCode
             }
         }
 
-        UnitFixedUpdate IUnit.unitFixedUpdate { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-
         internal UnitBasis GetBasis()
         {
             return unitBasis;
@@ -153,7 +161,7 @@ namespace TacticalPanicCode
         private void FixedUpdate()
         {
             //skills cooldown
-            unitFixedUpdate?.Invoke(Time.fixedDeltaTime);
+            cooldownEvent?.Invoke(Time.fixedDeltaTime);
         }
         #endregion
 

@@ -9,23 +9,10 @@ namespace FirSkillSystem
         public readonly Sprite sprite;
 
         private float cooldown;
-        private float cost;
+        private Dictionary<Gist, float> cost;
 
-        private List<SkillNode> skillNodes;
-
-        public bool CheckTerms()
-        {
-            foreach (SkillNode node in skillNodes)
-            {
-                if (!node.CheckTerms())
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
+        private SkillTarget skillTarget;
+        private List<SkillEffect> skillEffects;
 
     }
 }

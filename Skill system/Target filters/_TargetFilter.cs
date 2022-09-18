@@ -2,7 +2,7 @@ namespace FirSkillSystem
 {
     public abstract class SkillTargetFilter
     {
-        public virtual IUnit TargetForSkill(IUnit unit)
+        public virtual ISkillUser TargetForSkill(ISkillUser unit)
         {
             return null;
         }

@@ -5,7 +5,7 @@ namespace TacticalPanicCode
 {
     public class BasicTargetFilter : SkillTargetFilter
     {
-        public override IUnit TargetForSkill(IUnit owner)
+        public override ISkillUser TargetForSkill(ISkillUser owner)
         {
             UnitOperator resultUnit = null;
 

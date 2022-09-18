@@ -10,7 +10,7 @@ namespace FirSkillSystem
         public bool Ready { get; private set; }
 
         private SkillBasis skillBasis;
-        private IUnit unit;
+        private ISkillUser unit;
 
         public AnimationClip anim { get; private set; }
         public VisualEffect VFXanim { get; private set; }
@@ -32,10 +32,10 @@ namespace FirSkillSystem
         private float effeckPart;
         private float cooldownPart;
 
-        public Skill(IUnit unit, SkillBasis skillBasis)
+        public Skill(ISkillUser unit, SkillBasis skillBasis)
         {
             this.unit = unit;
-            unit.unitFixedUpdate += DecreaseCooldown;
+            unit.CooldownEvent += DecreaseCooldown;
             this.skillBasis = skillBasis;
         }
 
@@ -60,7 +60,7 @@ namespace FirSkillSystem
 
             PayTheCost();
 
-            foreach(IUnit target in targets)
+            foreach(ISkillUser target in targets)
             {
                 target.Damage(damage);
             }
@@ -71,7 +71,7 @@ namespace FirSkillSystem
         private void IncreaseCooldown(float value)
         {
             currentCooldown += value;
-            unit.unitFixedUpdate += DecreaseCooldown;
+            unit.CooldownEvent += DecreaseCooldown;
             Ready = false;
         }
 
@@ -80,7 +80,7 @@ namespace FirSkillSystem
             currentCooldown -= deltaTime;
             if(currentCooldown <= 0)
             {
-                unit.unitFixedUpdate -= DecreaseCooldown;
+                unit.CooldownEvent -= DecreaseCooldown;
                 Ready = true;
             }
         }
@@ -111,10 +111,10 @@ namespace FirSkillSystem
             return true;
         }
 
-        private List<IUnit> GetTargets()
+        private List<ISkillUser> GetTargets()
         {
-            List<IUnit> targets = new List<IUnit>();
-            IUnit result = filter.TargetForSkill(unit);
+            List<ISkillUser> targets = new List<ISkillUser>();
+            ISkillUser result = filter.TargetForSkill(unit);
             if (result != null)
                 targets.Add(result);
 
