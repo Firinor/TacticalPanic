@@ -19,6 +19,7 @@ namespace FirSkillSystem
         private float damage;
         private int range;
         private int targetCount;
+        private ISkillTarget target;
         private float cooldown;
         private float currentCooldown;
         private SkillTargetFilter filter;

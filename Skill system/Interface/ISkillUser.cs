@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Numerics;
+
 namespace FirSkillSystem
 {
     public delegate void CooldownEventHandler(float cooldown);
@@ -6,13 +9,28 @@ namespace FirSkillSystem
     {
         public event CooldownEventHandler CooldownEvent;
 
-        public abstract void UseSkill(Skill skill);
+        public List<SkillBasis> Skills { get; set; }
+
+        public Vector2 Position { get; set; }
+        public Quaternion Direction { get; set; }
+
+        public Dictionary<Gist, float> Gists { get; set; }
+        public Dictionary<Gist, int> GistBasis { get; set; }
+
+        public float Weight { get; set; }
+
+        public ISkillTarget target { get; set; }
+        public int SummonCount { get; set; }
+        public ISkillUser MySummoner { get; set; }
+        public float LifeTime { get; set; }
+
+        public void UseSkill(Skill skill);
 
         #region Damage
-        public abstract void Damage(float damage, Gist gist = Gist.Life);
-        public abstract void Heal(float cure, Gist gist = Gist.Life);
+        public void Damage(float damage, Gist gist = Gist.Life);
+        public void Heal(float cure, Gist gist = Gist.Life);
         #endregion
 
-        public abstract bool CheckPoints(float cost, Gist gist = Gist.Magic);
+        public bool CheckPoints(float cost, Gist gist = Gist.Magic);
     }
 }

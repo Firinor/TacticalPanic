@@ -1,6 +1,6 @@
 ﻿namespace FirSkillSystem
 {
-    internal class SkillTarget
+    internal class SkillZone
     {
     }
 }
