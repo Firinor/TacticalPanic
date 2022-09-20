@@ -13,7 +13,7 @@ namespace TacticalPanicCode
     //            UnitOperator,UnitStats,UnitSkills  -> UnitCard
     //
     // Gist -> GistBasis -> GistOfUnit
-    public class UnitOperator : MonoBehaviour, IInfoble, ISkillUser
+    public class UnitOperator : MonoBehaviour, IInfoble, ISkillUser, ISkillTarget
     {
         private UnitBasis unitBasis;
         public Skill unitAutoAttack { get; private set; }

@@ -5,7 +5,7 @@ namespace FirSkillSystem
 {
     public class SkillBasis
     {
-        private enum SkillEffect { Damage, Buff, BodyImpulse, Summon, Use }
+        private enum SkillEffect { Damage, Buff, ImpulseForse, Summon, Use }
 
         public string Name = "Skill";
         public readonly Sprite sprite;
