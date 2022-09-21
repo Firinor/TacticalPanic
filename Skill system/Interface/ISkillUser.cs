@@ -14,5 +14,7 @@ namespace FirSkillSystem
         public void UseSkill(Skill skill);
 
         public SkillRequirements CheckSkillRequirements(Skill skill);
+
+        public void PaySkillRequirements(Skill skill);
     }
 }

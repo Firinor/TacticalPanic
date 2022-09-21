@@ -19,7 +19,7 @@ namespace FirSkillSystem
         private float damage;
         private int range;
         private int targetCount;
-        private ISkillTarget target;
+        private List<ISkillTarget> targets;
         private float cooldown;
         private float currentCooldown;
         private SkillTargetFilter filter;
@@ -61,7 +61,7 @@ namespace FirSkillSystem
 
             PayTheCost();
 
-            foreach(ISkillUser target in targets)
+            foreach(ISkillTarget target in targets)
             {
                 target.Damage(damage);
             }
@@ -93,7 +93,7 @@ namespace FirSkillSystem
                 for (int i = 0; i <= PlayerOperator.GistsCount; i++)
                 {
                     if (cost[i] > 0)
-                        unit.Damage(cost[i], (Gist)i);
+                        unit.PaySkillRequirements(this);
                 }
             }
         }
@@ -103,19 +103,19 @@ namespace FirSkillSystem
             if (cost == null)
                 return true;
 
-            for (int i = 0; i <= PlayerOperator.GistsCount; i++)
-            {
-                if (cost[i] > 0 &&!unit.CheckPoints(cost[i], (Gist)i))
-                return false;
-            }
+            //for (int i = 0; i <= PlayerOperator.GistsCount; i++)
+            //{
+            //    if (cost[i] > 0 &&!unit.CheckPoints(cost[i], (Gist)i))
+            //    return false;
+            //}
 
             return true;
         }
 
-        private List<ISkillUser> GetTargets()
+        private List<ISkillTarget> GetTargets()
         {
-            List<ISkillUser> targets = new List<ISkillUser>();
-            ISkillUser result = filter.TargetForSkill(unit);
+            List<ISkillTarget> targets = new List<ISkillTarget>();
+            ISkillTarget result = filter.TargetForSkill(unit);
             if (result != null)
                 targets.Add(result);
 

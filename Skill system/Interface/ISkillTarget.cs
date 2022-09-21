@@ -12,6 +12,6 @@ namespace FirSkillSystem
 
         //public void Summon(GameObject summon);
 
-        public void Use(string comand);
+        public void Use(string command);
     }
 }
