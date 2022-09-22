@@ -5,9 +5,10 @@ namespace TacticalPanicCode
 {
     public class BasicTargetFilter : SkillTargetFilter
     {
-        public override ISkillUser TargetForSkill(ISkillUser owner)
+        public override List<ISkillTarget> TargetForSkill(ISkillUser owner)
         {
             UnitOperator resultUnit = null;
+            List<ISkillTarget> result = new List<ISkillTarget>();
 
             if (owner is UnitOperator)
             {
@@ -18,13 +19,17 @@ namespace TacticalPanicCode
 
                 if (priorityTarget != null && blockers.Contains(priorityTarget))
                 {
-                    return priorityTarget;
+                    result.Add(priorityTarget);
+                    return result;
                 }
 
                 if (blockers.Count > 0)
                 {
                     if (blockers.Count == 1)
-                        return blockers[0];
+                    {
+                        result.Add(blockers[0]);
+                        return result;
+                    }
 
                     resultUnit = blockers[0];
 
@@ -34,18 +39,23 @@ namespace TacticalPanicCode
                             resultUnit = blockers[i];
                     }
 
-                    return resultUnit;
+                    result.Add(resultUnit);
+                    return result;
                 }
 
                 if (priorityTarget != null)
                 {
-                    return priorityTarget;
+                    result.Add(priorityTarget);
+                    return result;
                 }
 
                 if (targets.Count > 0)
                 {
                     if (targets.Count == 1)
-                        return targets[0];
+                    {
+                        result.Add(targets[0]);
+                        return result;
+                    }
 
                     resultUnit = targets[0];
                     float distanceOfGoal = resultUnit.distanceToGoal.DistanceToGoal(resultUnit.transform.position);
@@ -60,10 +70,13 @@ namespace TacticalPanicCode
                         }
                     }
 
-                    return resultUnit;
+                    result.Add(resultUnit);
+                    return result;
                 }
             }
-            return resultUnit;
+
+            result.Add(resultUnit);
+            return result;
         }
     }
 }

@@ -5,16 +5,26 @@ namespace FirSkillSystem
 {
     public class SkillBasis
     {
-        private enum SkillEffect { Damage, Buff, ImpulseForse, Summon, Use }
+        private enum SkillTarget { Self, Target, Point }
 
         public string Name = "Skill";
-        public readonly Sprite sprite;
+        public string Description;
+        public readonly Sprite Icon;
 
-        private float cooldown;
-        private Dictionary<Gist, float> cost;
+        public float GetCooldown()
+        {
+            return 0;
+        }
+        public Dictionary<string, int> GetCost()
+        {
+            return null;
+        }
+        public float GetDistance()
+        {
+            return 0;
+        }
 
-        private SkillZone skillTarget;
-        private List<SkillEffect> skillEffects;
+        private List<SkillNode> skillNodes;
 
     }
 }

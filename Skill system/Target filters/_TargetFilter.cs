@@ -1,8 +1,10 @@
+using System.Collections.Generic;
+
 namespace FirSkillSystem
 {
     public abstract class SkillTargetFilter
     {
-        public virtual ISkillTarget TargetForSkill(ISkillUser unit)
+        public virtual List<ISkillTarget> TargetForSkill(ISkillUser unit)
         {
             return null;
         }
