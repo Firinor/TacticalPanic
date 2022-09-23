@@ -5,11 +5,10 @@ namespace FirSkillSystem
 {
     public class SkillBasis
     {
-        private enum SkillTarget { Self, Target, Point }
-
+        public int ID;
         public string Name = "Skill";
         public string Description;
-        public readonly Sprite Icon;
+        public Sprite Icon;
 
         public float GetCooldown()
         {
@@ -24,7 +23,10 @@ namespace FirSkillSystem
             return 0;
         }
 
-        private List<SkillNode> skillNodes;
+        public SkillTargetFilter Filter;
+        public float Distance;
+        public List<SkillBooster> skillBoosters;
+        public List<SkillNode> skillNodes;
 
     }
 }

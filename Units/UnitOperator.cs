@@ -143,6 +143,8 @@ namespace TacticalPanicCode
             }
         }
 
+        public List<SkillBasis> Skills { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
         internal UnitBasis GetBasis()
         {
             return unitBasis;
@@ -156,7 +158,7 @@ namespace TacticalPanicCode
             gameObject.name = "Unit-" + unitBasis.unitName;
             unitBodyRenderer.sprite = SpriteInfo;
             unitStats.Death += Death;
-            unitAutoAttack = new Skill(this, SkillManager.DefaultSkill);
+            //unitAutoAttack = new Skill(this, SkillManager.DefaultSkill);
         }
         private void FixedUpdate()
         {
@@ -428,6 +430,7 @@ namespace TacticalPanicCode
         }
         #endregion
 
+        #region SkillInterfase
         internal void GoToTarget(UnitOperator target)
         {
             unitBehaviourStack.GoToTarget(target);
@@ -438,5 +441,35 @@ namespace TacticalPanicCode
             
             skill.Use();
         }
+
+        public SkillRequirements CheckSkillRequirements(Skill skill)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void PaySkillRequirements(Skill skill)
+        {
+            throw new System.NotImplementedException();
+        }
+        public void PaySkillRequirements(Gist gist, int damage)
+        {
+            unitStats.Damage(damage, gist);
+        }
+
+        public void Buff(Buff buff)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void ImpulseForse(Vector2 point, Vector3 direction, float force)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Use(string command)
+        {
+            throw new System.NotImplementedException();
+        }
+        #endregion
     }
 }

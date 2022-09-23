@@ -16,5 +16,7 @@ namespace FirSkillSystem
         public SkillRequirements CheckSkillRequirements(Skill skill);
 
         public void PaySkillRequirements(Skill skill);
+
+        public void PaySkillRequirements(Gist gist, int value);
     }
 }

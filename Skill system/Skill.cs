@@ -114,12 +114,7 @@ namespace FirSkillSystem
 
         private List<ISkillTarget> GetTargets()
         {
-            List<ISkillTarget> targets = new List<ISkillTarget>();
-            ISkillTarget result = filter.TargetForSkill(unit);
-            if (result != null)
-                targets.Add(result);
-
-            return targets;
+            return filter.TargetForSkill(unit);
         }
     }
 }
