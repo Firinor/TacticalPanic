@@ -10,6 +10,15 @@ namespace FirSkillSystem
         public string Description;
         public Sprite Icon;
 
+        public SkillTargetFilter Filter;
+        public float Distance;
+        public List<SkillBooster> skillBoosters;
+        public List<SkillNode> skillNodes;
+
+        public SkillBasis(List<SkillNode> skillNodes)
+        {
+            this.skillNodes = skillNodes;
+        }
         public float GetCooldown()
         {
             return 0;
@@ -23,10 +32,7 @@ namespace FirSkillSystem
             return 0;
         }
 
-        public SkillTargetFilter Filter;
-        public float Distance;
-        public List<SkillBooster> skillBoosters;
-        public List<SkillNode> skillNodes;
+        
 
     }
 }

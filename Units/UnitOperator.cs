@@ -143,7 +143,7 @@ namespace TacticalPanicCode
             }
         }
 
-        public List<SkillBasis> Skills { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public List<SkillBasis> Skills { get; set; }
 
         internal UnitBasis GetBasis()
         {
